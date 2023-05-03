@@ -1,8 +1,8 @@
 import * as React from 'react';
-import './AuthModal.scss';
+import './Modal.scss';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
+import ModalWindow from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -11,6 +11,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../../state';
 import TextField from '@mui/material/TextField';
+import { Dialog } from '@mui/material';
+import SignUpForm from '../ModalForms/SignUpForm'
+import LogInForm from '../ModalForms/LogInForm'
 
 
 const style = {
@@ -23,23 +26,22 @@ const style = {
   boxShadow: 14,
   p: 4,
   color: '#fff',
-  height: 500
 };
 
 
-export default function AuthModal() {
+export default function Modal() {
   const dispatch = useDispatch();
 
-  const { show, hide } = bindActionCreators(actionCreators, dispatch)
+  const { hide } = bindActionCreators(actionCreators, dispatch)
 
-  const authModal = useSelector((state: RootState) => state).authModal
+  const modal = useSelector((state: RootState) => state).modal
 
   return (
   
-      <Modal
+      <ModalWindow
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        open={authModal.isShown}
+        open={modal.isShown}
         onClose={hide}
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
@@ -49,18 +51,21 @@ export default function AuthModal() {
           },
         }}
       >
-        <Fade in={authModal.isShown}>
+        <Fade in={modal.isShown}>
           <Box sx={style}>
-            <Typography variant="h6" component="div">
-                Sign Up
-            </Typography >     
-            <TextField fullWidth sx={{ marginTop: 5 }} className="nicknameTextfield" label="Nickname" variant="outlined" />
-            <TextField fullWidth sx={{ marginTop: 2}} label="E-mail" variant="outlined" />
-            <TextField fullWidth sx={{ marginTop: 2 }} className="passwordTextfield" label="Password" variant="outlined" type="password"/>
-            <TextField fullWidth sx={{ marginTop: 2 }} className="passwordTextfield" label="Repeat password" variant="outlined" type="password"/>
+          {(function () {
+            switch (modal.type) {
+              case "LOGIN":
+                return <LogInForm></LogInForm> ;
+              case "SIGNUP":
+                return <SignUpForm></SignUpForm>;
+              default:
+                return null;
+            }
+          })()}
           </Box>
         </Fade>
-      </Modal>
+      </ModalWindow>
  
   );
 }

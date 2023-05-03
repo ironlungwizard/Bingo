@@ -1,11 +1,18 @@
 import { ActionType } from "../action-types/auth.actionTypes"
 
-interface LoginAction {
+interface LogInAction {
     type: ActionType.LOGIN
+    id: string
+    name: string
 }
 
-interface LogoutAction {
+interface LogOutAction {
     type: ActionType.LOGOUT
 }
 
-export type Action = LoginAction | LogoutAction;
+interface SignUpAction {
+    type: ActionType.SIGNUP
+}
+
+
+export type Action = LogInAction | LogOutAction | SignUpAction;

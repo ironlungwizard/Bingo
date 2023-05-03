@@ -12,11 +12,21 @@ import Navbar from "./components/Navbar/Navbar"
 import {store} from "./state"
 import { useDispatch, useSelector } from 'react-redux';
 import  {RootState}  from './state/reducers';
-import AuthModal from "./components/AuthModal/AuthModal"
+import Modal from "./components/Modal/Modal"
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import refreshFetch from './fetches/refreshFetch';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import { actionCreators } from './state';
+import { debounce } from "lodash";
 
 function App() {
+const dispatch = useDispatch();
+const { login } = bindActionCreators(actionCreators, dispatch)
 
+
+refreshFetch().then(Response => {
+  login(Response.id, Response.name)
+})
   // const router = createBrowserRouter([
   //   {
       
@@ -40,7 +50,7 @@ function App() {
     <div className="App"> 
       <div className="appContainer">  
       <Navbar></Navbar>
-      <AuthModal></AuthModal>
+      <Modal></Modal>
         {/* <React.StrictMode>
           <RouterProvider router={router} />
         </React.StrictMode> */}

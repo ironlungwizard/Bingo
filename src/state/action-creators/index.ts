@@ -1,2 +1,2 @@
 export * from './auth.actionCreators';
-export * from './authModal.actionCreators';
+export * from './modal.actionCreators';

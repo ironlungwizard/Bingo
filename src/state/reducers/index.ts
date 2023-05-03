@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
 import authReducer from "./authReducer"
-import authModalReducer from './authModalReducer'
+import modalReducer from './modalReducer'
 
 
 const reducers = combineReducers({
+    modal: modalReducer,
     auth: authReducer,
-    authModal: authModalReducer
 })
 
 export default reducers

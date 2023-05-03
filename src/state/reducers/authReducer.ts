@@ -11,11 +11,17 @@ const AuthReducer = (state = initialState, action: Action) => {
     switch (action.type){
         case ActionType.LOGIN:
             return {
-                id: '1333' , 
+                id: action.id, 
                 isGuest: false, 
-                name: 'priv'
+                name: action.name
             }
         case ActionType.LOGOUT:
+            return {
+                id: '' , 
+                isGuest: false, 
+                name: ''
+            }
+        case ActionType.SIGNUP:    
             return {
                 id: '' , 
                 isGuest: false, 

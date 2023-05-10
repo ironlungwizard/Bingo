@@ -6,19 +6,29 @@ import { actionCreators } from '../../state';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import loginFetch from '../../fetches/logInFetch';
+import loginFetch from '../../api/logInFetch';
+import authInputValidation from '../../validators/authInputValidation';
+import {useForm} from 'react-hook-form'
 
 export default function Modal() {
     const dispatch = useDispatch();
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [email, setEmail] = useState<string[]>(['', ])
+    const [password, setPassword] = useState<string[]>(['', ])
     const { showSingUp , hide} = bindActionCreators(actionCreators, dispatch)
     const { login, logout } = bindActionCreators(actionCreators, dispatch)
+
+
     const handleLogIn = async (event: React.MouseEvent<HTMLElement>) => {
-        loginFetch(email, password).then(Response => {
-            login(Response.id, Response.name)
+        loginFetch(email[0], password[0]).then(Response => {
+          console.log(Response)
+            if (!Response.id) {
+                authInputValidation(Response, setEmail, email, setPassword, password)
+               
+            } else {
+                login(Response.id, Response.isGuest,  Response.name)
+                hide()
+            }
         })
-        hide()  
     };
 
     return (
@@ -27,19 +37,23 @@ export default function Modal() {
                 Log In
             </Typography >     
             <TextField 
-                value={email} 
+                value={email[0]} 
                 fullWidth 
                 sx={{ marginTop: 2}} 
-                onChange={(e) => setEmail(e.target.value)} 
+                onChange={(e) => setEmail([e.target.value])} 
                 label="E-mail" 
+                error={email[1] != undefined}
+                helperText={email[1]}
                 variant="outlined" />
             <TextField 
-                value={password} 
+                value={password[0]} 
                 fullWidth 
                 sx={{ marginTop: 2 }} 
-                onChange={(e) => setPassword(e.target.value)} 
+                onChange={(e) => setPassword([e.target.value])} 
                 className="passwordTextfield" 
                 label="Password" 
+                error={password[1] != undefined}
+                helperText={password[1]}
                 variant="outlined" 
                 type="password"/>
             <Button sx={{ marginTop: 5 }} onClick={handleLogIn} size='large' variant="contained">Log In</Button>

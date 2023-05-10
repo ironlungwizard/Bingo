@@ -1,5 +1,3 @@
-import loginFetch from "./logInFetch";
-
 export default async function signUpFetch(name: string, email: string, password: string) {
     let response = await fetch("http://localhost:8080/auth/signup", {
             method: "PUT",
@@ -11,12 +9,9 @@ export default async function signUpFetch(name: string, email: string, password:
                     "password": password
                 }
             ),
-            credentials: 'same-origin'
+            credentials: 'include'
           })
-         
           const result = await (response).json();
-          loginFetch(email, password)
           return result
-          
 }
   

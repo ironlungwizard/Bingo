@@ -21,6 +21,7 @@ import { actionCreators } from '../../state/';
 import { makeStyles } from '@mui/material';
 import { Theme } from '@mui/material';
 import { Login, PersonAddAltRounded } from '@mui/icons-material';
+import logOutFetch from '../../api/logOutFetch';
 
 export default function Navbar() {
   const auth = useSelector((state: RootState) => state).auth
@@ -30,10 +31,12 @@ export default function Navbar() {
   const { login, logout } = bindActionCreators(actionCreators, dispatch)
   const { showSingUp, showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    
+  const handleLogOut = async () => {
+    logOutFetch().then(Response => {
+        logout(Response.id, Response.isGuest,  Response.name)
+    })
+    hide()
   };
-
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -55,8 +58,8 @@ export default function Navbar() {
          
             <div className='rightNavbarBlock'>
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  {auth.isGuest ? 'Guest' : <label>{auth.name}</label>}
-                  {auth.id == '' && !auth.isGuest ? 
+                  {auth['isGuest'] ? 'Guest' : <label>{auth['name']}</label>}
+                  {!auth['id'] && !auth['isGuest'] ? 
                    <Button
                    key='{page}'
                    onClick={showSingUp}
@@ -113,33 +116,37 @@ export default function Navbar() {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               >
-                {auth.id != '' || auth.isGuest
-                        ?  
-                          <div>
-                            <MenuItem onClick={handleClose}>My Cards</MenuItem>
-                            <MenuItem onClick={handleClose}>My Games</MenuItem> 
-                          </div>
-                        : 
-                        <div></div>} 
-                        {auth.id == ''
-                        ?  
+
+
+
+
+                        {auth['id']  || auth['isGuest']
+                          ?  
                             <div>
-                              <MenuItem onClick={() =>{showSingUp(); handleClose()}}>
-                              <ListItemIcon>
-                                <PersonAddAltRounded fontSize="small" />
-                              </ListItemIcon>
-                                Sigh Up
-                              </MenuItem>
-                              <MenuItem onClick={() =>{showLogIn(); handleClose()}}>
-                                <ListItemIcon>
-                                  <Login fontSize="small" />
-                                </ListItemIcon>
-                                Log In
-                              </MenuItem>
+                              <MenuItem onClick={handleClose}>My Cards</MenuItem>
+                              <MenuItem onClick={handleClose}>My Games</MenuItem> 
                             </div>
-                        : 
+                          : 
                         <div></div>} 
-                        {auth.id != '' ? <MenuItem onClick={logout}>Log Out</MenuItem> :  <div></div>} 
+                        {!auth['id'] 
+                          ?  
+                              <div>
+                                <MenuItem onClick={() =>{showSingUp(); handleClose()}}>
+                                <ListItemIcon>
+                                  <PersonAddAltRounded fontSize="small" />
+                                </ListItemIcon>
+                                  Sigh Up
+                                </MenuItem>
+                                <MenuItem onClick={() =>{showLogIn(); handleClose()}}>
+                                  <ListItemIcon>
+                                    <Login fontSize="small" />
+                                  </ListItemIcon>
+                                  Log In
+                                </MenuItem>
+                              </div>
+                          : 
+                        <div></div>} 
+                        {auth['id']  ? <MenuItem onClick={() =>{handleLogOut(), handleClose()}} >Log Out</MenuItem> :  <div></div>} 
               </Menu>
             
             </div>

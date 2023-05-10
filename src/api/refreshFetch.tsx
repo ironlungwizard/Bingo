@@ -5,7 +5,6 @@ export default async function refreshFetch() {
             credentials: 'include'
           })
           const result = await (response).json();
-          console.log(result)
           return result    
 }
   

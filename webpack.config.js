@@ -47,7 +47,8 @@ module.exports = {
     ]
   },
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: true,
+    allowedHosts: "all",
   },
 
   devtool: prod ? undefined : 'source-map',

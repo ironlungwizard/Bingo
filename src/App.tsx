@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import  {RootState}  from './state/reducers';
 import Modal from "./components/Modal/Modal"
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import refreshFetch from './fetches/refreshFetch';
+import refreshFetch from './api/refreshFetch';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from './state';
 import { debounce } from "lodash";
@@ -25,7 +25,7 @@ const { login } = bindActionCreators(actionCreators, dispatch)
 
 
 refreshFetch().then(Response => {
-  login(Response.id, Response.name)
+  login(Response.id, Response.isGuest, Response.name)
 })
   // const router = createBrowserRouter([
   //   {

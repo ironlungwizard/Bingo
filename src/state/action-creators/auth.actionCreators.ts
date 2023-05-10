@@ -2,20 +2,24 @@ import { Dispatch } from "redux"
 import { ActionType } from "../action-types/auth.actionTypes"
 import { Action } from "../actions/auth.actions"
 
-export const login = (id: string, name: string) => {
+export const login = (id: string, isGuest: boolean, name: string) => {
     return (dispatch: Dispatch<Action>) => {
         dispatch({
             type: ActionType.LOGIN,
             id: id, 
+            isGuest: isGuest,
             name: name
         })
     }
 }
 
-export const logout = () => {
+export const logout = (id: string, isGuest: boolean, name: string) => {
     return (dispatch: Dispatch<Action>) => {
         dispatch({
-            type: ActionType.LOGOUT,     
+            type: ActionType.LOGOUT,  
+            id: id, 
+            isGuest: isGuest,
+            name: name   
         })
     }
 }

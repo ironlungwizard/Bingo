@@ -2,9 +2,9 @@ import { ActionType } from "../action-types/auth.actionTypes"
 import { Action } from "../actions/auth.actions"
 
 const initialState = {
-    id: '',
+    id: undefined,
     isGuest: false,
-    name: ''
+    name: undefined
 };
 
 const AuthReducer = (state = initialState, action: Action) => {
@@ -12,14 +12,14 @@ const AuthReducer = (state = initialState, action: Action) => {
         case ActionType.LOGIN:
             return {
                 id: action.id, 
-                isGuest: false, 
+                isGuest: action.isGuest, 
                 name: action.name
             }
         case ActionType.LOGOUT:
             return {
-                id: '' , 
-                isGuest: false, 
-                name: ''
+                id: action.id, 
+                isGuest: action.isGuest, 
+                name: action.name
             }
         case ActionType.SIGNUP:    
             return {

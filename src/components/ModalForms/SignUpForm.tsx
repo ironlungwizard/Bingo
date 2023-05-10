@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import { actionCreators } from '../../state';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import signUpFetch from '../../fetches/signUpFetch';
+import signUpFetch from '../../api/signUpFetch';
 import { useState } from 'react';
 
 export default function Modal() {
@@ -16,9 +16,9 @@ export default function Modal() {
     const dispatch = useDispatch();
     const { showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
     const { login, logout } = bindActionCreators(actionCreators, dispatch)
-    const handleSignUp = async (event: React.MouseEvent<HTMLElement>) => {
+    const handleSignUp = async () => {
         signUpFetch(nickname, email, password).then(Response => {
-            login(Response.id, Response.name)
+            login(Response.id, Response.isGuest,  Response.name)
         })
         hide()
     };

@@ -6,7 +6,7 @@ import { actionCreators } from '../../state';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import loginFetch from '../../api/logInFetch';
+import loginFetch from '../../api/logicalApi/authApi/logInFetch';
 import authInputValidation from '../../validators/authInputValidation';
 import {useForm} from 'react-hook-form'
 
@@ -20,7 +20,6 @@ export default function Modal() {
 
     const handleLogIn = async (event: React.MouseEvent<HTMLElement>) => {
         loginFetch(email[0], password[0]).then(Response => {
-          console.log(Response)
             if (!Response.id) {
                 authInputValidation(Response, setEmail, email, setPassword, password)
                

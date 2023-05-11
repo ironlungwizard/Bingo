@@ -21,7 +21,7 @@ const ModalReducer = (state = initialState, action: Action) => {
         case ActionType.HIDE:
             return {
                 isShown: false,
-                type: ''
+                type: state.type
             }
         default:
             return state

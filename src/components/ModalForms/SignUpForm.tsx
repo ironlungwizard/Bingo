@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import { actionCreators } from '../../state';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import signUpFetch from '../../api/signUpFetch';
+import signUpFetch from '../../api/logicalApi/authApi/signUpFetch';
 import { useState } from 'react';
 
 export default function Modal() {

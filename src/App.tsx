@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import  {RootState}  from './state/reducers';
 import Modal from "./components/Modal/Modal"
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import refreshFetch from './api/refreshFetch';
+import refreshFetch from './api/logicalApi/authApi/refreshFetch';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from './state';
 import { debounce } from "lodash";

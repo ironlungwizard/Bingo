@@ -5,64 +5,90 @@ import TextField from '@mui/material/TextField';
 import { actionCreators } from '../../state';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import signUpFetch from '../../api/logicalApi/authApi/signUpFetch';
+import { signUpFetch } from '../../api/auth';
 import { useState } from 'react';
+import authServerValidation from '../../validators/authServerValidation';
+import authFrontValidation from '../../validators/authFrontValidation';
 
 export default function Modal() {
-    const [nickname, setNickname] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [confirmPassword, setConfirmPassword] = useState("")
+    const [nickname, setNickname] = useState<string[]>(['', ])
+    const [email, setEmail] = useState<string[]>(['', ])
+    const [password, setPassword] = useState<string[]>(['', ])
+    const [confirmPassword, setConfirmPassword] = useState<string[]>(['', ])
     const dispatch = useDispatch();
     const { showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
     const { login, logout } = bindActionCreators(actionCreators, dispatch)
-    const handleSignUp = async () => {
-        signUpFetch(nickname, email, password).then(Response => {
-            login(Response.id, Response.isGuest,  Response.name)
+
+    const handleSignUp = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!authFrontValidation(setPassword, password, confirmPassword, setConfirmPassword, nickname, setNickname, email, setEmail)){
+            authFrontValidation(setPassword, password, confirmPassword, setConfirmPassword, nickname, setNickname, email, setEmail)
+        } else {
+        signUpFetch(nickname[0], email[0], password[0]).then(Response => {
+            if (!Response.id) {
+                authServerValidation(Response, setEmail, email, setPassword, password, nickname, setNickname)
+            } else {
+                login(Response.id, Response.isGuest,  Response.name)
+                hide()
+            }
         })
-        hide()
     };
+    }
 
     return (
         <>
-            <Typography variant="h6" component="div">
+            <Typography variant="h6"  sx={{ marginBottom: 5 }}  component="div">
                 Sign Up
-            </Typography >     
+            </Typography >   
+            <form onSubmit={handleSignUp}> 
+            <div className='textFieldWrapper'>   
             <TextField 
-                value={nickname} 
+                value={nickname[0]} 
                 fullWidth 
-                sx={{ marginTop: 5 }} 
-                onChange={(e) => setNickname(e.target.value)} 
+                onChange={(e) => setNickname([e.target.value])} 
+                error={nickname[1] != undefined}
+                helperText={nickname[1]}
                 className="nicknameTextfield" 
                 label="Nickname" 
                 variant="outlined" />
+                </div>
+                <div className='textFieldWrapper' >    
             <TextField 
-                value={email} 
+                value={email[0]} 
                 fullWidth 
-                sx={{ marginTop: 2}} 
-                onChange={(e) => setEmail(e.target.value)} 
+                onChange={(e) => setEmail([e.target.value])} 
+                error={email[1] != undefined}
+                helperText={email[1]}
                 label="E-mail" 
                 variant="outlined" />
+                </div>
+                <div className='textFieldWrapper'>  
             <TextField 
-                value={password} 
+                value={password[0]} 
                 fullWidth 
-                sx={{ marginTop: 2 }} 
-                onChange={(e) => setPassword(e.target.value)} 
+                onChange={(e) => setPassword([e.target.value])}
+                error={password[1] != undefined}
+                helperText={password[1]} 
                 className="passwordTextfield" 
                 label="Password" 
                 variant="outlined" 
                 type="password"/>
+                </div>
+                <div className='textFieldWrapper'>  
             <TextField 
-                value={confirmPassword} 
+                value={confirmPassword[0]} 
                 fullWidth 
-                sx={{ marginTop: 2 }} 
-                onChange={(e) => setConfirmPassword(e.target.value)} 
+                onChange={(e) => setConfirmPassword([e.target.value])} 
+                error={confirmPassword[1] != undefined}
+                helperText={confirmPassword[1]}
                 className="passwordTextfield" 
                 label="Confirm Password" 
                 variant="outlined" 
                 type="password"/>
-            <Button sx={{ marginTop: 5 }} onClick={handleSignUp} size='large' variant="contained">Sign Up</Button>
-            <Button sx={{ marginTop: 5, marginLeft: 2 }} onClick={showLogIn} variant="text" >I do have an account</Button>
+                </div>
+            <Button type="submit" sx={{ marginTop: 1 }} onClick={handleSignUp} size='large' variant="contained">Sign Up</Button>
+            <Button sx={{ marginTop: 1, marginLeft: 2 }} onClick={showLogIn} variant="text" >I do have an account</Button>
+            </form>
         </> 
     )
 }

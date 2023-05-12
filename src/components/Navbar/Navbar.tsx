@@ -21,7 +21,7 @@ import { actionCreators } from '../../state/';
 import { makeStyles } from '@mui/material';
 import { Theme } from '@mui/material';
 import { Login, PersonAddAltRounded } from '@mui/icons-material';
-import logOutFetch from '../../api/logicalApi/authApi/logOutFetch';
+import { logOutFetch } from '../../api/auth';
 
 export default function Navbar() {
   const auth = useSelector((state: RootState) => state).auth

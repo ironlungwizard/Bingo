@@ -8,32 +8,35 @@ import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { logInFetch } from '../../api/auth';
 import authServerValidation from '../../validators/authServerValidation';
-import {useForm} from 'react-hook-form'
-import { makeStyles } from '@mui/material';
-import Box from '@mui/material';
+import authFrontValidation from '../../validators/authFrontValidation';
+import PasswordReqPopup from '../PasswordReqPopup/PasswordReqPopup';
+
 
 export default function Modal() {
     const dispatch = useDispatch();
     const [email, setEmail] = useState<string[]>(['', ])
     const [password, setPassword] = useState<string[]>(['', ])
     const { showSingUp , hide} = bindActionCreators(actionCreators, dispatch)
-    const { login, logout } = bindActionCreators(actionCreators, dispatch)
-
+    const { login } = bindActionCreators(actionCreators, dispatch)
 
 
     const handleLogIn = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!authFrontValidation(setPassword, password, email, setEmail)){
+            authFrontValidation(setPassword, password,  email, setEmail)
+        } else {
         logInFetch(email[0], password[0]).then(Response => {
-           
             if (!Response.id) {
                 authServerValidation(Response, setEmail, email, setPassword, password)
-              
+                
             } else {
                 login(Response.id, Response.isGuest,  Response.name)
                 hide()
             }
         })
+    }
     };
+
 
     return (
         <>
@@ -55,7 +58,6 @@ export default function Modal() {
             <TextField 
                 value={password[0]} 
                 fullWidth 
-                
                 onChange={(e) => setPassword([e.target.value])} 
                 className="passwordTextfield" 
                 label="Password" 
@@ -63,9 +65,10 @@ export default function Modal() {
                 helperText={password[1]}
                 variant="outlined" 
                 type="password"/>
+            <PasswordReqPopup/>
             </div>
-            <Button type="submit" sx={{ marginTop: 1 }} onClick={handleLogIn} size='large' variant="contained">Log In</Button>
-            <Button sx={{ marginTop: 1, marginLeft: 2 }} onClick={showSingUp} variant="text" >I don't have an account yet</Button>
+            <Button type="submit" sx={{ marginTop: 2 }} onClick={handleLogIn} size='large' variant="contained">Log In</Button>
+            <Button sx={{ marginTop: 2, marginLeft: 5 }} onClick={showSingUp} variant="text" >I don't have an account yet</Button>
             </form> 
         </> 
     )

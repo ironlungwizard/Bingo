@@ -9,6 +9,7 @@ import { signUpFetch } from '../../api/auth';
 import { useState } from 'react';
 import authServerValidation from '../../validators/authServerValidation';
 import authFrontValidation from '../../validators/authFrontValidation';
+import PasswordReqPopup from '../PasswordReqPopup/PasswordReqPopup';
 
 export default function Modal() {
     const [nickname, setNickname] = useState<string[]>(['', ])
@@ -17,12 +18,13 @@ export default function Modal() {
     const [confirmPassword, setConfirmPassword] = useState<string[]>(['', ])
     const dispatch = useDispatch();
     const { showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
-    const { login, logout } = bindActionCreators(actionCreators, dispatch)
+    const { login } = bindActionCreators(actionCreators, dispatch)
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!authFrontValidation(setPassword, password, confirmPassword, setConfirmPassword, nickname, setNickname, email, setEmail)){
-            authFrontValidation(setPassword, password, confirmPassword, setConfirmPassword, nickname, setNickname, email, setEmail)
+        if (
+            !authFrontValidation(setPassword, password, email, setEmail, confirmPassword, setConfirmPassword, nickname, setNickname
+        )){
         } else {
         signUpFetch(nickname[0], email[0], password[0]).then(Response => {
             if (!Response.id) {
@@ -73,6 +75,7 @@ export default function Modal() {
                 label="Password" 
                 variant="outlined" 
                 type="password"/>
+                <PasswordReqPopup/>
                 </div>
                 <div className='textFieldWrapper'>  
             <TextField 
@@ -86,8 +89,8 @@ export default function Modal() {
                 variant="outlined" 
                 type="password"/>
                 </div>
-            <Button type="submit" sx={{ marginTop: 1 }} onClick={handleSignUp} size='large' variant="contained">Sign Up</Button>
-            <Button sx={{ marginTop: 1, marginLeft: 2 }} onClick={showLogIn} variant="text" >I do have an account</Button>
+            <Button type="submit" sx={{ marginTop: 2 }} onClick={handleSignUp} size='large' variant="contained">Sign Up</Button>
+            <Button sx={{ marginTop: 2, marginLeft: 2 }} onClick={showLogIn} variant="text" >I do have an account</Button>
             </form>
         </> 
     )

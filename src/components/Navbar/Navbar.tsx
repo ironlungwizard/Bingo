@@ -37,11 +37,11 @@ export default function Navbar() {
     })
     hide()
   };
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+  const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleCloseMenu = () => {
     setAnchorEl(null);
   };
 
@@ -71,10 +71,10 @@ export default function Navbar() {
               </Typography>
               <IconButton
                 size="large"
-                aria-label="account of current user"
+                aria-label="menu"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                onClick={handleMenu}
+                onClick={handleOpenMenu}
                 color="inherit"
               >
                 <AccountCircle />
@@ -82,9 +82,10 @@ export default function Navbar() {
               <Menu
                 anchorEl={anchorEl}
                 id="account-menu"
+                transitionDuration = {100}
                 open={Boolean(anchorEl)}
-                onClose={handleClose}
-                onClick={handleClose}
+                onClose={handleCloseMenu}
+                onClick={handleCloseMenu}
                 PaperProps={{
                   elevation: 0,
                   sx: {
@@ -116,28 +117,24 @@ export default function Navbar() {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               >
-
-
-
-
                         {auth['id']  || auth['isGuest']
                           ?  
                             <div>
-                              <MenuItem onClick={handleClose}>My Cards</MenuItem>
-                              <MenuItem onClick={handleClose}>My Games</MenuItem> 
+                              <MenuItem onClick={handleCloseMenu}>My Cards</MenuItem>
+                              <MenuItem onClick={handleCloseMenu}>My Games</MenuItem> 
                             </div>
                           : 
                         <div></div>} 
                         {!auth['id'] 
                           ?  
                               <div>
-                                <MenuItem onClick={() =>{showSingUp(); handleClose()}}>
+                                <MenuItem onClick={() =>{showSingUp(); handleCloseMenu()}}>
                                 <ListItemIcon>
                                   <PersonAddAltRounded fontSize="small" />
                                 </ListItemIcon>
                                   Sigh Up
                                 </MenuItem>
-                                <MenuItem onClick={() =>{showLogIn(); handleClose()}}>
+                                <MenuItem onClick={() =>{showLogIn(); handleCloseMenu()}}>
                                   <ListItemIcon>
                                     <Login fontSize="small" />
                                   </ListItemIcon>
@@ -146,7 +143,7 @@ export default function Navbar() {
                               </div>
                           : 
                         <div></div>} 
-                        {auth['id']  ? <MenuItem onClick={() =>{handleLogOut(), handleClose()}} >Log Out</MenuItem> :  <div></div>} 
+                        {auth['id']  ? <MenuItem onClick={() =>{handleLogOut(), handleCloseMenu()}} >Log Out</MenuItem> :  <div></div>} 
               </Menu>
             
             </div>

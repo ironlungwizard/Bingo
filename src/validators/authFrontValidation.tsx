@@ -1,5 +1,5 @@
-export default  function authFrontValidation(setPassword: Function, password: string[], confirmPassword: string[], setConfirmPassword: Function, 
-    nickname: string[], setNickname: Function, email: string[], setEmail: Function) {
+export default  function authFrontValidation(setPassword: Function, password: string[], email: string[], setEmail: Function, 
+    confirmPassword?: string[], setConfirmPassword?: Function, nickname?: string[], setNickname?: Function) {
     const uppercaseRegExp   = /(?=.*?[A-Z])/;
     const lowercaseRegExp   = /(?=.*?[a-z])/;
     const digitsRegExp      = /(?=.*?[0-9])/;
@@ -9,7 +9,7 @@ export default  function authFrontValidation(setPassword: Function, password: st
     const digitsPassword = digitsRegExp.test(password[0]);
     const minLengthPassword =   password[0].length >= 8;
     console.log(uppercasePassword,lowercasePassword, digitsPassword, minLengthPassword)
-    if (nickname[0].length < 3)
+    if (nickname && setNickname && nickname[0].length < 3)
     {
         setNickname( [nickname[0], "nickname is too short"])
     }
@@ -22,7 +22,7 @@ export default  function authFrontValidation(setPassword: Function, password: st
     {
         setPassword( [password[0], "password isn't strong enough"])
         return false
-    } else if (password[0] != confirmPassword[0]) {
+    } else if (confirmPassword && setConfirmPassword && password[0] != confirmPassword[0]) {
         setPassword( [password[0], "passwords doesn't match"])
         setConfirmPassword( [confirmPassword[0], "passwords doesn't match"])
         return false

@@ -18,6 +18,8 @@ import { refreshFetch } from './api/auth';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from './state';
 import { debounce } from "lodash";
+import LandingPage from './components/Pages/LandingPage';
+import CreateCardPage from './components/Pages/CreateCardPage';
 
 function App() {
 const dispatch = useDispatch();
@@ -27,15 +29,17 @@ const { login } = bindActionCreators(actionCreators, dispatch)
 refreshFetch().then(Response => {
   login(Response.id, Response.isGuest, Response.name)
 })
-  // const router = createBrowserRouter([
-  //   {
-      
-  //   },
-  //   {
-        
-  //   },
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <LandingPage></LandingPage>
+    },
+    {
+      path: '/create',
+      element: <CreateCardPage></CreateCardPage>
+    },
    
-  // ]);
+  ]);
 
   const theme = createTheme({
     palette: {
@@ -48,12 +52,12 @@ refreshFetch().then(Response => {
  
     <ThemeProvider theme={theme}>
     <div className="App"> 
-      <div className="appContainer">  
       <Navbar></Navbar>
       <Modal></Modal>
-        {/* <React.StrictMode>
+      <div className="appContainer">  
+         <React.StrictMode>
           <RouterProvider router={router} />
-        </React.StrictMode> */}
+        </React.StrictMode> 
   
       </div>
     </div>

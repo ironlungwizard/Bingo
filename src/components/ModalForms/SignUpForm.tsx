@@ -27,6 +27,7 @@ export default function Modal() {
         )){
         } else {
         signUpFetch(nickname[0], email[0], password[0]).then(Response => {
+            console.log(Response)
             if (!Response.id) {
                 authServerValidation(Response, setEmail, email, setPassword, password, nickname, setNickname)
             } else {

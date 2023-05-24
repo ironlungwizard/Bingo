@@ -27,7 +27,7 @@ export default function ErrorSnackBar() {
     errorOff()
   };
   return (
-      <Snackbar open={error['isShown']} autoHideDuration={10000} onClose={handleClose}>
+      <Snackbar open={error['isShown']} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
         <Typography     
                 style={{ wordWrap: "break-word"}} 

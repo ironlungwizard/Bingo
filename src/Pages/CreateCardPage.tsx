@@ -19,6 +19,8 @@ import SaveIcon from '@mui/icons-material/Save';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { refreshFetch } from '../api/auth';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import Navbar from '../components/Navbar/Navbar';
 
 export default function CreateCardPage() {
     const [phrases, setPhrases] = useState<string[]>([])
@@ -31,26 +33,44 @@ export default function CreateCardPage() {
     const navigate = useNavigate();
     const auth = useSelector((state: RootState) => state).auth
 
-      const handleSaveCard = async (e: React.FormEvent) => {
+    const handleSaveCard = async (e: React.FormEvent) => {
         refreshFetch().then(Result => {
-        createCardFetch(auth['id'], phrases, header, description, tags, backgroundColor, textColor, tilesColor, 'default').then(Response => {
+        createCardFetch(auth['id'], phrases, header, description, tags.filter((letter) => letter !== ""), backgroundColor, textColor, tilesColor, 'default').then(Response => {
             navigate(`../card/${Response.id}`);  })
     })}
+
+    const handleResortPhrases = async (e: React.FormEvent) => {
+        setPhrases(phrases.sort(() => Math.random() - 0.5).slice())
+    }
 
 
 
     return (
-    <>
+    <> 
+    <div style={{display: 'flex', flexDirection: 'column'}}>
          <TextField
           id="standard-multiline-static"
           label="Phrases (split by Enter)"
           multiline
           rows={32}
           value={phrases.join('\r\n')}
-          onChange={(e) => {setPhrases(e.target.value.split(/[\r\n]+/).slice(0,25))}} 
+          onChange={(e) => {setPhrases(e.target.value.split(/[\r\n]+/).slice(0,50))}} 
           variant="outlined"
           sx={{width: 420, minWidth: 220, marginLeft: 3, marginRight: 2}}
         />
+        <Button
+                        size="medium"
+                        aria-haspopup="true"
+                        aria-label="password requirements"
+                        onClick={handleResortPhrases}
+                        color="primary"
+                        variant="outlined"
+                        sx={{ marginTop: 1, marginRight: 1, width: 420, minWidth: 220, marginLeft: 3}}
+                        >
+                            <RefreshIcon fontSize="large" style={{ color: "#fff", aspectRatio: '1/1' }}></RefreshIcon>
+                       
+        </Button>
+        </div>
         <div>
             <BingoField header={header} 
                 setHeader={setHeader} 
@@ -66,7 +86,8 @@ export default function CreateCardPage() {
                         aria-haspopup="true"
                         aria-label="password requirements"
                         onClick={handleSaveCard}
-                        color="inherit"
+                        color="primary"
+                        variant="outlined"
                         sx={{ marginTop: 1, marginRight: 1}}
                         >
                             <SaveIcon fontSize="large" style={{ color: "#fff", aspectRatio: '1/1' }}></SaveIcon>

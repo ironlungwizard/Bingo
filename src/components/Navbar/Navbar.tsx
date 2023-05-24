@@ -16,17 +16,19 @@ import { bindActionCreators } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../state/reducers';
 import { useEffect, useState } from 'react';
-import { Button, ListItemIcon } from '@mui/material';
+import { Button, ListItemIcon, Stack } from '@mui/material';
 import { actionCreators } from '../../state/';
 import { makeStyles } from '@mui/material';
 import { Theme } from '@mui/material';
 import { Login, PersonAddAltRounded } from '@mui/icons-material';
 import { logOutFetch } from '../../api/auth';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
   const auth = useSelector((state: RootState) => state).auth
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { login, logout } = bindActionCreators(actionCreators, dispatch)
   const { showSingUp, showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
@@ -39,6 +41,9 @@ export default function Navbar() {
   };
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
+  };
+  const handleCreateCard = (event: React.MouseEvent<HTMLElement>) => {
+    navigate('/card/create')
   };
 
   const handleCloseMenu = () => {
@@ -57,18 +62,30 @@ export default function Navbar() {
           </Typography>
          
             <div className='rightNavbarBlock'>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  {auth['isGuest'] ? 'Guest' : <label>{auth['name']}</label>}
+              <Stack direction="row" spacing={2}>
+             
+                 <Button
+                      key='{page}'
+                      onClick={handleCreateCard}
+                      color="primary"
+                      sx={{ mt: 0.5, color: 'white', display: 'block' }}
+                    >
+                   Create card
+                 </Button>
+                 <Typography variant="h5"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+                  {auth['isGuest'] ? 'Guest' : auth['name']}
+                 </Typography>
                   {!auth['id'] && !auth['isGuest'] ? 
                    <Button
                    key='{page}'
                    onClick={showSingUp}
+                   color="primary"
                    sx={{ mt: 0.5, color: 'white', display: 'block' }}
                  >
                    Register
                  </Button>
-                   : <div></div>}
-              </Typography>
+                   : <div style={{margin: '0'}}></div>}
+            
               <IconButton
                 size="large"
                 aria-label="menu"
@@ -79,6 +96,7 @@ export default function Navbar() {
               >
                 <AccountCircle />
               </IconButton>
+              </Stack>
               <Menu
                 anchorEl={anchorEl}
                 id="account-menu"

@@ -1,8 +1,12 @@
 import './App.scss';
 import React from 'react';
 import {
+  BrowserRouter,
   createBrowserRouter,
+  Route,
+  Router,
   RouterProvider,
+  Routes,
 } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar"
 import { useDispatch } from 'react-redux';
@@ -25,26 +29,7 @@ refreshFetch().then(Response => {
   login(Response.id, Response.isGuest, Response.name)
 })
 
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <LandingPage></LandingPage>
-    },
-    {
-      path: 'card/create',
-      element: <CreateCardPage></CreateCardPage>
-    },
-    {
-      path: 'card/:id',
-      element: <InspectCard></InspectCard>
-    },
-   
-  ]);
-
  
-
-
-
   const theme = createTheme({
     palette: {
         mode: 'dark',
@@ -53,21 +38,24 @@ refreshFetch().then(Response => {
 
 
   return (
-    
-    <ThemeProvider theme={theme}>
-    <div className="App"> 
-      <Navbar></Navbar>
-      <Modal></Modal>
-      <ErrorSnackBar></ErrorSnackBar>
-      <div className="appContainer">  
-      <React.StrictMode>
-          <RouterProvider router={router} />
-      </React.StrictMode> 
-      </div>
-    </div>
-    </ThemeProvider>
-    
-  
+      <ThemeProvider theme={theme}>
+        <React.StrictMode>
+          <BrowserRouter>
+              <div className="App"> 
+                <Navbar></Navbar>
+                <Modal></Modal>
+                <ErrorSnackBar></ErrorSnackBar>
+                <div className="appContainer">  
+                <Routes>
+                  <Route  path='/*' element={< LandingPage />}></Route>
+                  <Route  path='card/create' element={< CreateCardPage />}></Route>
+                  <Route  path='card/:id' element={< InspectCard />}></Route>
+                </Routes>
+                </div>
+              </div>
+          </BrowserRouter>
+        </React.StrictMode>
+      </ThemeProvider>
   );
 }
 

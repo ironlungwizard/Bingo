@@ -17,6 +17,8 @@ import { RootState } from '../state/reducers';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../state';
+import { Stack, Typography } from '@mui/material';
+import Chip from '@mui/material/Chip';
 
 export default function InspectCardPage() {
     const [authorId, setAuthorId] = useState<string>('')
@@ -34,7 +36,7 @@ export default function InspectCardPage() {
     const dispatch = useDispatch();
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
     useMemo(() =>  {getCardFetch(pathname.replace('/card/', '')).then(Response => {
-            if (Response) {
+            if (Response.phrases) {
             setPhrases(Response.phrases) 
             setTags(Response.tags)
             setDescription(Response.description)
@@ -46,6 +48,7 @@ export default function InspectCardPage() {
             setCardId(Response.id)
             errorOff()
             } else {
+                navigate(`..`); 
                 errorOn('Card not found! It may be deleted or URL is not right.')
             }
         })}, []);
@@ -55,14 +58,59 @@ export default function InspectCardPage() {
             e.preventDefault()
             deleteCardsFetch(cardId, auth['id']).then(Response => {
                 navigate(`..`); 
-            })}   
+            })} 
+            
+       
+            const tagChips = tags.map((tag, index) =>
+                <Chip color='primary' variant="outlined" label={tag} key={index} />   
+            );
+
 
     return (
     <>
     
          <div
           style={{width: 420, minWidth: 220, marginLeft: 3, marginRight: 2}}
-        />
+        >
+             <Stack direction="column" spacing={2}>
+                <Typography 
+                        variant="h5" 
+                        style={{ wordWrap: "break-word"}} 
+                        sx={{display: '-webkit-box', 
+                        overflow: 'hidden', 
+                        WebkitBoxOrient: 'vertical',
+                        color: '#fff'
+                        }} 
+                        component="div">
+                            Tags: <br/>
+                </Typography > 
+                <Stack useFlexGap flexWrap="wrap" direction="row" spacing={{ xs: 1, sm: 0.5 }}>
+                    {tagChips}
+                </Stack>
+                <Typography 
+                        variant="h5" 
+                        style={{ wordWrap: "break-word"}} 
+                        sx={{display: '-webkit-box', 
+                        overflow: 'hidden', 
+                        WebkitBoxOrient: 'vertical',
+                        color: '#fff'
+                        }} 
+                        component="div">
+                            Description:
+                </Typography > 
+                <Typography 
+                        variant="h6" 
+                        style={{ wordWrap: "break-word"}} 
+                        sx={{display: '-webkit-box', 
+                        overflow: 'hidden', 
+                        WebkitBoxOrient: 'vertical',
+                        color: '#fff'
+                        }} 
+                        component="div">
+                            {description}
+                </Typography > 
+            </Stack>
+        </div>
         <div>
             <BingoField header={header} 
                 setHeader={setHeader} 
@@ -78,7 +126,8 @@ export default function InspectCardPage() {
                                 size="medium"
                                 aria-haspopup="true"
                                 aria-label="password requirements"
-                                color="inherit"
+                                color="primary"
+                                variant="outlined"
                                 sx={{ marginTop: 1, marginRight: 1, width: 120}}
                                 >
                                     <PlayArrowIcon  fontSize="large" style={{ color: "#fff" }}></PlayArrowIcon>
@@ -91,7 +140,8 @@ export default function InspectCardPage() {
                                 size="medium"
                                 aria-haspopup="true"
                                 aria-label="password requirements"
-                                color="inherit"
+                                color="primary"
+                                variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 >
                                     <EditIcon  fontSize="large" style={{ color: "#fff"}}></EditIcon>
@@ -103,7 +153,8 @@ export default function InspectCardPage() {
                                 size="medium"
                                 aria-haspopup="true"
                                 aria-label="password requirements"
-                                color="inherit"
+                                color="primary"
+                                variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 >
                                     <ShareIcon fontSize="large" style={{ color: "#fff"}}></ShareIcon>
@@ -113,7 +164,8 @@ export default function InspectCardPage() {
                                 size="medium"
                                 aria-haspopup="true"
                                 aria-label="password requirements"
-                                color="inherit"
+                                color="primary"
+                                variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 onClick={handleDeleteCard}
                                 >

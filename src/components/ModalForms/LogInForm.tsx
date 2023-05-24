@@ -12,7 +12,7 @@ import authFrontValidation from '../../validators/authFrontValidation';
 import PasswordReqPopup from '../PasswordReqPopup/PasswordReqPopup';
 
 
-export default function Modal() {
+export default function LogInForm() {
     const dispatch = useDispatch();
     const [email, setEmail] = useState<string[]>(['', ])
     const [password, setPassword] = useState<string[]>(['', ])

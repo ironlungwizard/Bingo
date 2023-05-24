@@ -11,7 +11,7 @@ import authServerValidation from '../../validators/authServerValidation';
 import authFrontValidation from '../../validators/authFrontValidation';
 import PasswordReqPopup from '../PasswordReqPopup/PasswordReqPopup';
 
-export default function Modal() {
+export default function SignUpForm() {
     const [nickname, setNickname] = useState<string[]>(['', ])
     const [email, setEmail] = useState<string[]>(['', ])
     const [password, setPassword] = useState<string[]>(['', ])

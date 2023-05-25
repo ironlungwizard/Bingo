@@ -3,8 +3,8 @@ import TextField from '@mui/material/TextField';
 import { Box, Paper, Grid, Typography, styled} from '@mui/material';
 
 
-const BingoField = ({header, setHeader, backgroundColor, tilesColor, textColor, phrases, headerEditable}:
-    {header: string, setHeader: Function, backgroundColor: string, tilesColor: string, textColor: string, phrases: string[], headerEditable: boolean}) => {
+const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, phrases, headerEditable}:
+    {title: string, setTitle: Function, backgroundColor: string, tilesColor: string, textColor: string, phrases: string[], headerEditable: boolean}) => {
 
         const Item = styled(Paper)(({ theme }) => ({
             backgroundColor: tilesColor,
@@ -44,8 +44,8 @@ const BingoField = ({header, setHeader, backgroundColor, tilesColor, textColor, 
                     {headerEditable ?
                     <TextField 
                         margin="dense"
-                        value={header} 
-                        onChange={(e) => {setHeader(e.target.value)}} 
+                        value={title} 
+                        onChange={(e) => {setTitle(e.target.value)}} 
                         fullWidth 
                         id="Header" 
                         autoFocus={false}
@@ -63,7 +63,7 @@ const BingoField = ({header, setHeader, backgroundColor, tilesColor, textColor, 
                         color: textColor
                         }} 
                         component="div">
-                            {header}
+                            {title}
                     </Typography > 
                     }
                 </Paper>

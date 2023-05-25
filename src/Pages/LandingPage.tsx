@@ -9,7 +9,7 @@ import { Stack } from '@mui/material';
 
 export default function LandingPage() {
     const [ids, setIds] = useState<string[]>([''])
-    useMemo(() =>  {getCardsFetch(20).then(Response => {
+    useMemo(() =>  {getCardsFetch(1000).then(Response => {
        setIds(Response)
          
     })}, []);

@@ -1,5 +1,5 @@
 import { transportPOST, transportGET, transportPUT, transportDELETE } from "./transport";
-
+import Card from '../interfaces/CardType';
 
 export async function getCardsFetch(limit: number) {
    
@@ -12,7 +12,7 @@ export async function getCardFetch(id: string) {
    
   let response =  transportGET(`cards/${id}`)   
   const result = await (response);
-  if (result.hidden)
+  if (result.hidden || result.detail)
   {
     return null
   } else {
@@ -20,21 +20,38 @@ export async function getCardFetch(id: string) {
   }  
 }
 
-export async function createCardFetch(userId: string, phrases: string[], title: string, 
-    description: string, tags: string[], outlineColor: string, textColor: string, backgroundColor: string, markType: string) {
+export async function createCardFetch(userId: string, card: any, markType: string) {
     const body = {
-        "phrases": phrases,
-        "title": title,
-        "description": description,
-        "tags": tags,
-        "appearance": {
-          "outlineColor": outlineColor,
-          "textColor": textColor,
-          "backgroundColor": backgroundColor,
-          "markType": markType
+      "phrases": card.phrases,
+      "title": card.title,
+      "description": card.description,
+      "tags": card.tags,
+      "appearance": {
+        "backgroundColor": card.backgroundColor,
+        "textColor": card.textColor,
+        "tilesColor": card.tilesColor,
+        "markType": markType
         }
       }
     let response =  transportPOST(`cards/?userId=${userId}`, body)   
+    const result = await (response);
+          return result
+}
+
+export async function updateCardFetch(userId: string, card: any, markType: string, id: string) {
+    const body = {
+      "phrases": card.phrases,
+      "title": card.title,
+      "description": card.description,
+      "tags": card.tags,
+      "appearance": {
+        "backgroundColor": card.backgroundColor,
+        "textColor": card.textColor,
+        "tilesColor": card.tilesColor,
+        "markType": markType
+        }
+      }
+    let response =  transportPUT(`cards/${id}?userId=${userId}`, body)   
     const result = await (response);
           return result
 }

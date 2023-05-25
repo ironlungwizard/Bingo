@@ -15,11 +15,11 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { refreshFetch } from './api/auth';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from './state';
-import LandingPage from './Pages/LandingPage';
-import CreateCardPage from './Pages/CreateCardPage';
-import InspectCard from './Pages/InspectCardPage';
+import LandingPage from './pages/LandingPage';
+import CreateCardPage from './pages/CreateCardPage';
+import InspectCard from './pages/InspectCardPage';
 import ErrorSnackBar from './components/ErrorSnackBar/ErrorSnackBar';
-
+import EditCardPage from './pages/EditCardPage';
 
 function App() {
 const dispatch = useDispatch();
@@ -50,6 +50,7 @@ refreshFetch().then(Response => {
                   <Route  path='/*' element={< LandingPage />}></Route>
                   <Route  path='card/create' element={< CreateCardPage />}></Route>
                   <Route  path='card/:id' element={< InspectCard />}></Route>
+                  <Route  path='card/edit/:id' element={< EditCardPage />}></Route>
                 </Routes>
                 </div>
               </div>

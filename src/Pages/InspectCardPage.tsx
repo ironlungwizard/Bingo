@@ -26,24 +26,25 @@ export default function InspectCardPage() {
     const [phrases, setPhrases] = useState<string[]>([])
     const [tags, setTags] = useState<string[]>([''])
     const [description, setDescription] = useState<string>('')
-    const [header, setHeader] = useState<string>('')
-    const [tilesColor, setTilesColor] = useState<string>('#273146')
-    const [textColor, setTextColor] = useState<string>('#fff')
-    const [backgroundColor, setBackgroundColor] = useState<string>('#C2CCE1')
+    const [title, setTitle] = useState<string>('')
+    const [tilesColor, setTilesColor] = useState<string>('')
+    const [textColor, setTextColor] = useState<string>('')
+    const [backgroundColor, setBackgroundColor] = useState<string>('')
     const { pathname } = useLocation();
     const auth = useSelector((state: RootState) => state).auth
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
     useMemo(() =>  {getCardFetch(pathname.replace('/card/', '')).then(Response => {
-            if (Response.phrases) {
+            if (Response) {
+                console.log(Response)
             setPhrases(Response.phrases) 
             setTags(Response.tags)
             setDescription(Response.description)
-            setHeader(Response.title)
-            setTilesColor(Response.appearance.backgroundColor)
+            setTitle(Response.title)
+            setTilesColor(Response.appearance.tilesColor)
             setTextColor(Response.appearance.textColor)
-            setBackgroundColor(Response.appearance.outlineColor)
+            setBackgroundColor(Response.appearance.backgroundColor)
             setAuthorId(Response.authorId)  
             setCardId(Response.id)
             errorOff()
@@ -59,6 +60,10 @@ export default function InspectCardPage() {
             deleteCardsFetch(cardId, auth['id']).then(Response => {
                 navigate(`..`); 
             })} 
+            const handleEditCard = async (e: React.FormEvent) => {
+                e.preventDefault()
+                    navigate('/card/edit/' + pathname.replace('/card/', '')); 
+            } 
             
        
             const tagChips = tags.map((tag, index) =>
@@ -112,8 +117,8 @@ export default function InspectCardPage() {
             </Stack>
         </div>
         <div>
-            <BingoField header={header} 
-                setHeader={setHeader} 
+            <BingoField title={title} 
+                setTitle={setTitle} 
                 backgroundColor={backgroundColor} 
                 tilesColor={tilesColor} 
                 textColor={textColor} 
@@ -143,6 +148,7 @@ export default function InspectCardPage() {
                                 color="primary"
                                 variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
+                                onClick={handleEditCard}
                                 >
                                     <EditIcon  fontSize="large" style={{ color: "#fff"}}></EditIcon>
                     </Button>

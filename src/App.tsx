@@ -17,9 +17,10 @@ import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from './state';
 import LandingPage from './pages/LandingPage';
 import CreateCardPage from './pages/CreateCardPage';
-import InspectCard from './pages/InspectCardPage';
+import InspectCardPage from './pages/InspectCardPage';
 import ErrorSnackBar from './components/ErrorSnackBar/ErrorSnackBar';
 import EditCardPage from './pages/EditCardPage';
+import ProcessGamePage from './pages/ProcessGamePage';
 
 function App() {
 const dispatch = useDispatch();
@@ -49,7 +50,8 @@ refreshFetch().then(Response => {
                 <Routes>
                   <Route  path='/*' element={< LandingPage />}></Route>
                   <Route  path='card/create' element={< CreateCardPage />}></Route>
-                  <Route  path='card/:id' element={< InspectCard />}></Route>
+                  <Route  path='card/:id' element={< InspectCardPage />}></Route>
+                  <Route  path='card/game/:id' element={< ProcessGamePage />}></Route>
                   <Route  path='card/edit/:id' element={< EditCardPage />}></Route>
                 </Routes>
                 </div>

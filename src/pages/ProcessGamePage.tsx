@@ -5,10 +5,11 @@ import { getCardFetch } from '../api/game';
 import BingoField from '../components/BingoField/BingoField';
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import PhotoIcon from '@mui/icons-material/Photo';
+import SaveIcon from '@mui/icons-material/Save';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ShareIcon from '@mui/icons-material/Share';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import  isOwned  from '../utils/isOwned';
 import { deleteCardsFetch } from '../api/game';
 import { useSelector } from 'react-redux';
@@ -20,7 +21,9 @@ import { actionCreators } from '../state';
 import { Stack, Typography } from '@mui/material';
 import Chip from '@mui/material/Chip';
 
-export default function InspectCardPage() {
+
+export default function GamePage() {
+
     const [authorId, setAuthorId] = useState<string>('')
     const [cardId, setCardId] = useState<string>('')
     const [phrases, setPhrases] = useState<string[]>([])
@@ -35,7 +38,7 @@ export default function InspectCardPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
-    useMemo(() =>  {getCardFetch(pathname.replace('/card/', '')).then(Response => {
+    useMemo(() =>  {getCardFetch(pathname.replace('/card/game/', '')).then(Response => {
             if (Response) {
                 console.log(Response)
             setPhrases(Response.phrases) 
@@ -54,19 +57,8 @@ export default function InspectCardPage() {
             }
         })}, []);
 
-
-        const handleDeleteCard = async (e: React.FormEvent) => {
-            e.preventDefault()
-            deleteCardsFetch(cardId, auth['id']).then(Response => {
-                navigate(`..`); 
-            })} 
-            const handleEditCard = async (e: React.FormEvent) => {
-                e.preventDefault()
-                    navigate('/card/edit/' + pathname.replace('/card/', '')); 
-            } 
-            const handlePlayCard = async (e: React.FormEvent) => {
-                e.preventDefault()
-                    navigate('/card/game/' + pathname.replace('/card/', '')); 
+            const handleBackToCard = async () => {
+                    navigate('/card/' + pathname.replace('/card/game/', '')); 
             } 
             
        
@@ -76,78 +68,53 @@ export default function InspectCardPage() {
 
 
     return (
-    <>
+  
     
          <div
-          style={{width: 420, minWidth: 220, marginLeft: 3, marginRight: 2}}
+          style={{display: 'flex'}}
         >
-             <Stack direction="column" spacing={2}>
-                <Typography 
-                        variant="h5" 
-                        style={{ wordWrap: "break-word"}} 
-                        sx={{display: '-webkit-box', 
-                        overflow: 'hidden', 
-                        WebkitBoxOrient: 'vertical',
-                        color: '#fff'
-                        }} 
-                        component="div">
-                            Tags: <br/>
-                </Typography > 
-                <Stack useFlexGap flexWrap="wrap" direction="row" spacing={{ xs: 1, sm: 0.5 }}>
-                    {tagChips}
-                </Stack>
-                <Typography 
-                        variant="h5" 
-                        style={{ wordWrap: "break-word"}} 
-                        sx={{display: '-webkit-box', 
-                        overflow: 'hidden', 
-                        WebkitBoxOrient: 'vertical',
-                        color: '#fff'
-                        }} 
-                        component="div">
-                            Description:
-                </Typography > 
-                <Typography 
-                        variant="h6" 
-                        style={{ wordWrap: "break-word"}} 
-                        sx={{display: '-webkit-box', 
-                        overflow: 'hidden', 
-                        WebkitBoxOrient: 'vertical',
-                        color: '#fff'
-                        }} 
-                        component="div">
-                            {description}
-                </Typography > 
-            </Stack>
-        </div>
+       
         <div>
             <BingoField title={title} 
-            isAGame={false}
+                isAGame={true}
                 setTitle={setTitle} 
                 backgroundColor={backgroundColor} 
                 tilesColor={tilesColor} 
                 textColor={textColor} 
                 phrases={phrases}
                 headerEditable={false}
-                playable={false}
+                playable={true}
                 ></BingoField>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                
-                    <Button
-                                size="medium"
-                                aria-haspopup="true"
-                                aria-label="password requirements"
-                                color="primary"
-                                variant="outlined"
-                                onClick={handlePlayCard}
-                                sx={{ marginTop: 1, marginRight: 1, width: 120}}
-                                >
-                                    <PlayArrowIcon  fontSize="large" style={{ color: "#fff" }}></PlayArrowIcon>
-                    </Button>
-
                
+                    <Button
+                                size="medium"
+                                aria-haspopup="true"
+                                aria-label="password requirements"
+                                color="primary"
+                                variant="outlined"
+                                sx={{ marginTop: 1, marginRight: 1, width: 120, justifyContent: 'space-between'}}
+                                onClick={handleBackToCard}
+                                >
+                                    <ArrowBackIcon  fontSize="large" style={{ color: "#fff" }}></ArrowBackIcon>
+                    </Button>
+                               
                 <div >
-                {isOwned(authorId)?
+                {isOwned(authorId) ? 
+                <Button
+                        size="medium"
+                        aria-haspopup="true"
+                        aria-label="password requirements"
+                        
+                        color="primary"
+                        variant="outlined"
+                        sx={{ marginTop: 1}}
+                        >
+                            <SaveIcon fontSize="large" style={{ color: "#fff"}}></SaveIcon>
+                       
+                </Button>
+                : <></>
+                }    
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
@@ -155,13 +122,9 @@ export default function InspectCardPage() {
                                 color="primary"
                                 variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
-                                onClick={handleEditCard}
                                 >
-                                    <EditIcon  fontSize="large" style={{ color: "#fff"}}></EditIcon>
+                                    <ShareIcon  fontSize="large" style={{ color: "#fff"}}></ShareIcon>
                     </Button>
-                      :
-                      <></>
-                  }
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
@@ -170,32 +133,16 @@ export default function InspectCardPage() {
                                 variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 >
-                                    <ShareIcon fontSize="large" style={{ color: "#fff"}}></ShareIcon>
+                                    <PhotoIcon fontSize="large" style={{ color: "#fff"}}></PhotoIcon>
                     </Button>
-                    { isOwned(authorId)?
-                    <Button
-                                size="medium"
-                                aria-haspopup="true"
-                                aria-label="password requirements"
-                                color="primary"
-                                variant="outlined"
-                                sx={{ marginTop: 1, marginLeft: 1}}
-                                onClick={handleDeleteCard}
-                                >
-                                    <DeleteIcon fontSize="large" style={{ color: "#fff"}}></DeleteIcon>
-                    </Button>
-                     :
-                      <></>
-                  }
+                  
             </div>
             </div>
         </div>
        
-        <div
-          style={{width: 420, minWidth: 220, marginLeft: 3, marginRight: 2}}
-        />
+        </div>
         
-    </> 
+   
         
     )
 }

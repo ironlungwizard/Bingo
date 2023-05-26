@@ -2,22 +2,11 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Unstable_Grid2';
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useMemo, useState } from 'react';
-import { useEffect } from 'react';
 import { GithubPicker  } from 'react-color'
-import { Popover } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../state/reducers';
 import BingoField from '../BingoField/BingoField';
-import {IconButton} from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-import { NavLink } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { refreshFetch } from '../../api/auth';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import Card from '../../interfaces/CardType';
 
@@ -88,12 +77,14 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
         </div>
         <div>
             <BingoField title={title} 
+                isAGame={false}
                 setTitle={setTitle} 
                 backgroundColor={backgroundColor} 
                 tilesColor={tilesColor} 
                 textColor={textColor} 
                 phrases={phrases}
                 headerEditable={true}
+                playable={false}
                 ></BingoField>
 
             <Button

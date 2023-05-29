@@ -5,7 +5,7 @@ import { RootState } from '../state/reducers';
 import { useNavigate } from 'react-router-dom';
 import { refreshFetch } from '../api/auth';
 import CreateEditComplex from '../components/CreateEditComplex/CreateEditComplex';
-import Card from '../interfaces/CardType';
+import Card from '../types/CardType';
 
 export default function CreateCardPage() {
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function CreateCardPage() {
         console.log(card)
         refreshFetch().then(Result => {
         createCardFetch(auth['id'], card, 'default').then(Response => {
-            navigate(`../card/${Response.id}`);  })
+            navigate(`../card/edit/${Response.id}`);  })
     })}
 
 

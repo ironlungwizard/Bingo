@@ -5,9 +5,9 @@ import { useState } from 'react';
 import tileX from '../../images/tileX.svg?url'
 
 
-const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, phrases, headerEditable, isAGame, playable}:
-    {title: string, setTitle: Function, backgroundColor: string, tilesColor: string, textColor: string, phrases: string[], headerEditable: boolean, isAGame: boolean, playable: boolean}) => {
-        const [checkedArray, setCheckedArray] = useState<boolean[]>(Array(25).fill(false))
+const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, phrases, headerEditable, isAGame, playable, checkedArray, setCheckedArray}:
+    {title: string, setTitle: Function, backgroundColor: string, tilesColor: string, textColor: string, phrases: string[], 
+        headerEditable: boolean, isAGame: boolean, playable: boolean, checkedArray?: number[], setCheckedArray?: Function}) => {
         const ButtonItem = styled(Button)(({ theme }) => ({
             backgroundColor: tilesColor,
             ...theme.typography.body2,
@@ -26,15 +26,20 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ph
             paddingLeft: 0
           }));
 
-          const handleCheckTile =  (index: number) => {
+          const handleToggleTile =  (index: number) => {
+            if (checkedArray && setCheckedArray) {
                 var array = [...checkedArray]
-                if (!array[index]) {
-                    array[index] = true
+                if (array.includes(index)) {
+                    var indexToRemove = array.indexOf(index);
+                    if (index !== -1) {
+                        array.splice(indexToRemove, 1);
+                      }
                 } else {
-                    array[index] = false
+                    array.push(index)
                 }
+                console.log(array)
                 setCheckedArray(array)
-                console.log(array,index)
+            }
             } 
 
 
@@ -45,7 +50,7 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ph
      
             <Grid xs={5} key={index} item >
                 { playable ? 
-                <ButtonItem sx={{aspectRatio: '1/1', width: '88%',  alignItems: 'center', display: 'flex', justifyContent: 'center', marginBottom: '13px'}} onClick={() => handleCheckTile(index)}>
+                <ButtonItem sx={{aspectRatio: '1/1', width: '88%',  alignItems: 'center', display: 'flex', justifyContent: 'center', marginBottom: '13px'}} onClick={() => handleToggleTile(index)}>
                     <Typography 
                         variant="h6" 
                         style={{ wordWrap: "break-word"}} 
@@ -58,7 +63,7 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ph
                         component="div">
                             {phrase}
                     </Typography >
-                    { checkedArray[index] ?
+                    { checkedArray && checkedArray.includes(index) ?
                         <img src={tileX} style={{position: 'absolute', marginLeft: 6, opacity: '0.5'}}/>
                         :<></>
                     } 
@@ -81,8 +86,6 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ph
                 }
             </Grid>
         );}
-
-
     return (
         <div style={{width: '626px'}}>
           <Box sx={{ width: '100%', padding: 2, backgroundColor: backgroundColor}}>

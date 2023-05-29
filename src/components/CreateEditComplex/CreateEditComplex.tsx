@@ -8,7 +8,11 @@ import { GithubPicker  } from 'react-color'
 import BingoField from '../BingoField/BingoField';
 import SaveIcon from '@mui/icons-material/Save';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import Card from '../../interfaces/CardType';
+import Card from '../../types/CardType';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { RootState } from '../../state/reducers';
+import { useSelector } from 'react-redux';
 
 const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Function, type: string, initialState?: Card}) => {
 
@@ -19,6 +23,9 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
     const [tilesColor, setTilesColor] = useState<string>('#273146')
     const [textColor, setTextColor] = useState<string>('#fff')
     const [backgroundColor, setBackgroundColor] = useState<string>('#C2CCE1')
+    const navigate = useNavigate();
+    const { pathname } = useLocation();
+    const auth = useSelector((state: RootState) => state).auth
     useMemo(() => {
     if (type == 'edit' && initialState) {
         setPhrases(initialState.phrases) 
@@ -30,10 +37,13 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
         setBackgroundColor(initialState.backgroundColor)
     }}, [initialState]);
 
-    const handleResortPhrases = async (e: React.FormEvent) => {
+    const handleResortPhrases = async () => {
         setPhrases(phrases.sort(() => Math.random() - 0.5).slice())
     }
-    const handleSaveEditCard = async (e: React.FormEvent) => {
+    const handleToCard = async () => {
+        navigate(`../card/` + pathname.replace('/card/edit/', ''));  
+    }
+    const handleSaveEditCard = async () => {
         let card: Card = {
             phrases: phrases, 
             title: title, 
@@ -86,7 +96,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                 headerEditable={true}
                 playable={false}
                 ></BingoField>
-
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
             <Button
                         size="medium"
                         aria-haspopup="true"
@@ -99,6 +109,22 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                             <SaveIcon fontSize="large" style={{ color: "#fff", aspectRatio: '1/1' }}></SaveIcon>
                        
             </Button>
+            {type == 'edit' ?
+                <Button
+                size="medium"
+                aria-haspopup="true"
+                aria-label="password requirements"
+                onClick={handleToCard}
+                color="primary"
+                variant="outlined"
+                sx={{ marginTop: 1, marginRight: 1, width: 120, marginLeft: 3}}
+                >
+                    To card
+                                    <ArrowForwardIcon fontSize="large" style={{ color: "#fff", aspectRatio: '1/1' }}></ArrowForwardIcon>
+            
+                </Button> : <></>
+            }
+        </div>
         </div>
        
         <Box sx={{  display: 'flex', flexDirection: 'column', width: 420, minWidth: 220, marginRight: 3, marginLeft: 2, justifyContent: 'left'}}>

@@ -66,7 +66,7 @@ export default function InspectCardPage() {
             } 
             const handlePlayCard = async (e: React.FormEvent) => {
                 e.preventDefault()
-                    navigate('/card/game/' + pathname.replace('/card/', '')); 
+                    navigate('/card/' + pathname.replace('/card/', '')+ '/gamestart'); 
             } 
             
        

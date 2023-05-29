@@ -20,6 +20,7 @@ import CreateCardPage from './pages/CreateCardPage';
 import InspectCardPage from './pages/InspectCardPage';
 import ErrorSnackBar from './components/ErrorSnackBar/ErrorSnackBar';
 import EditCardPage from './pages/EditCardPage';
+import ProcessGameStartPage from './pages/ProcessGameStartPage';
 import ProcessGamePage from './pages/ProcessGamePage';
 
 function App() {
@@ -51,7 +52,8 @@ refreshFetch().then(Response => {
                   <Route  path='/*' element={< LandingPage />}></Route>
                   <Route  path='card/create' element={< CreateCardPage />}></Route>
                   <Route  path='card/:id' element={< InspectCardPage />}></Route>
-                  <Route  path='card/game/:id' element={< ProcessGamePage />}></Route>
+                  <Route  path='card/:id/gamestart' element={< ProcessGameStartPage />}></Route>
+                  <Route  path='game/:id' element={< ProcessGamePage />}></Route>
                   <Route  path='card/edit/:id' element={< EditCardPage />}></Route>
                 </Routes>
                 </div>

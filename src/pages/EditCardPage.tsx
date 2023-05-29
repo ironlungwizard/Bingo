@@ -5,7 +5,7 @@ import { RootState } from '../state/reducers';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { refreshFetch } from '../api/auth';
 import CreateEditComplex from '../components/CreateEditComplex/CreateEditComplex';
-import Card from '../interfaces/CardType';
+import Card from '../types/CardType';
 import { useMemo } from 'react';
 import { getCardFetch } from '../api/game';
 import { bindActionCreators } from '@reduxjs/toolkit';
@@ -23,7 +23,7 @@ export default function EditCardPage() {
     const saveCard = async (card: Card) => {
         refreshFetch().then(Result => {
             updateCardFetch(auth['id'], card, 'default', pathname.replace('/card/edit/', '')).then(Response => {
-            navigate(`../card/${Response.id}`);  })
+                navigate(`../card/edit/${Response.id}`);  })
     })}
 
     useMemo(() =>  {getCardFetch(pathname.replace('/card/edit/', '')).then(Response => {

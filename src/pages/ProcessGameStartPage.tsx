@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-import { getCardFetch, getGameFetch, updateGameFetch } from '../api/game';
+import { createCardFetch, getCardFetch, startGameFetch, updateGameFetch } from '../api/game';
 import BingoField from '../components/BingoField/BingoField';
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -23,10 +23,9 @@ import Chip from '@mui/material/Chip';
 import { refreshFetch } from '../api/auth';
 
 
-export default function ProcessGamePage() {
+export default function ProcessGameStartPage() {
 
     const [authorId, setAuthorId] = useState<string>('')
-    const [gameId, setGameId] = useState<string>('')
     const [cardId, setCardId] = useState<string>('')
     const [phrases, setPhrases] = useState<string[]>([])
     const [tags, setTags] = useState<string[]>([''])
@@ -41,42 +40,37 @@ export default function ProcessGamePage() {
     const dispatch = useDispatch();
     const [checkedArray, setCheckedArray] = useState<number[]>([])
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
-    useMemo(() =>  {getGameFetch(pathname.replace('/game/', '')).then(Response => {
-                    console.log(Response)
-                    setGameId(Response.id)
-                    setCheckedArray(Response.checkedPhrases)
-            if (Response) {getCardFetch(Response.cardId).then(Response => {
-                if (Response) {
-                    console.log(Response)
-                setPhrases(Response.phrases) 
-                setTags(Response.tags)
-                setDescription(Response.description)
-                setTitle(Response.title)
-                setTilesColor(Response.appearance.tilesColor)
-                setTextColor(Response.appearance.textColor)
-                setBackgroundColor(Response.appearance.backgroundColor)
-                setAuthorId(Response.authorId)  
-                setCardId(Response.id)
-                errorOff()
-                } else {
-                    navigate(`..`); 
-                    errorOn('Card not found! It may be deleted or URL is not right.')
-                }
-            })}})}, []);
+    useMemo(() =>  {getCardFetch(pathname.replace('/card/', '').replace('/gamestart', '')).then(Response => {
+            if (Response) {
+            setPhrases(Response.phrases) 
+            setTags(Response.tags)
+            setDescription(Response.description)
+            setTitle(Response.title)
+            setTilesColor(Response.appearance.tilesColor)
+            setTextColor(Response.appearance.textColor)
+            setBackgroundColor(Response.appearance.backgroundColor)
+            setAuthorId(Response.authorId)  
+            setCardId(Response.id)
+            errorOff()
+            } else {
+                navigate(`..`); 
+                errorOn('Card not found! It may be deleted or URL is not right.')
+            }
+        })}, []);
 
             const handleBackToCard = async () => {
-                    navigate('../card/' + cardId); 
+                    navigate('/card/' + pathname.replace('/card/', '').replace('/gamestart', '')); 
             } 
-
             const handleSaveGame = async () => {
                 refreshFetch().then(Result => {
-                        updateGameFetch(gameId, auth['id'], checkedArray).then(Response => {
+                    startGameFetch(auth['id'], cardId).then(Response => {
+                        var gameId = Response.id
+                        updateGameFetch(Response.id, auth['id'], checkedArray).then(Response => {
                             navigate((`..` + `/game/`+ gameId).replace('cards/', '')); 
                         })
                     })    
-                }
-            
-            
+                })
+            } 
        
             const tagChips = tags.map((tag, index) =>
                 <Chip color='primary' variant="outlined" label={tag} key={index} />   

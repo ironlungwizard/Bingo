@@ -22,6 +22,7 @@ import ErrorSnackBar from './components/ErrorSnackBar/ErrorSnackBar';
 import EditCardPage from './pages/EditCardPage';
 import ProcessGameStartPage from './pages/ProcessGameStartPage';
 import ProcessGamePage from './pages/ProcessGamePage';
+import MyCardsPage from './pages/MyCardsPage';
 
 function App() {
 const dispatch = useDispatch();
@@ -55,6 +56,8 @@ refreshFetch().then(Response => {
                   <Route  path='card/:id/gamestart' element={< ProcessGameStartPage />}></Route>
                   <Route  path='game/:id' element={< ProcessGamePage />}></Route>
                   <Route  path='card/edit/:id' element={< EditCardPage />}></Route>
+                  <Route  path='mycards' element={<  MyCardsPage />}></Route>
+                 
                 </Routes>
                 </div>
               </div>

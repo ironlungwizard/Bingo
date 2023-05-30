@@ -108,7 +108,7 @@ export default function ProcessGameStartPage() {
                                 sx={{ marginTop: 1, marginRight: 1, width: 120, justifyContent: 'space-between'}}
                                 onClick={handleBackToCard}
                                 >
-                                    <ArrowBackIcon  fontSize="large" style={{ color: "#fff" }}></ArrowBackIcon>
+                                    <ArrowBackIcon  fontSize="large" style={{ color: "#fff" }}></ArrowBackIcon>to card
                     </Button>
                                
                 <div >
@@ -149,6 +149,7 @@ export default function ProcessGameStartPage() {
                     </Button>
                   
             </div>
+            
             </div>
         </div>
        

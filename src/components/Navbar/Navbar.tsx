@@ -49,6 +49,10 @@ export default function Navbar() {
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
+  const handleToMyCards = () => {
+    navigate('/mycards')
+  };
+  
 
  
 
@@ -138,7 +142,7 @@ export default function Navbar() {
                         {auth['id']  || auth['isGuest']
                           ?  
                             <div>
-                              <MenuItem onClick={handleCloseMenu}>My Cards</MenuItem>
+                              <MenuItem onClick={() =>{handleToMyCards(); handleCloseMenu()}}>My Cards</MenuItem>
                               <MenuItem onClick={handleCloseMenu}>My Games</MenuItem> 
                             </div>
                           : 

@@ -8,7 +8,7 @@ import { useMemo, useState } from 'react';
 import { Stack } from '@mui/material';
 import CardGamesPlate from '../components/CardGamesPlate/CardGamesPlate';
 
-export default function LandingPage() {
+export default function MyCardsPage() {
 
     const [ids, setIds] = useState<string[]>([])
 
@@ -17,14 +17,14 @@ export default function LandingPage() {
        console.log(Response)
     })}, []);
 
-    const tagChips = ids.map((id: any, index: any) =>
-            <CardGamesPlate id={id} index={index}></CardGamesPlate>
+    const cards = ids.map((id: any, index: any) =>
+            <CardGamesPlate id={id} key={index} index={index}></CardGamesPlate>
         );
 
     return (
         <>
            <Stack direction="column" spacing={2}>
-                {tagChips}
+                {cards}
            </Stack>
         </> 
     )

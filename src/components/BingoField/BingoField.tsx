@@ -47,7 +47,6 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ph
         var listItems
         if (phrases){
         listItems = phrases.fill(' ', phrases.length, 25).slice(0, 25).concat(blankArray.slice(phrases.length, 25)).map((phrase, index) =>
-     
             <Grid xs={5} key={index} item >
                 { playable ? 
                 <ButtonItem sx={{aspectRatio: '1/1', width: '88%',  alignItems: 'center', display: 'flex', justifyContent: 'center', marginBottom: '13px'}} onClick={() => handleToggleTile(index)}>
@@ -99,16 +98,16 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ph
                         id="Header" 
                         autoFocus={false}
                         size='small' 
-                        sx={{input: {textAlign: "center", fontSize: 25, color: textColor}, paddingX: 1}}> 
+                        sx={{input: {wordWrap: "break-word",  overflow: 'hidden',textAlign: "center", fontSize: 25, color: textColor}, paddingX: 1}}> 
                     </TextField>
                     :
                     <Typography 
                         variant="h4" 
                         style={{ wordWrap: "break-word"}} 
-                        sx={{display: '-webkit-box', 
+                        sx={{ marginX: 1, wordWrap: "break-word",  display: '-webkit-box', 
                         overflow: 'hidden', 
                         WebkitBoxOrient: 'vertical',
-                        WebkitLineClamp: 3,
+                        WebkitLineClamp: 2,
                         color: textColor, 
                         fontSize: 25
                         }} 

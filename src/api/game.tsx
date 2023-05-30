@@ -8,6 +8,12 @@ export async function getCardsFetch(limit: number) {
           return result
 }
 
+export async function getMyGamesByCardFetch(cardId: string, userId: string) {
+  let response =  transportGET(`games/byCard/${cardId}?userId=${userId}`)   
+  const result = await (response);
+        return result
+}
+
 export async function getCardFetch(id: string) {
    
   let response =  transportGET(`cards/${id}`)   

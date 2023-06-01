@@ -12,7 +12,10 @@ import Card from '../../types/CardType';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { RootState } from '../../state/reducers';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { signUpGuestFetch } from '../../api/auth';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import { actionCreators } from '../../state';
 
 const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Function, type: string, initialState?: Card}) => {
 
@@ -24,6 +27,8 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
     const [textColor, setTextColor] = useState<string>('#fff')
     const [backgroundColor, setBackgroundColor] = useState<string>('#C2CCE1')
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { login } = bindActionCreators(actionCreators, dispatch)
     const { pathname } = useLocation();
     const auth = useSelector((state: RootState) => state).auth
     useMemo(() => {
@@ -53,7 +58,13 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
             textColor: textColor, 
             tilesColor: tilesColor
           };
-        saveEditCard(card)
+        if (!auth['id']) {
+            signUpGuestFetch().then(Response => {
+                saveEditCard(card, Response.id, Response.name)
+             })  
+        } else {
+            saveEditCard(card)
+        }
     }
 
 

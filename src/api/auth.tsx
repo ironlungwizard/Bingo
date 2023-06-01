@@ -1,4 +1,10 @@
+
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { actionCreators } from "../state";
 import { transportPOST, transportGET, transportPUT } from "./transport";
+import { useDispatch } from "react-redux";
+
+
 
 export async function logInFetch(email: string, password: string) {
     const body = {
@@ -22,6 +28,13 @@ export async function refreshFetch() {
     const result = await (response);
           return result
 }
+
+export async function getAttributesById(ownerId: string) {
+    console.log(ownerId)
+    let response =  transportGET(`auth/attributes/${ownerId}`)   
+    const result = await (response);
+          return result
+}
   
 export async function signUpFetch(name: string, email: string, password: string) {
     const body = {
@@ -33,4 +46,12 @@ export async function signUpFetch(name: string, email: string, password: string)
     const result = await (response);
           return result
 }
+
+export async function signUpGuestFetch() {
+    const body = {}
+    let response =  transportPUT("auth/signup-guest", body)   
+    const result = await (response);
+          return result
+}
+  
   

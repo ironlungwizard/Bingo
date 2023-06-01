@@ -1,15 +1,12 @@
 import './App.scss';
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   BrowserRouter,
-  createBrowserRouter,
   Route,
-  Router,
-  RouterProvider,
   Routes,
 } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar"
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Modal from "./components/Modal/Modal"
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { refreshFetch } from './api/auth';
@@ -23,14 +20,19 @@ import EditCardPage from './pages/EditCardPage';
 import ProcessGameStartPage from './pages/ProcessGameStartPage';
 import ProcessGamePage from './pages/ProcessGamePage';
 import MyCardsPage from './pages/MyCardsPage';
+import MyGamesPage from './pages/MyGamesPage';
+import { RootState } from './state/reducers';
+
+
 
 function App() {
 const dispatch = useDispatch();
 const { login } = bindActionCreators(actionCreators, dispatch)
+const auth = useSelector((state: RootState) => state).auth
 
-refreshFetch().then(Response => {
+useMemo(() =>  {refreshFetch().then(Response => {
   login(Response.id, Response.isGuest, Response.name)
-})
+})}, []);
 
  
   const theme = createTheme({
@@ -42,7 +44,7 @@ refreshFetch().then(Response => {
 
   return (
       <ThemeProvider theme={theme}>
-        <React.StrictMode>
+        {/* <React.StrictMode> */}
           <BrowserRouter>
               <div className="App"> 
                 <Navbar></Navbar>
@@ -55,14 +57,14 @@ refreshFetch().then(Response => {
                   <Route  path='card/:id' element={< InspectCardPage />}></Route>
                   <Route  path='card/:id/gamestart' element={< ProcessGameStartPage />}></Route>
                   <Route  path='game/:id' element={< ProcessGamePage />}></Route>
-                  <Route  path='card/edit/:id' element={< EditCardPage />}></Route>
-                  <Route  path='mycards' element={<  MyCardsPage />}></Route>
-                 
+                  <Route  path='card/edit/:id'  element={< EditCardPage />}></Route>
+                  <Route  path='mycards/:page' element={ auth['id'] ? <  MyCardsPage /> : < LandingPage />}></Route>
+                  <Route  path='mygames/:page' element={<  MyGamesPage />}></Route>
                 </Routes>
                 </div>
               </div>
           </BrowserRouter>
-        </React.StrictMode>
+        {/* </React.StrictMode> */}
       </ThemeProvider>
   );
 }

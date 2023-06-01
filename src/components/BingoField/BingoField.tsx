@@ -37,7 +37,6 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ph
                 } else {
                     array.push(index)
                 }
-                console.log(array)
                 setCheckedArray(array)
             }
             } 

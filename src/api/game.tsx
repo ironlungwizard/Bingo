@@ -1,15 +1,33 @@
 import { transportPOST, transportGET, transportPUT, transportDELETE } from "./transport";
 import Card from '../types/CardType';
 
-export async function getCardsFetch(limit: number) {
-   
-    let response =  transportGET(`cards?limit=${limit}`)   
+export async function getMyCardsFetch(userId: string) {
+    let response =  transportGET(`cards/myCards?userId=${userId}`)   
     const result = await (response);
           return result
 }
 
+export async function getMyGamesFetch(userId: string) {
+  let response =  transportGET(`cards/myGames?userId=${userId}`)   
+  const result = await (response);
+        return result
+}
+
+export async function getCardsFetch(limit: number) {
+  let response =  transportGET(`cards?limit=${limit}`)   
+  const result = await (response);
+        return result
+}
+
 export async function getMyGamesByCardFetch(cardId: string, userId: string) {
   let response =  transportGET(`games/byCard/${cardId}?userId=${userId}`)   
+  const result = await (response);
+        return result
+}
+
+
+export async function canEditCardFetch(cardId: string) {
+  let response =  transportGET(`cards/${cardId}/canEdit`)   
   const result = await (response);
         return result
 }

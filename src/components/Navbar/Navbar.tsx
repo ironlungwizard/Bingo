@@ -50,7 +50,10 @@ export default function Navbar() {
     setAnchorEl(null);
   };
   const handleToMyCards = () => {
-    navigate('/mycards')
+    navigate('/mycards/1')
+  };
+  const handleToMyGames = () => {
+    navigate('/mygames/1')
   };
   
 
@@ -69,7 +72,6 @@ export default function Navbar() {
               <Stack direction="row" spacing={2}>
              
                  <Button
-                      key='{page}'
                       onClick={handleCreateCard}
                       color="primary"
                       sx={{ mt: 0.5, color: 'white', display: 'block' }}
@@ -77,11 +79,10 @@ export default function Navbar() {
                    Create card
                  </Button>
                  <Typography variant="h5"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
-                  {auth['isGuest'] ? 'Guest' : auth['name']}
+                  {auth['isGuest'] ? auth['name'] : auth['name']}
                  </Typography>
                   {!auth['id'] && !auth['isGuest'] ? 
                    <Button
-                   key='{page}'
                    onClick={showSingUp}
                    color="primary"
                    sx={{ mt: 0.5, color: 'white', display: 'block' }}
@@ -143,7 +144,7 @@ export default function Navbar() {
                           ?  
                             <div>
                               <MenuItem onClick={() =>{handleToMyCards(); handleCloseMenu()}}>My Cards</MenuItem>
-                              <MenuItem onClick={handleCloseMenu}>My Games</MenuItem> 
+                              <MenuItem onClick={() =>{handleToMyGames(); handleCloseMenu()}}>My Games</MenuItem> 
                             </div>
                           : 
                         <div></div>} 

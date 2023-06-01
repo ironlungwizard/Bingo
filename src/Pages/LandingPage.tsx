@@ -7,10 +7,13 @@ import { createCardFetch } from '../api/game';
 import { useMemo, useState } from 'react';
 import { Stack } from '@mui/material';
 import CardGamesPlate from '../components/CardGamesPlate/CardGamesPlate';
+import { useSelector } from 'react-redux';
+import { RootState } from '../state/reducers';
 
 export default function LandingPage() {
 
     const [ids, setIds] = useState<string[]>([])
+    const auth = useSelector((state: RootState) => state).auth
 
     useMemo(() =>  {getCardsFetch(2).then(Response => {
        setIds(Response)
@@ -18,7 +21,7 @@ export default function LandingPage() {
     })}, []);
 
     const tagChips = ids.map((id: any, index: any) =>
-            <CardGamesPlate id={id} index={index}></CardGamesPlate>
+            <div id={id}>{id}</div>
         );
 
     return (
@@ -26,6 +29,7 @@ export default function LandingPage() {
            <Stack direction="column" spacing={2}>
                 {tagChips}
            </Stack>
+           <Button onClick={() => {console.log(auth)}}>a</Button>
         </> 
     )
 }

@@ -8,7 +8,7 @@ export async function transportPUT(path: string, body: object) {
             credentials: 'include'
           })
           const result = await (response).json();
-          console.log('put', {path})
+          //console.log('PUT', {path})
           return result    
 }
 
@@ -22,7 +22,7 @@ export async function transportPOST(path: string, body: object) {
             credentials: 'include'
           })
           const result = await (response).json();
-          console.log('post', {path})
+          //console.log('POST', {path})
           return result    
 }
   
@@ -34,7 +34,7 @@ export async function transportGET(path: string) {
             credentials: 'include'
           })
           const result = await (response).json();
-          console.log('get', {path})
+          //console.log('GET', {path})
           return result    
 }
 
@@ -45,7 +45,7 @@ export async function transportDELETE(path: string) {
             credentials: 'include'
           })
           const result = await (response).json();
-          console.log('delete', {path})
+          //console.log('DELETE', {path})
           return result    
 }
   

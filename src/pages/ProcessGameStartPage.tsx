@@ -20,7 +20,7 @@ import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../state';
 import { Stack, Typography } from '@mui/material';
 import Chip from '@mui/material/Chip';
-import { refreshFetch } from '../api/auth';
+import { refreshFetch, signUpGuestFetch } from '../api/auth';
 
 
 export default function ProcessGameStartPage() {
@@ -40,6 +40,8 @@ export default function ProcessGameStartPage() {
     const dispatch = useDispatch();
     const [checkedArray, setCheckedArray] = useState<number[]>([])
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
+    const { login } = bindActionCreators(actionCreators, dispatch)
+
     useMemo(() =>  {getCardFetch(pathname.replace('/card/', '').replace('/gamestart', '')).then(Response => {
             if (Response) {
             setPhrases(Response.phrases) 
@@ -62,6 +64,7 @@ export default function ProcessGameStartPage() {
                     navigate('/card/' + pathname.replace('/card/', '').replace('/gamestart', '')); 
             } 
             const handleSaveGame = async () => {
+                if (auth['id']) {
                 refreshFetch().then(Result => {
                     startGameFetch(auth['id'], cardId).then(Response => {
                         var gameId = Response.id
@@ -69,7 +72,19 @@ export default function ProcessGameStartPage() {
                             navigate((`..` + `/game/`+ gameId).replace('cards/', '')); 
                         })
                     })    
-                })
+                })} else {
+                    signUpGuestFetch().then(Response => {
+                        login(Response.id, true, Response.name)
+                        refreshFetch().then(Result => {
+                            startGameFetch(Response.id, cardId).then(Response => {
+                                var gameId = Response.id
+                                updateGameFetch(Response.id, auth['id'], checkedArray).then(Response => {
+                                    navigate((`..` + `/game/`+ gameId).replace('cards/', '')); 
+                                })
+                            })    
+                        })
+                    })  
+                }
             } 
        
             const tagChips = tags.map((tag, index) =>
@@ -112,7 +127,6 @@ export default function ProcessGameStartPage() {
                     </Button>
                                
                 <div >
-                {isOwned(authorId) ? 
                 <Button
                         size="medium"
                         aria-haspopup="true"
@@ -125,29 +139,6 @@ export default function ProcessGameStartPage() {
                             <SaveIcon fontSize="large" style={{ color: "#fff"}}></SaveIcon>
                        
                 </Button>
-                : <></>
-                }    
-                    <Button
-                                size="medium"
-                                aria-haspopup="true"
-                                aria-label="password requirements"
-                                color="primary"
-                                variant="outlined"
-                                sx={{ marginTop: 1, marginLeft: 1}}
-                                >
-                                    <ShareIcon  fontSize="large" style={{ color: "#fff"}}></ShareIcon>
-                    </Button>
-                    <Button
-                                size="medium"
-                                aria-haspopup="true"
-                                aria-label="password requirements"
-                                color="primary"
-                                variant="outlined"
-                                sx={{ marginTop: 1, marginLeft: 1}}
-                                >
-                                    <PhotoIcon fontSize="large" style={{ color: "#fff"}}></PhotoIcon>
-                    </Button>
-                  
             </div>
             
             </div>

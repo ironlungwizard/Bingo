@@ -2,7 +2,7 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { deleteCardsFetch, getMyCardsFetch } from '../api/game';
+import { deleteCardsFetch, getMyGamesFetch } from '../api/game';
 import { createCardFetch } from '../api/game';
 import { useMemo, useState } from 'react';
 import { Pagination, Stack } from '@mui/material';
@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate, useNavigation, useParams } from 'react-router-dom';
 import { refreshFetch } from '../api/auth';
 
-export default function MyCardsPage() {
+export default function MyGamesPage() {
     const auth = useSelector((state: RootState) => state).auth
     const cardsOnPage = 7
     const [ids, setIds] = useState<string[]>([])
@@ -21,7 +21,7 @@ export default function MyCardsPage() {
     const {page} = useParams<string>();
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState<number>(parseInt(page!,10))
-    useMemo(() =>  {refreshFetch().then(Result => {getMyCardsFetch(auth['id']).then(Response => {
+    useMemo(() =>  {refreshFetch().then(Result => {getMyGamesFetch(auth['id']).then(Response => {
             setIds(Response)
             setPageIds(Response.slice((currentPage-1)*cardsOnPage, currentPage*cardsOnPage))
     })})}, [currentPage, auth]);
@@ -29,9 +29,8 @@ export default function MyCardsPage() {
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         event.preventDefault()
         setCurrentPage(value);
-        navigate('../mycards/' + value, { replace: false } )
+        navigate('../mygames/' + value, { replace: false } )
       };
-    
 
          useEffect(() => {
             if (page) {

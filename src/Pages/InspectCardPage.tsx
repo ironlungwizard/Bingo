@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-import { getCardFetch } from '../api/game';
+import { canEditCardFetch, getCardFetch } from '../api/game';
 import BingoField from '../components/BingoField/BingoField';
 import { useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ShareIcon from '@mui/icons-material/Share';
@@ -26,18 +26,18 @@ export default function InspectCardPage() {
     const [phrases, setPhrases] = useState<string[]>([])
     const [tags, setTags] = useState<string[]>([''])
     const [description, setDescription] = useState<string>('')
+    const [canEdit, setCanEdit] = useState<boolean>(true)
     const [title, setTitle] = useState<string>('')
     const [tilesColor, setTilesColor] = useState<string>('')
     const [textColor, setTextColor] = useState<string>('')
     const [backgroundColor, setBackgroundColor] = useState<string>('')
-    const { pathname } = useLocation();
+    const {id} = useParams<string>();
     const auth = useSelector((state: RootState) => state).auth
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
-    useMemo(() =>  {getCardFetch(pathname.replace('/card/', '')).then(Response => {
+    useMemo(() =>  {getCardFetch(id!).then(Response => {
             if (Response) {
-                console.log(Response)
             setPhrases(Response.phrases) 
             setTags(Response.tags)
             setDescription(Response.description)
@@ -55,20 +55,30 @@ export default function InspectCardPage() {
         })}, []);
 
 
-        const handleDeleteCard = async (e: React.FormEvent) => {
-            e.preventDefault()
+        const handleDeleteCard = async () => {
             deleteCardsFetch(cardId, auth['id']).then(Response => {
                 navigate(`..`); 
             })} 
-            const handleEditCard = async (e: React.FormEvent) => {
-                e.preventDefault()
-                    navigate('/card/edit/' + pathname.replace('/card/', '')); 
+
+            const handleEditCard = async () => {
+                    navigate('/card/edit/' + id); 
             } 
-            const handlePlayCard = async (e: React.FormEvent) => {
-                e.preventDefault()
-                    navigate('/card/' + pathname.replace('/card/', '')+ '/gamestart'); 
+
+            const handlePlayCard = async () => {
+                    navigate('/card/' + id + '/gamestart'); 
             } 
+
+            const handleShareCard = async () => {
+                    if (auth['isGuest']) {
+                        
+                    }
+            } 
+
             
+            
+            useMemo(() =>  {canEditCardFetch(id!).then(Response => {
+                setCanEdit(Response)
+             })}, []);
        
             const tagChips = tags.map((tag, index) =>
                 <Chip color='primary' variant="outlined" label={tag} key={index} />   
@@ -147,7 +157,7 @@ export default function InspectCardPage() {
 
                
                 <div >
-                {isOwned(authorId)?
+                {isOwned(authorId) && canEdit ?
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
@@ -160,13 +170,24 @@ export default function InspectCardPage() {
                                     <EditIcon  fontSize="large" style={{ color: "#fff"}}></EditIcon>
                     </Button>
                       :
-                      <></>
+                      <Button
+                        size="medium"
+                        aria-haspopup="true"
+                        color="primary"
+                        variant="outlined"
+                        disabled
+                        sx={{ marginTop: 1, marginLeft: 1}}
+                    
+                        >
+                            <div style={{width: 30.64, height: 30.64}}></div>
+                      </Button>
                   }
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
                                 aria-label="password requirements"
                                 color="primary"
+                                onClick={handleShareCard}
                                 variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 >
@@ -185,7 +206,17 @@ export default function InspectCardPage() {
                                     <DeleteIcon fontSize="large" style={{ color: "#fff"}}></DeleteIcon>
                     </Button>
                      :
-                      <></>
+                     <Button
+                     size="medium"
+                     aria-haspopup="true"
+                     color="primary"
+                     variant="outlined"
+                     disabled
+                     sx={{ marginTop: 1, marginLeft: 1}}
+                 
+                     >
+                         <div style={{width: 30.64, height: 30.64}}></div>
+                   </Button>
                   }
             </div>
             </div>

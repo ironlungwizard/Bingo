@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState, useMemo } from 'react';
 import CardType from '../../types/CardType';
-import { deleteCardsFetch, getCardFetch, getMyGamesByCardFetch } from '../../api/game';
+import { canEditCardFetch, deleteCardsFetch, getCardFetch, getMyGamesByCardFetch } from '../../api/game';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
@@ -22,20 +22,21 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { Button, Chip, Divider, Stack } from '@mui/material';
 import isOwned from '../../utils/isOwned';
 import { RootState } from '../../state/reducers';
+import { getAttributesById } from '../../api/auth';
 
-const CardGamesPlate = ({index, id}:{index: number, id: string}) => {
-
+const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, deleteCard: Function}) => {
         interface ExpandMoreProps extends IconButtonProps {
             expand: boolean;
         }
         const auth = useSelector((state: RootState) => state).auth
         const [title, setTitle] = useState<string>()
+        const [ownerName, setOwnerName] = useState<string>('')
+        const [canEdit, setCanEdit] = useState<boolean>(true)
         const [gamesList, setGamesList] = useState<any[]>([])
         const [description, setDescription] = useState<string>()
         const [ownerId, setOwnerId] = useState<string>('')
         const [tags, setTags] = useState<string[]>([])
         const navigate = useNavigate();
-        const { pathname } = useLocation();
         const dispatch = useDispatch();
         const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
         const ExpandMore = styled((props: ExpandMoreProps) => {
@@ -48,37 +49,42 @@ const CardGamesPlate = ({index, id}:{index: number, id: string}) => {
             duration: theme.transitions.duration.shortest,
             }),
         }));
-       
         useMemo(() =>  {getCardFetch(id).then(Response => {
-            console.log(id)
             if (Response) {
-                console.log(Response)
                     setTitle(Response.title) 
                     setDescription(Response.description) 
                     setTags(Response.tags)
                     setOwnerId(Response.authorId)
+                    getAttributesById(Response.authorId).then(Response => {
+                        setOwnerName(Response.name)
+                     })
             } else {
                 navigate(`..`); 
                 errorOn('Card not found! It may be deleted or URL is not right.')
             }
-        })}, []);
+        })}, [id]);
 
         useMemo(() =>  {getMyGamesByCardFetch(id, auth['id']).then(Response => {
             setGamesList(Response.reverse())
          })}, []);
+         
+
+         useMemo(() =>  {canEditCardFetch(id).then(Response => {
+            setCanEdit(Response)
+         })}, []);
 
          const games = gamesList.map((game, index) =>
-         <>
+         <div key={index}>
             <button
-            onClick={() =>{handleGoToGame(game.id)}}
+            onClick={() =>{handleGoToGame(game.id)}} 
             >
-                <Typography sx={{color:'#fff'}} key={index}>
-                    <p  style={{width: '100%'}}>Game {index + 1} </p>  
+                <Typography sx={{color:'#fff',width: '100%'}}>
+                    Game {index + 1}
                 </Typography>
             </button>
             <Divider />
          
-         </>
+         </div>
         );
 
 
@@ -101,10 +107,8 @@ const CardGamesPlate = ({index, id}:{index: number, id: string}) => {
         } 
 
         const handleDeleteCard = async (e: React.FormEvent) => {
-            e.preventDefault()
-            deleteCardsFetch(id, auth['id']).then(Response => {
-                navigate('..'); 
-        })} 
+            deleteCard(id)
+        }
         const handleEditCard = async (e: React.FormEvent) => {
                 e.preventDefault()
                     navigate('/card/edit/' + id); 
@@ -115,12 +119,12 @@ const CardGamesPlate = ({index, id}:{index: number, id: string}) => {
             <Stack direction='row' sx={{justifyContent: 'space-between'}}>
             <CardHeader
                 title={title ? title : 'No title'}
-                subheader={ownerId}
+                subheader={ownerName}
                 sx={{wordWrap: "break-word",  overflow: 'hidden', width: 700, height: 100, }}
             />  
             <Stack direction='column' sx={{margin: 2}}>
             <div>
-                {isOwned(ownerId)?
+                {isOwned(ownerId) && canEdit?
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
@@ -133,7 +137,18 @@ const CardGamesPlate = ({index, id}:{index: number, id: string}) => {
                                     <EditIcon  fontSize="large" style={{ color: "#fff"}}></EditIcon>
                     </Button>
                     :
-                    <></>
+                    <Button
+                                size="medium"
+                                aria-haspopup="true"
+                                color="primary"
+                                variant="outlined"
+                                disabled
+                                sx={{ marginTop: 1, marginLeft: 1}}
+                            
+                                >
+                                    <EditIcon  fontSize="large" style={{ color: "#fff"}}></EditIcon>
+                    </Button>
+                   
                 }
                     <Button
                                 size="medium"
@@ -157,7 +172,17 @@ const CardGamesPlate = ({index, id}:{index: number, id: string}) => {
                                     <DeleteIcon fontSize="large" style={{ color: "#fff"}}></DeleteIcon>
                     </Button>
                     :
-                    <></>
+                    <Button
+                                size="medium"
+                                aria-haspopup="true"
+                                color="primary"
+                                variant="outlined"
+                                disabled
+                                sx={{ marginTop: 1, marginLeft: 1}}
+                            
+                                >
+                                    <DeleteIcon fontSize="large" style={{ color: "#fff"}}></DeleteIcon>
+                    </Button>
                 }
             </div>
             <Button

@@ -34,8 +34,10 @@ export default function InspectCardPage() {
     const {id} = useParams<string>();
     const auth = useSelector((state: RootState) => state).auth
     const navigate = useNavigate();
+    const { pathname } = useLocation();
     const dispatch = useDispatch();
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
+    const { showSingUp, showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
     useMemo(() =>  {getCardFetch(id!).then(Response => {
             if (Response) {
             setPhrases(Response.phrases) 
@@ -69,8 +71,10 @@ export default function InspectCardPage() {
             } 
 
             const handleShareCard = async () => {
-                    if (auth['isGuest']) {
-                        
+                    if (auth['isGuest'] || !auth['id']) {
+                      showSingUp()
+                    } else {
+                      navigator.clipboard.writeText(pathname)
                     }
             } 
 
@@ -179,7 +183,7 @@ export default function InspectCardPage() {
                         sx={{ marginTop: 1, marginLeft: 1}}
                     
                         >
-                            <div style={{width: 30.64, height: 30.64}}></div>
+                            <EditIcon  fontSize="large" style={{ color: "#fff"}}></EditIcon>
                       </Button>
                   }
                     <Button

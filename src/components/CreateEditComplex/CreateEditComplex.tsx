@@ -72,7 +72,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
 
     return (
     <> 
-    <div style={{display: 'flex', flexDirection: 'column'}}>
+    <div style={{display: 'flex', marginLeft: 24,marginRight: 16,flexDirection: 'column', width: 420, minWidth: 220}}>
          <TextField
           id="standard-multiline-static"
           label="Phrases (split by Enter)"
@@ -81,7 +81,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
           value={phrases.join('\r\n')}
           onChange={(e) => {setPhrases(e.target.value.split(/[\r\n]+/).slice(0,50))}} 
           variant="outlined"
-          sx={{width: 420, minWidth: 220, marginLeft: 3, marginRight: 2}}
+          sx={{ minWidth: 220}}
         />
         <Button
                         size="medium"
@@ -90,7 +90,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                         onClick={handleResortPhrases}
                         color="primary"
                         variant="outlined"
-                        sx={{ marginTop: 1, marginRight: 1, width: 420, minWidth: 220, marginLeft: 3}}
+                        sx={{ marginTop: 1,   minWidth: 220}}
                         >
                             <RefreshIcon fontSize="large" style={{ color: "#fff", aspectRatio: '1/1' }}></RefreshIcon>
                        

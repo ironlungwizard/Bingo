@@ -57,9 +57,9 @@ useMemo(() =>  {refreshFetch().then(Response => {
                   <Route  path='card/:id' element={< InspectCardPage />}></Route>
                   <Route  path='card/:id/gamestart' element={< ProcessGameStartPage />}></Route>
                   <Route  path='game/:id' element={< ProcessGamePage />}></Route>
-                  <Route  path='card/edit/:id'  element={< EditCardPage />}></Route>
-                  <Route  path='mycards/:page' element={ auth['id'] ? <  MyCardsPage /> : < LandingPage />}></Route>
-                  <Route  path='mygames/:page' element={<  MyGamesPage />}></Route>
+                  <Route  path='card/edit/:id' element={ auth['id'] ? < EditCardPage /> : < LandingPage />}></Route>
+                  <Route  path='mycards/:page' element={ auth['id'] ? < MyCardsPage /> : < LandingPage />}></Route>
+                  <Route  path='mygames/:page' element={ auth['id'] ? < MyGamesPage /> : < LandingPage />}></Route>
                 </Routes>
                 </div>
               </div>

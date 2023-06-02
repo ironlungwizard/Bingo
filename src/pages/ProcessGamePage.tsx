@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { getCardFetch, getGameFetch, updateGameFetch } from '../api/game';
 import BingoField from '../components/BingoField/BingoField';
 import { useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PhotoIcon from '@mui/icons-material/Photo';
 import SaveIcon from '@mui/icons-material/Save';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
@@ -35,13 +35,15 @@ export default function ProcessGamePage() {
     const [tilesColor, setTilesColor] = useState<string>('')
     const [textColor, setTextColor] = useState<string>('')
     const [backgroundColor, setBackgroundColor] = useState<string>('')
-    const { pathname } = useLocation();
     const auth = useSelector((state: RootState) => state).auth
     const navigate = useNavigate();
+    const { pathname } = useLocation();
     const dispatch = useDispatch();
+    const {id} = useParams<string>();
     const [checkedArray, setCheckedArray] = useState<number[]>([])
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
-    useMemo(() =>  {getGameFetch(pathname.replace('/game/', '')).then(Response => {
+    const { showSingUp, showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
+    useMemo(() =>  {getGameFetch(id!).then(Response => {
                     console.log(Response)
                     setGameId(Response.id)
                     setCheckedArray(Response.checkedPhrases)
@@ -75,6 +77,14 @@ export default function ProcessGamePage() {
                         })
                     })    
                 }
+
+                const handleShareCard = async () => {
+                    if (auth['isGuest'] || !auth['id']) {
+                      showSingUp()
+                    } else {
+                      navigator.clipboard.writeText(pathname)
+                    }
+            } 
             
             
        
@@ -138,6 +148,7 @@ export default function ProcessGamePage() {
                                 aria-haspopup="true"
                                 aria-label="password requirements"
                                 color="primary"
+                                onClick={handleShareCard}
                                 variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 >

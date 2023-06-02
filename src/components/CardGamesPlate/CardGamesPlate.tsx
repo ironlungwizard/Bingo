@@ -15,7 +15,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../../state';
-import EditIcon from '@mui/icons-material/Edit';
+import PreviewIcon from '@mui/icons-material/Preview';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ShareIcon from '@mui/icons-material/Share';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -109,9 +109,9 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
         const handleDeleteCard = async (e: React.FormEvent) => {
             deleteCard(id)
         }
-        const handleEditCard = async (e: React.FormEvent) => {
+        const handleToCard = async (e: React.FormEvent) => {
                 e.preventDefault()
-                    navigate('/card/edit/' + id); 
+                    navigate('/card/' + id); 
         } 
 
     return (
@@ -124,32 +124,17 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
             />  
             <Stack direction='column' sx={{margin: 2}}>
             <div>
-                {isOwned(ownerId) && canEdit?
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
                                 color="primary"
-                                onClick={handleEditCard}
+                                onClick={handleToCard}
                                 variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
                             
                                 >
-                                    <EditIcon  fontSize="large" style={{ color: "#fff"}}></EditIcon>
+                                    <PreviewIcon  fontSize="large" style={{ color: "#fff"}}></PreviewIcon>
                     </Button>
-                    :
-                    <Button
-                                size="medium"
-                                aria-haspopup="true"
-                                color="primary"
-                                variant="outlined"
-                                disabled
-                                sx={{ marginTop: 1, marginLeft: 1}}
-                            
-                                >
-                                    <EditIcon  fontSize="large" style={{ color: "#fff"}}></EditIcon>
-                    </Button>
-                   
-                }
                     <Button
                                 size="medium"
                                 aria-haspopup="true"

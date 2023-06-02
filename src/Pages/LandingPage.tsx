@@ -17,7 +17,6 @@ export default function LandingPage() {
 
     useMemo(() =>  {getCardsFetch(2).then(Response => {
        setIds(Response)
-       console.log(Response)
     })}, []);
 
     const tagChips = ids.map((id: any, index: any) =>

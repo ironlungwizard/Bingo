@@ -16,7 +16,7 @@ import { bindActionCreators } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../state/reducers';
 import { useEffect, useState } from 'react';
-import { Button, ListItemIcon, Stack } from '@mui/material';
+import { Button, Divider, ListItemIcon, Stack } from '@mui/material';
 import { actionCreators } from '../../state/';
 import { makeStyles } from '@mui/material';
 import { Theme } from '@mui/material';
@@ -69,28 +69,36 @@ export default function Navbar() {
           </Typography>
          
             <div className='rightNavbarBlock'>
-              <Stack direction="row" spacing={2}>
-             
+              <Stack direction="row" >
                  <Button
                       onClick={handleCreateCard}
                       color="primary"
-                      sx={{ mt: 0.5, color: 'white', display: 'block' }}
+                      sx={{ color: 'white', display: 'block', height: 64}}
                     >
-                   Create card
+                   <Typography variant="h6"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', fontSize: 16}}>
+                    Create card
+                   </Typography>
                  </Button>
-                 <Typography variant="h5"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
-                  {auth['isGuest'] ? auth['name'] : auth['name']}
-                 </Typography>
-                  {!auth['id'] && !auth['isGuest'] ? 
-                   <Button
+             
+                  {auth['id'] && !auth['isGuest'] ? 
+                   <div style={{margin: '0'}}></div>
+                   : 
+                <Button
                    onClick={showSingUp}
                    color="primary"
-                   sx={{ mt: 0.5, color: 'white', display: 'block' }}
-                 >
+                   style={{ color: 'white', display: 'block', height: 64}}
+                 > 
+                 <Typography variant="h6"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', fontSize: 16}}>
                    Register
+                 </Typography>
+                 
                  </Button>
-                   : <div style={{margin: '0'}}></div>}
-            
+                 }
+                 
+                 <Typography variant="h5"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', marginX: 2, marginBottom: 0.5}}>
+                  {auth['isGuest'] ? auth['name'] : auth['name']}
+                 </Typography>
+               
               <IconButton
                 size="large"
                 aria-label="menu"
@@ -98,8 +106,9 @@ export default function Navbar() {
                 aria-haspopup="true"
                 onClick={handleOpenMenu}
                 color="inherit"
+                sx={{aspectRatio: 1/1, width: 60, height: 60}}
               >
-                <AccountCircle />
+                <AccountCircle sx={{width: 32, height: 32}} />
               </IconButton>
               </Stack>
               <Menu

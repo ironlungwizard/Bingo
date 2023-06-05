@@ -79,21 +79,6 @@ export default function Navbar() {
                     Create card
                    </Typography>
                  </Button>
-             
-                  {auth['id'] && !auth['isGuest'] ? 
-                   <div style={{margin: '0'}}></div>
-                   : 
-                <Button
-                   onClick={showSingUp}
-                   color="primary"
-                   style={{ color: 'white', display: 'block', height: 64}}
-                 > 
-                 <Typography variant="h6"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', fontSize: 16}}>
-                   Register
-                 </Typography>
-                 
-                 </Button>
-                 }
                  
                  <Typography variant="h5"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', marginX: 2, marginBottom: 0.5}}>
                   {auth['isGuest'] ? auth['name'] : auth['name']}
@@ -157,7 +142,7 @@ export default function Navbar() {
                             </div>
                           : 
                         <div></div>} 
-                        {!auth['id'] 
+                        {!auth['id'] || auth['isGuest']
                           ?  
                               <div>
                                 <MenuItem onClick={() =>{showSingUp(); handleCloseMenu()}}>
@@ -175,7 +160,7 @@ export default function Navbar() {
                               </div>
                           : 
                         <div></div>} 
-                        {auth['id']  ? <MenuItem onClick={() =>{handleLogOut(), handleCloseMenu()}} >Log Out</MenuItem> :  <div></div>} 
+                        {auth['id'] && !auth['isGuest'] ? <MenuItem onClick={() =>{handleLogOut(), handleCloseMenu()}} >Log Out</MenuItem> :  <div></div>} 
               </Menu>
             
             </div>

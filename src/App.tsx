@@ -30,8 +30,8 @@ const dispatch = useDispatch();
 const { login } = bindActionCreators(actionCreators, dispatch)
 const auth = useSelector((state: RootState) => state).auth
 
-useMemo(() =>  {refreshFetch().then(Response => {
-  login(Response.id, Response.isGuest, Response.name)
+useMemo(() =>  {refreshFetch().then((Response: XMLHttpRequest["response"]) => {
+  login(Response.data.id, Response.data.isGuest, Response.data.name)
 })}, []);
 
  

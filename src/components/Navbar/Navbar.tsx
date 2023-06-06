@@ -34,8 +34,8 @@ export default function Navbar() {
   const { showSingUp, showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
 
   const handleLogOut = async () => {
-    logOutFetch().then(Response => {
-        logout(Response.id, Response.isGuest,  Response.name)
+    logOutFetch().then((Response: XMLHttpRequest["response"]) => {
+        logout(Response.data.id, Response.data.isGuest,  Response.data.name)
     })
     hide()
   };

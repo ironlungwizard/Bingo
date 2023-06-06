@@ -3,7 +3,6 @@ import { createCardFetch } from '../api/game';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../state/reducers';
 import { useNavigate } from 'react-router-dom';
-import { refreshFetch } from '../api/auth';
 import CreateEditComplex from '../components/CreateEditComplex/CreateEditComplex';
 import Card from '../types/CardType';
 import { bindActionCreators } from "@reduxjs/toolkit";
@@ -17,16 +16,15 @@ export default function CreateCardPage() {
     const { login } = bindActionCreators(actionCreators, dispatch)
 
     const saveCard = async (card: Card, guestId?: string, guestName?: string) => {
-        refreshFetch().then(Result => {
+
             if (guestId && guestName) {
-            createCardFetch(guestId, card, 'default').then(Response => {
-            navigate(`../card/edit/${Response.id}`);  })
+            createCardFetch(guestId, card, 'default').then((Response: XMLHttpRequest["response"]) => {
+            navigate(`../card/edit/${Response.data.id}`);  })
             login(guestId, true,  guestName)
         } else {
-            createCardFetch(auth['id'], card, 'default').then(Response => {
-                navigate(`../card/edit/${Response.id}`);  })
-        }
-    })}
+            createCardFetch(auth['id'], card, 'default').then((Response: XMLHttpRequest["response"]) => {
+                navigate(`../card/edit/${Response.data.id}`);  })
+        }}
 
 
     return (

@@ -3,7 +3,6 @@ import { canEditCardFetch, updateCardFetch } from '../api/game';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../state/reducers';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { refreshFetch } from '../api/auth';
 import CreateEditComplex from '../components/CreateEditComplex/CreateEditComplex';
 import Card from '../types/CardType';
 import { useMemo } from 'react';
@@ -24,30 +23,31 @@ export default function EditCardPage() {
     const {id} = useParams<string>();
     const [initialState, setInitialState] = useState<Card>()
 
-    useMemo(() =>  {canEditCardFetch(id!).then(Response => {
-        setCanEdit(Response)
+    useMemo(() =>  {canEditCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+        setCanEdit(Response.data)
+        console.log(Response.data)
      })}, []);
 
     const saveCard = async (card: Card) => {
-        refreshFetch().then(Result => {
-            updateCardFetch(auth['id'], card, 'default', id!).then(Response => {
-                navigate(`../card/edit/${Response.id}`);  })
-    })}
+
+            updateCardFetch(auth['id'], card, 'default', id!).then((Response: XMLHttpRequest["response"]) => {
+                navigate(`../card/edit/${Response.data.id}`);  })
+}
 
 
     useMemo(() =>  {
-        getCardFetch(id!).then(Response => {
+        getCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
         if (Response) {
             setInitialState({
-                phrases: Response.phrases, 
-                title: Response.title, 
-                description: Response.description, 
-                tags: Response.tags, 
-                backgroundColor: Response.appearance.backgroundColor, 
-                textColor: Response.appearance.textColor, 
-                tilesColor: Response.appearance.tilesColor
+                phrases: Response.data.phrases, 
+                title: Response.data.title, 
+                description: Response.data.description, 
+                tags: Response.data.tags, 
+                backgroundColor: Response.data.appearance.backgroundColor, 
+                textColor: Response.data.appearance.textColor, 
+                tilesColor: Response.data.appearance.tilesColor
                 })
-            setOwnerId(Response.authorId)    
+            setOwnerId(Response.data.authorId)    
         } else {
             navigate(`..`); 
             errorOn('Card not found! It may be deleted or URL is not right.')

@@ -20,7 +20,7 @@ import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../state';
 import { Stack, Typography } from '@mui/material';
 import Chip from '@mui/material/Chip';
-import { refreshFetch, signUpGuestFetch } from '../api/auth';
+import {  signUpGuestFetch } from '../api/auth';
 
 
 export default function ProcessGameStartPage() {
@@ -42,17 +42,17 @@ export default function ProcessGameStartPage() {
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
     const { login } = bindActionCreators(actionCreators, dispatch)
 
-    useMemo(() =>  {getCardFetch(pathname.replace('/card/', '').replace('/gamestart', '')).then(Response => {
+    useMemo(() =>  {getCardFetch(pathname.replace('/card/', '').replace('/gamestart', '')).then((Response: XMLHttpRequest["response"]) => {
             if (Response) {
-            setPhrases(Response.phrases) 
-            setTags(Response.tags)
-            setDescription(Response.description)
-            setTitle(Response.title)
-            setTilesColor(Response.appearance.tilesColor)
-            setTextColor(Response.appearance.textColor)
-            setBackgroundColor(Response.appearance.backgroundColor)
-            setAuthorId(Response.authorId)  
-            setCardId(Response.id)
+            setPhrases(Response.data.phrases) 
+            setTags(Response.data.tags)
+            setDescription(Response.data.description)
+            setTitle(Response.data.title)
+            setTilesColor(Response.data.appearance.tilesColor)
+            setTextColor(Response.data.appearance.textColor)
+            setBackgroundColor(Response.data.appearance.backgroundColor)
+            setAuthorId(Response.data.authorId)  
+            setCardId(Response.data.id)
             errorOff()
             } else {
                 navigate(`..`); 
@@ -65,25 +65,25 @@ export default function ProcessGameStartPage() {
             } 
             const handleSaveGame = async () => {
                 if (auth['id']) {
-                refreshFetch().then(Result => {
-                    startGameFetch(auth['id'], cardId).then(Response => {
-                        var gameId = Response.id
-                        updateGameFetch(Response.id, auth['id'], checkedArray).then(Response => {
+                    startGameFetch(auth['id'], cardId).then((Response: XMLHttpRequest["response"]) => {
+                        var gameId = Response.data.id
+                        console.log(Response)
+                        updateGameFetch(gameId, auth['id'], checkedArray).then(Response => {
                             navigate((`..` + `/game/`+ gameId).replace('cards/', '')); 
                         })
                     })    
-                })} else {
-                    signUpGuestFetch().then(Response => {
-                        login(Response.id, true, Response.name)
-                        refreshFetch().then(Result => {
-                            startGameFetch(Response.id, cardId).then(Response => {
-                                var gameId = Response.id
-                                updateGameFetch(Response.id, auth['id'], checkedArray).then(Response => {
-                                    navigate((`..` + `/game/`+ gameId).replace('cards/', '')); 
-                                })
-                            })    
-                        })
-                    })  
+               } else {
+                signUpGuestFetch().then((Response: XMLHttpRequest["response"]) => {
+                    login(Response.data.id, true, Response.data.name)
+                   
+                        startGameFetch(Response.data.id, cardId).then((Response: XMLHttpRequest["response"]) => {
+                            var gameId = Response.data.id
+                            updateGameFetch(gameId, auth['id'], checkedArray).then(Response => {
+                                navigate((`..` + `/game/`+ gameId).replace('cards/', '')); 
+                            })
+                        })    
+                })  
+                   
                 }
             } 
        

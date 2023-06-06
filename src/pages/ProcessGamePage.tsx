@@ -20,7 +20,6 @@ import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../state';
 import { Stack, Typography } from '@mui/material';
 import Chip from '@mui/material/Chip';
-import { refreshFetch } from '../api/auth';
 
 
 export default function ProcessGamePage() {
@@ -43,22 +42,20 @@ export default function ProcessGamePage() {
     const [checkedArray, setCheckedArray] = useState<number[]>([])
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
     const { showSingUp, showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
-    useMemo(() =>  {getGameFetch(id!).then(Response => {
-                    console.log(Response)
-                    setGameId(Response.id)
-                    setCheckedArray(Response.checkedPhrases)
-            if (Response) {getCardFetch(Response.cardId).then(Response => {
+    useMemo(() =>  {getGameFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+                    setGameId(Response.data.id)
+                    setCheckedArray(Response.data.checkedPhrases)
+            if (Response) {getCardFetch(Response.data.cardId).then((Response: XMLHttpRequest["response"]) => {
                 if (Response) {
-                    console.log(Response)
-                setPhrases(Response.phrases) 
-                setTags(Response.tags)
-                setDescription(Response.description)
-                setTitle(Response.title)
-                setTilesColor(Response.appearance.tilesColor)
-                setTextColor(Response.appearance.textColor)
-                setBackgroundColor(Response.appearance.backgroundColor)
-                setAuthorId(Response.authorId)  
-                setCardId(Response.id)
+                setPhrases(Response.data.phrases) 
+                setTags(Response.data.tags)
+                setDescription(Response.data.description)
+                setTitle(Response.data.title)
+                setTilesColor(Response.data.appearance.tilesColor)
+                setTextColor(Response.data.appearance.textColor)
+                setBackgroundColor(Response.data.appearance.backgroundColor)
+                setAuthorId(Response.data.authorId)  
+                setCardId(Response.data.id)
                 errorOff()
                 } else {
                     navigate(`..`); 
@@ -71,11 +68,11 @@ export default function ProcessGamePage() {
             } 
 
             const handleSaveGame = async () => {
-                refreshFetch().then(Result => {
+               
                         updateGameFetch(gameId, auth['id'], checkedArray).then(Response => {
                             navigate((`..` + `/game/`+ gameId).replace('cards/', '')); 
                         })
-                    })    
+                     
                 }
 
                 const handleShareCard = async () => {

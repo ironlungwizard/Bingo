@@ -25,12 +25,12 @@ export default function LogInForm() {
         if (!authFrontValidation(setPassword, password, email, setEmail)){
             authFrontValidation(setPassword, password,  email, setEmail)
         } else {
-        logInFetch(email[0], password[0]).then(Response => {
-            if (!Response.id) {
+        logInFetch(email[0], password[0]).then((Response: XMLHttpRequest["response"]) => {
+            if (!Response.data.id) {
                 authServerValidation(Response, setEmail, email, setPassword, password)
                 
             } else {
-                login(Response.id, Response.isGuest,  Response.name)
+                login(Response.data.id, Response.data.isGuest,  Response.data.name)
                 hide()
             }
         })

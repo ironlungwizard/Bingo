@@ -1,4 +1,4 @@
-import { transportPOST, transportGET, transportPUT, transportDELETE } from "./transport";
+import { transportGET, transportPUT, transportDELETE, transportPOST} from "./transport";
 import Card from '../types/CardType';
 
 export async function getMyCardsFetch(userId: string) {
@@ -13,10 +13,16 @@ export async function getMyGamesFetch(userId: string) {
         return result
 }
 
-export async function getCardsFetch(limit: number) {
-  let response =  transportGET(`cards?limit=${limit}`)   
-  const result = await (response);
-        return result
+export async function getCardsFetch(limit: number, tags: string[]) {
+  if (tags) {
+    let response =  transportGET(`cards?tags=${tags}&?limit=${limit}`) 
+    const result = await (response);
+    return result 
+  } else {
+    let response =  transportGET(`cards?limit=${limit}`) 
+    const result = await (response);
+    return result 
+  } 
 }
 
 export async function getMyGamesByCardFetch(cardId: string, userId: string) {
@@ -35,8 +41,8 @@ export async function canEditCardFetch(cardId: string) {
 export async function getCardFetch(id: string) {
    
   let response =  transportGET(`cards/${id}`)   
-  const result = await (response);
-  if (result.hidden || result.detail)
+  const result: any = await (response);
+  if (result.data.hidden || result.data.hidden)
   {
     return null
   } else {
@@ -47,8 +53,8 @@ export async function getCardFetch(id: string) {
 export async function getGameFetch(id: string) {
    
   let response =  transportGET(`games/${id}`)   
-  const result = await (response);
-  if (result.hidden || result.detail)
+  const result: any = await (response);
+  if (result.data.hidden || result.data.hidden)
   {
     return null
   } else {
@@ -61,6 +67,13 @@ export async function startGameFetch(userId: string, cardId: any) {
     let response =  transportPOST(`games/?userId=${userId}&cardId=${cardId}`, body)   
     const result = await (response);
           return result
+}
+
+export async function startGameFetch1(userId: string, cardId: any) {
+  const body = {}
+  let response =  transportPOST(`games/?userId=${userId}&cardId=${cardId}`, body)   
+  const result = await (response);
+        return result
 }
 
 export async function updateGameFetch(gameId: string, userId: string,  checkedPhrases: number[]) {

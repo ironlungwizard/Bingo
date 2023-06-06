@@ -49,14 +49,14 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
             duration: theme.transitions.duration.shortest,
             }),
         }));
-        useMemo(() =>  {getCardFetch(id).then(Response => {
+        useMemo(() =>  {getCardFetch(id).then((Response: XMLHttpRequest["response"]) => {
             if (Response) {
-                    setTitle(Response.title) 
-                    setDescription(Response.description) 
-                    setTags(Response.tags)
-                    setOwnerId(Response.authorId)
-                    getAttributesById(Response.authorId).then(Response => {
-                        setOwnerName(Response.name)
+                    setTitle(Response.data.title) 
+                    setDescription(Response.data.description) 
+                    setTags(Response.data.tags)
+                    setOwnerId(Response.data.authorId)
+                    getAttributesById(Response.data.authorId).then((Response: XMLHttpRequest["response"]) => {
+                        setOwnerName(Response.data.name)
                      })
             } else {
                 navigate(`..`); 
@@ -64,13 +64,13 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
             }
         })}, [id]);
 
-        useMemo(() =>  {getMyGamesByCardFetch(id, auth['id']).then(Response => {
-            setGamesList(Response.reverse())
+        useMemo(() =>  {getMyGamesByCardFetch(id, auth['id']).then((Response: XMLHttpRequest["response"]) => {
+            setGamesList(Response.data.reverse())
          })}, []);
          
 
-         useMemo(() =>  {canEditCardFetch(id).then(Response => {
-            setCanEdit(Response)
+         useMemo(() =>  {canEditCardFetch(id).then((Response: XMLHttpRequest["response"]) => {
+            setCanEdit(Response.data)
          })}, []);
 
          const games = gamesList.map((game, index) =>

@@ -26,12 +26,11 @@ export default function SignUpForm() {
             !authFrontValidation(setPassword, password, email, setEmail, confirmPassword, setConfirmPassword, nickname, setNickname
         )){
         } else {
-        signUpFetch(nickname[0], email[0], password[0]).then(Response => {
-            console.log(Response)
-            if (!Response.id) {
-                authServerValidation(Response, setEmail, email, setPassword, password, nickname, setNickname)
+        signUpFetch(nickname[0], email[0], password[0]).then((Response: XMLHttpRequest["response"]) => {
+            if (!Response.data.id) {
+                authServerValidation(Response.data, setEmail, email, setPassword, password, nickname, setNickname)
             } else {
-                login(Response.id, Response.isGuest,  Response.name)
+                login(Response.data.id, Response.data.isGuest,  Response.data.name)
                 hide()
             }
         })

@@ -11,7 +11,6 @@ import { RootState } from '../state/reducers';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useLocation, useNavigate, useNavigation, useParams } from 'react-router-dom';
-import { refreshFetch } from '../api/auth';
 
 export default function MyGamesPage() {
     const auth = useSelector((state: RootState) => state).auth
@@ -21,10 +20,10 @@ export default function MyGamesPage() {
     const {page} = useParams<string>();
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState<number>(parseInt(page!,10))
-    useMemo(() =>  {refreshFetch().then(Result => {getMyGamesFetch(auth['id']).then(Response => {
-            setIds(Response)
-            setPageIds(Response.slice((currentPage-1)*cardsOnPage, currentPage*cardsOnPage))
-    })})}, [currentPage, auth]);
+    useMemo(() =>  {getMyGamesFetch(auth['id']).then((Response: XMLHttpRequest["response"]) => {
+            setIds(Response.data)
+            setPageIds(Response.data.slice((currentPage-1)*cardsOnPage, currentPage*cardsOnPage))
+    })}, [currentPage, auth]);
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         event.preventDefault()

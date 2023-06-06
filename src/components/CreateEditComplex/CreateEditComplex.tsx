@@ -59,8 +59,8 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
             tilesColor: tilesColor
           };
         if (!auth['id']) {
-            signUpGuestFetch().then(Response => {
-                saveEditCard(card, Response.id, Response.name)
+            signUpGuestFetch().then((Response: XMLHttpRequest["response"]) => {
+                saveEditCard(card, Response.data.id, Response.data.name)
              })  
         } else {
             saveEditCard(card)

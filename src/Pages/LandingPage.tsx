@@ -23,7 +23,6 @@ export default function LandingPage() {
       }));
 
 
-
         var aaa = [1, 2, 3,4 ,5 ,6, 7 ,8 ,9 ,10, 11, 12, 13,14,15,16,17,18,19,20]
         var tags = [1, 2, 3,4 ,5 ,6, 7 ,8 ,9 ,10, 11, 12, 13,14,15,16,17,18,19,20]
 
@@ -56,7 +55,6 @@ export default function LandingPage() {
         <Grid container spacing={5} style={{display: 'flex', justifyContent: 'space-evenly', paddingLeft: 20,paddingRight: 20}}>
          {cards}
         </Grid>
-        
         </div>
         
           

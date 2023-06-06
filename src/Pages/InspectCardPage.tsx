@@ -38,17 +38,17 @@ export default function InspectCardPage() {
     const dispatch = useDispatch();
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
     const { showSingUp, showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
-    useMemo(() =>  {getCardFetch(id!).then(Response => {
+    useMemo(() =>  {getCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
             if (Response) {
-            setPhrases(Response.phrases) 
-            setTags(Response.tags)
-            setDescription(Response.description)
-            setTitle(Response.title)
-            setTilesColor(Response.appearance.tilesColor)
-            setTextColor(Response.appearance.textColor)
-            setBackgroundColor(Response.appearance.backgroundColor)
-            setAuthorId(Response.authorId)  
-            setCardId(Response.id)
+            setPhrases(Response.data.phrases) 
+            setTags(Response.data.tags)
+            setDescription(Response.data.description)
+            setTitle(Response.data.title)
+            setTilesColor(Response.data.appearance.tilesColor)
+            setTextColor(Response.data.appearance.textColor)
+            setBackgroundColor(Response.data.appearance.backgroundColor)
+            setAuthorId(Response.data.authorId)  
+            setCardId(Response.data.id)
             errorOff()
             } else {
                 navigate(`..`); 
@@ -80,8 +80,8 @@ export default function InspectCardPage() {
 
             
             
-            useMemo(() =>  {canEditCardFetch(id!).then(Response => {
-                setCanEdit(Response)
+            useMemo(() =>  {canEditCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+                setCanEdit(Response.data)
              })}, []);
        
             const tagChips = tags.map((tag, index) =>

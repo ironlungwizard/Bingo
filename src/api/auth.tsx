@@ -30,7 +30,6 @@ export async function refreshFetch() {
 }
 
 export async function getAttributesById(ownerId: string) {
-    console.log(ownerId)
     let response =  transportGET(`auth/attributes/${ownerId}`)   
     const result = await (response);
           return result

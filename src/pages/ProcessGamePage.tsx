@@ -7,19 +7,15 @@ import { useMemo } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import PhotoIcon from '@mui/icons-material/Photo';
 import SaveIcon from '@mui/icons-material/Save';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ShareIcon from '@mui/icons-material/Share';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import  isOwned  from '../utils/isOwned';
-import { deleteCardsFetch } from '../api/game';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../state/reducers';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../state';
-import { Stack, Typography } from '@mui/material';
-import Chip from '@mui/material/Chip';
 
 
 export default function ProcessGamePage() {
@@ -58,7 +54,7 @@ export default function ProcessGamePage() {
                 setCardId(Response.data.id)
                 errorOff()
                 } else {
-                    navigate(`..`); 
+                    navigate(-1); 
                     errorOn('Card not found! It may be deleted or URL is not right.')
                 }
             })}})}, []);
@@ -83,11 +79,6 @@ export default function ProcessGamePage() {
                     }
             } 
             
-            
-       
-            const tagChips = tags.map((tag, index) =>
-                <Chip color='primary' variant="outlined" label={tag} key={index} />   
-            );
 
 
     return (

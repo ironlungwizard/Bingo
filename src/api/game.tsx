@@ -13,7 +13,7 @@ export async function getMyGamesFetch(userId: string) {
         return result
 }
 
-export async function getCardsFetch(limit: number, tags: string[]) {
+export async function getCardsFetch(limit: number, tags?: string[]) {
   if (tags) {
     let response =  transportGET(`cards?tags=${tags}&?limit=${limit}`) 
     const result = await (response);
@@ -67,6 +67,13 @@ export async function startGameFetch(userId: string, cardId: any) {
     let response =  transportPOST(`games/?userId=${userId}&cardId=${cardId}`, body)   
     const result = await (response);
           return result
+}
+
+export async function cloneCardFetch(userId: string, cardId: any) {
+  const body = {}
+  let response =  transportPOST(`cards/${cardId}/clone?userId=${userId}`, body)   
+  const result = await (response);
+        return result
 }
 
 export async function startGameFetch1(userId: string, cardId: any) {

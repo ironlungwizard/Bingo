@@ -1,25 +1,18 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-import { createCardFetch, getCardFetch, startGameFetch, updateGameFetch } from '../api/game';
+import { getCardFetch, startGameFetch, updateGameFetch } from '../api/game';
 import BingoField from '../components/BingoField/BingoField';
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import PhotoIcon from '@mui/icons-material/Photo';
 import SaveIcon from '@mui/icons-material/Save';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import ShareIcon from '@mui/icons-material/Share';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import  isOwned  from '../utils/isOwned';
-import { deleteCardsFetch } from '../api/game';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../state/reducers';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../state';
-import { Stack, Typography } from '@mui/material';
-import Chip from '@mui/material/Chip';
 import {  signUpGuestFetch } from '../api/auth';
 
 
@@ -55,7 +48,7 @@ export default function ProcessGameStartPage() {
             setCardId(Response.data.id)
             errorOff()
             } else {
-                navigate(`..`); 
+                navigate(-1);  
                 errorOn('Card not found! It may be deleted or URL is not right.')
             }
         })}, []);
@@ -87,10 +80,6 @@ export default function ProcessGameStartPage() {
                 }
             } 
        
-            const tagChips = tags.map((tag, index) =>
-                <Chip color='primary' variant="outlined" label={tag} key={index} />   
-            );
-
 
     return (
   

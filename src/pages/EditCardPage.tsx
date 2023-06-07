@@ -2,7 +2,7 @@ import * as React from 'react';
 import { canEditCardFetch, updateCardFetch } from '../api/game';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../state/reducers';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import CreateEditComplex from '../components/CreateEditComplex/CreateEditComplex';
 import Card from '../types/CardType';
 import { useMemo } from 'react';
@@ -49,7 +49,7 @@ export default function EditCardPage() {
                 })
             setOwnerId(Response.data.authorId)    
         } else {
-            navigate(`..`); 
+            navigate(-1); 
             errorOn('Card not found! It may be deleted or URL is not right.')
         }
     })

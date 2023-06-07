@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-import { canEditCardFetch, getCardFetch } from '../api/game';
+import { canEditCardFetch, cloneCardFetch, getCardFetch } from '../api/game';
 import BingoField from '../components/BingoField/BingoField';
 import { useMemo } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
@@ -19,6 +19,8 @@ import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../state';
 import { Stack, Typography } from '@mui/material';
 import Chip from '@mui/material/Chip';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
+import { getAttributesById, signUpGuestFetch } from '../api/auth';
 
 export default function InspectCardPage() {
     const [authorId, setAuthorId] = useState<string>('')
@@ -29,6 +31,7 @@ export default function InspectCardPage() {
     const [canEdit, setCanEdit] = useState<boolean>(true)
     const [title, setTitle] = useState<string>('')
     const [tilesColor, setTilesColor] = useState<string>('')
+    const [ownerName, setOwnerName] = useState<string>('')
     const [textColor, setTextColor] = useState<string>('')
     const [backgroundColor, setBackgroundColor] = useState<string>('')
     const {id} = useParams<string>();
@@ -38,6 +41,7 @@ export default function InspectCardPage() {
     const dispatch = useDispatch();
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
     const { showSingUp, showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
+    const { login } = bindActionCreators(actionCreators, dispatch)
     useMemo(() =>  {getCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
             if (Response) {
             setPhrases(Response.data.phrases) 
@@ -49,17 +53,20 @@ export default function InspectCardPage() {
             setBackgroundColor(Response.data.appearance.backgroundColor)
             setAuthorId(Response.data.authorId)  
             setCardId(Response.data.id)
+            getAttributesById(Response.data.authorId).then((Response: XMLHttpRequest["response"]) => {
+                setOwnerName(Response.data.name)
+             })
             errorOff()
             } else {
-                navigate(`..`); 
+                navigate(-1); 
                 errorOn('Card not found! It may be deleted or URL is not right.')
             }
-        })}, []);
+        })}, [id]);
 
 
         const handleDeleteCard = async () => {
             deleteCardsFetch(cardId, auth['id']).then(Response => {
-                navigate(`..`); 
+                navigate(-1); 
             })} 
 
             const handleEditCard = async () => {
@@ -77,6 +84,26 @@ export default function InspectCardPage() {
                       navigator.clipboard.writeText(pathname)
                     }
             } 
+
+            const handleCloneCard = async () => {
+            if (auth['id']) {
+                cloneCardFetch(auth['id'], cardId).then((Response: XMLHttpRequest["response"]) => {
+                    navigate('/card/' + Response.data.id); 
+                    setCardId(Response.data.id)
+
+                })
+               } else {
+                signUpGuestFetch().then((Response: XMLHttpRequest["response"]) => {
+                    login(Response.data.id, true, Response.data.name)   
+                    cloneCardFetch(auth['id'], cardId).then((Response: XMLHttpRequest["response"]) => {
+                        navigate('/card/' + Response.data.id); 
+                        setCardId(Response.data.id)
+                    })
+                })  
+                   
+                }
+            } 
+
 
             
             
@@ -96,6 +123,17 @@ export default function InspectCardPage() {
           style={{width: 420, minWidth: 220, marginLeft: 3, marginRight: 2}}
         >
              <Stack direction="column" spacing={2}>
+             <Typography 
+                        variant="h4" 
+                        style={{ wordWrap: "break-word"}} 
+                        sx={{display: '-webkit-box', 
+                        overflow: 'hidden', 
+                        WebkitBoxOrient: 'vertical',
+                        color: '#fff'
+                        }} 
+                        component="div">
+                           {ownerName} <br/>
+                </Typography > 
                 <Typography 
                         variant="h5" 
                         style={{ wordWrap: "break-word"}} 
@@ -191,6 +229,17 @@ export default function InspectCardPage() {
                                 aria-haspopup="true"
                                 aria-label="password requirements"
                                 color="primary"
+                                onClick={handleCloneCard}
+                                variant="outlined"
+                                sx={{ marginTop: 1, marginLeft: 1}}
+                                >
+                                    <FileCopyIcon fontSize="large" style={{ color: "#fff"}}></FileCopyIcon>
+                    </Button>
+                    <Button
+                                size="medium"
+                                aria-haspopup="true"
+                                aria-label="password requirements"
+                                color="primary"
                                 onClick={handleShareCard}
                                 variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
@@ -219,7 +268,7 @@ export default function InspectCardPage() {
                      sx={{ marginTop: 1, marginLeft: 1}}
                  
                      >
-                         <div style={{width: 30.64, height: 30.64}}></div>
+                         <DeleteIcon fontSize="large" style={{ color: "#fff"}}></DeleteIcon>
                    </Button>
                   }
             </div>

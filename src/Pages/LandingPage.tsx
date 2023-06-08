@@ -29,11 +29,9 @@ export default function LandingPage() {
     
     return (
         <div >
-        <Grid container spacing={5} style={{display: 'flex', justifyContent: 'space-evenly', paddingLeft: 20,paddingBottom:50,paddingRight: 20}}>
+        <Grid container spacing={5} style={{display: 'flex', justifyContent: 'space-evenly', paddingLeft: 30,paddingBottom:50,paddingRight: 30}}>
          {cards}
         </Grid>
         </div>
-        
-          
     )
 }

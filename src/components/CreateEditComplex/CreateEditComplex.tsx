@@ -4,22 +4,23 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { useMemo, useState } from 'react';
-import { GithubPicker  } from 'react-color'
+import { HexColorPicker } from "react-colorful";
 import BingoField from '../BingoField/BingoField';
 import SaveIcon from '@mui/icons-material/Save';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import Card from '../../types/CardType';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { RootState } from '../../state/reducers';
 import { useDispatch, useSelector } from 'react-redux';
 import { signUpGuestFetch } from '../../api/auth';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../../state';
+import PreviewIcon from '@mui/icons-material/Preview';
 
 const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Function, type: string, initialState?: Card}) => {
 
     const [phrases, setPhrases] = useState<string[]>([])
+    const [fontSizes, setFontSizes] = useState<string[]>(Array(25).fill('1.25rem'))
     const [tags, setTags] = useState<string[]>([])
     const [description, setDescription] = useState<string>('')
     const [title, setTitle] = useState<string>('')
@@ -39,6 +40,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
         setTitle(initialState.title)
         setTilesColor(initialState.tilesColor)
         setTextColor(initialState.textColor)
+        setFontSizes(initialState.fontSizes)
         setBackgroundColor(initialState.backgroundColor)
     }}, [initialState]);
 
@@ -56,7 +58,8 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
             tags: tags, 
             backgroundColor: backgroundColor, 
             textColor: textColor, 
-            tilesColor: tilesColor
+            tilesColor: tilesColor,
+            fontSizes: fontSizes
           };
         if (!auth['id']) {
             signUpGuestFetch().then((Response: XMLHttpRequest["response"]) => {
@@ -65,6 +68,26 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
         } else {
             saveEditCard(card)
         }
+    }
+
+    const handleSetPhrases = async (e: React.ChangeEvent<any>) => {
+        var phrasesArray = e.target.value.split(/[\r\n]+/).slice(0,50)
+        phrasesArray.forEach((value: string, index: number) => {
+           if(value.length > 45) {
+                var fontSizesArray = fontSizes
+                fontSizesArray[index] = '0.90rem'
+                setFontSizes(fontSizesArray)
+           } else if(value.length > 27) {
+                var fontSizesArray = fontSizes
+                fontSizesArray[index] = '1rem'
+                setFontSizes(fontSizesArray)
+           } else {
+                var fontSizesArray = fontSizes
+                fontSizesArray[index] = '1.25rem'
+                setFontSizes(fontSizesArray)
+           }
+        });
+        setPhrases(phrasesArray)
     }
 
 
@@ -78,8 +101,9 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
           label="Phrases (split by Enter)"
           multiline
           rows={32}
+          title={'Textfield for phrases'}
           value={phrases.join('\r\n')}
-          onChange={(e) => {setPhrases(e.target.value.split(/[\r\n]+/).slice(0,50))}} 
+          onChange={(e) => {handleSetPhrases(e)}} 
           variant="outlined"
           sx={{ minWidth: 220}}
         />
@@ -90,6 +114,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                         onClick={handleResortPhrases}
                         color="primary"
                         variant="outlined"
+                        title={'Randomize phrases'}
                         sx={{ marginTop: 1,   minWidth: 220}}
                         >
                             <RefreshIcon fontSize="large" style={{ color: "#fff", aspectRatio: '1/1' }}></RefreshIcon>
@@ -106,6 +131,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                 phrases={phrases}
                 headerEditable={true}
                 playable={false}
+                fontSizes={fontSizes}
                 ></BingoField>
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
             <Button
@@ -115,6 +141,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                         onClick={handleSaveEditCard}
                         color="primary"
                         variant="outlined"
+                        title={'Save card'}
                         sx={{ marginTop: 1, marginRight: 1}}
                         >
                             <SaveIcon fontSize="large" style={{ color: "#fff", aspectRatio: '1/1' }}></SaveIcon>
@@ -128,10 +155,11 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                 onClick={handleToCard}
                 color="primary"
                 variant="outlined"
+                title={'View card'}
                 sx={{ marginTop: 1, marginRight: 1, width: 120, marginLeft: 3}}
                 >
-                    To card
-                                    <ArrowForwardIcon fontSize="large" style={{ color: "#fff", aspectRatio: '1/1' }}></ArrowForwardIcon>
+                  
+                  <PreviewIcon  fontSize="large" style={{ color: "#fff"}}></PreviewIcon>
             
                 </Button> : <></>
             }
@@ -140,7 +168,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
        
         <Box sx={{  display: 'flex', flexDirection: 'column', width: 420, minWidth: 220, marginRight: 3, marginLeft: 2, justifyContent: 'left'}}>
                             <Typography 
-                                variant="h6" 
+                                variant="h6"
                                 style={{ wordWrap: "break-word"}} 
                                 sx={{display: '-webkit-box', 
                                 overflow: 'hidden', 
@@ -151,8 +179,9 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 component="div">
                                    Background color
                             </Typography >
-                            <GithubPicker
-                             onChangeComplete={(color) => setBackgroundColor(color.hex)}
+                            <HexColorPicker style={{height: '106px', width: '420px'}}
+                             color={backgroundColor}
+                             onChange={(color) => setBackgroundColor(color)}
                             />
                             <Typography 
                                 variant="h6" 
@@ -166,8 +195,9 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 component="div">
                                     Tiles color
                             </Typography > 
-                            <GithubPicker
-                             onChangeComplete={(color) => setTilesColor(color.hex)}
+                            <HexColorPicker style={{height: '106px', width: '420px'}}
+                             color={tilesColor}
+                             onChange={(color) => setTilesColor(color)}
                             />
                             <Typography 
                                 variant="h6" 
@@ -181,8 +211,9 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 component="div">
                                     Font color
                             </Typography > 
-                            <GithubPicker
-                             onChangeComplete={(color) => setTextColor(color.hex)}
+                            <HexColorPicker style={{height: '106px', width: '420px'}}
+                             color={textColor}
+                             onChange={(color) => setTextColor(color)}
                             />
                             <TextField 
                                 margin="dense"
@@ -191,6 +222,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 onChange={(e) => {setTags(e.target.value.split(','))}} 
                                 fullWidth 
                                 id="Tags" 
+                                title={'Textfield for tags'}
                                 autoFocus={false} 
                                 sx={{marginTop: 5}}> 
                             </TextField>
@@ -199,6 +231,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 label="Description"
                                 multiline
                                 rows={10}
+                                title={'Textfield for description'}
                                 value={description}
                                 onChange={(e) => {setDescription(e.target.value)}} 
                                 variant="outlined"

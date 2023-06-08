@@ -50,6 +50,7 @@ export default function LogInForm() {
                 fullWidth 
                 onChange={(e) => setEmail([e.target.value])} 
                 label="E-mail" 
+                title={'Textfield email'}
                 error={email[1] != undefined}
                 helperText={email[1]}
                 variant="outlined"/>
@@ -61,14 +62,15 @@ export default function LogInForm() {
                 onChange={(e) => setPassword([e.target.value])} 
                 className="passwordTextfield" 
                 label="Password" 
+                title={'Textfield for password'}
                 error={password[1] != undefined}
                 helperText={password[1]}
                 variant="outlined" 
                 type="password"/>
             <PasswordReqPopup/>
             </div>
-            <Button type="submit" sx={{ marginTop: 2 }} onClick={handleLogIn} size='large' variant="contained">Log In</Button>
-            <Button sx={{ marginTop: 2, marginLeft: 5 }} onClick={showSingUp} variant="text" >I don't have an account yet</Button>
+            <Button title={'Log In'} type="submit" sx={{ marginTop: 2 }} onClick={handleLogIn} size='large' variant="contained">Log In</Button>
+            <Button title={'Go to registration'} sx={{ marginTop: 2, marginLeft: 5 }} onClick={showSingUp} variant="text" >I don't have an account yet</Button>
             </form> 
         </> 
     )

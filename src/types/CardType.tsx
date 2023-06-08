@@ -5,7 +5,8 @@ type Card = {
     tags: string[], 
     backgroundColor: string, 
     textColor: string, 
-    tilesColor: string
+    tilesColor: string, 
+    fontSizes: string[]
   }
 
 export default Card

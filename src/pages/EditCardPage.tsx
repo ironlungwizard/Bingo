@@ -45,7 +45,8 @@ export default function EditCardPage() {
                 tags: Response.data.tags, 
                 backgroundColor: Response.data.appearance.backgroundColor, 
                 textColor: Response.data.appearance.textColor, 
-                tilesColor: Response.data.appearance.tilesColor
+                tilesColor: Response.data.appearance.tilesColor,
+                fontSizes: Response.data.appearance.fontSizes
                 })
             setOwnerId(Response.data.authorId)    
         } else {

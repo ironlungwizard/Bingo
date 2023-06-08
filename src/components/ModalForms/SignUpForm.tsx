@@ -52,6 +52,7 @@ export default function SignUpForm() {
                 helperText={nickname[1]}
                 className="nicknameTextfield" 
                 label="Nickname" 
+                title={'Textfield for nickname'}
                 variant="outlined" />
                 </div>
                 <div className='textFieldWrapper' >    
@@ -61,6 +62,7 @@ export default function SignUpForm() {
                 onChange={(e) => setEmail([e.target.value])} 
                 error={email[1] != undefined}
                 helperText={email[1]}
+                title={'Textfield for email'}
                 label="E-mail" 
                 variant="outlined" />
                 </div>
@@ -72,6 +74,7 @@ export default function SignUpForm() {
                 error={password[1] != undefined}
                 helperText={password[1]} 
                 className="passwordTextfield" 
+                title={'Textfield for password'}
                 label="Password" 
                 variant="outlined" 
                 type="password"/>
@@ -86,11 +89,12 @@ export default function SignUpForm() {
                 helperText={confirmPassword[1]}
                 className="passwordTextfield" 
                 label="Confirm Password" 
+                title={'Textfield for password'}
                 variant="outlined" 
                 type="password"/>
                 </div>
-            <Button type="submit" sx={{ marginTop: 2 }} onClick={handleSignUp} size='large' variant="contained">Sign Up</Button>
-            <Button sx={{ marginTop: 2, marginLeft: 2 }} onClick={showLogIn} variant="text" >I do have an account</Button>
+            <Button title={'Sign Up'} type="submit" sx={{ marginTop: 2 }} onClick={handleSignUp} size='large' variant="contained">Sign Up</Button>
+            <Button title={'Go to Log In'} sx={{ marginTop: 2, marginLeft: 2 }} onClick={showLogIn} variant="text" >I do have an account</Button>
             </form>
         </> 
     )

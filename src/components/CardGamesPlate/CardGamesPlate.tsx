@@ -130,6 +130,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                                 color="primary"
                                 onClick={handleToCard}
                                 variant="outlined"
+                                title={'View card'}
                                 sx={{ marginTop: 1, marginLeft: 1}}
                             
                                 >
@@ -140,6 +141,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                                 aria-haspopup="true"
                                 color="primary"
                                 variant="outlined"
+                                title={'Share card'}
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 >
                                     <ShareIcon fontSize="large" style={{ color: "#fff"}}></ShareIcon>
@@ -151,6 +153,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                                 color="primary"
                                 onClick={handleDeleteCard}
                                 variant="outlined"
+                                title={'Delete card'}
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 
                                 >
@@ -162,6 +165,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                                 aria-haspopup="true"
                                 color="primary"
                                 variant="outlined"
+                                title={'Delete card'}
                                 disabled
                                 sx={{ marginTop: 1, marginLeft: 1}}
                             
@@ -175,6 +179,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                             aria-haspopup="true"
                             aria-label="password requirements"
                             onClick={handlePlayCard}
+                            title={'Play'}
                             color="primary"
                             variant="outlined"
                             sx={{ marginTop: 1, marginLeft: 1, width: 208}}
@@ -201,7 +206,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                 aria-expanded={expanded}
                 aria-label="show more"
                 >
-                <ExpandMoreIcon />
+                <ExpandMoreIcon fontSize="large" />
                 </ExpandMore>
                 
                 : <></>

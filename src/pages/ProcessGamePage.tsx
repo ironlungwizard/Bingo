@@ -26,6 +26,7 @@ export default function ProcessGamePage() {
     const [phrases, setPhrases] = useState<string[]>([])
     const [tags, setTags] = useState<string[]>([''])
     const [description, setDescription] = useState<string>('')
+    const [fontSizes, setFontSizes] = useState<string[]>([''])
     const [title, setTitle] = useState<string>('')
     const [tilesColor, setTilesColor] = useState<string>('')
     const [textColor, setTextColor] = useState<string>('')
@@ -52,6 +53,7 @@ export default function ProcessGamePage() {
                 setBackgroundColor(Response.data.appearance.backgroundColor)
                 setAuthorId(Response.data.authorId)  
                 setCardId(Response.data.id)
+                setFontSizes(Response.data.appearance.fontSizes)
                 errorOff()
                 } else {
                     navigate(-1); 
@@ -71,7 +73,7 @@ export default function ProcessGamePage() {
                      
                 }
 
-                const handleShareCard = async () => {
+                const handleShareGame = async () => {
                     if (auth['isGuest'] || !auth['id']) {
                       showSingUp()
                     } else {
@@ -100,15 +102,16 @@ export default function ProcessGamePage() {
                 phrases={phrases}
                 headerEditable={false}
                 playable={true}
+                fontSizes={fontSizes}
                 ></BingoField>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
-                                aria-label="password requirements"
                                 color="primary"
                                 variant="outlined"
+                                title={'Back to card'}
                                 sx={{ marginTop: 1, marginRight: 1, width: 120, justifyContent: 'space-between'}}
                                 onClick={handleBackToCard}
                                 >
@@ -120,8 +123,8 @@ export default function ProcessGamePage() {
                 <Button
                         size="medium"
                         aria-haspopup="true"
-                        aria-label="password requirements"
                         onClick={handleSaveGame}
+                        title={'Save game'}
                         color="primary"
                         variant="outlined"
                         sx={{ marginTop: 1}}
@@ -134,9 +137,9 @@ export default function ProcessGamePage() {
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
-                                aria-label="password requirements"
                                 color="primary"
-                                onClick={handleShareCard}
+                                title={'Share game'}
+                                onClick={handleShareGame}
                                 variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 >
@@ -145,8 +148,8 @@ export default function ProcessGamePage() {
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
-                                aria-label="password requirements"
                                 color="primary"
+                                title={'Share game image'}
                                 variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 >

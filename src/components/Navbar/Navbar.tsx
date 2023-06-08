@@ -64,7 +64,7 @@ export default function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar style={{ background: '#2E3B55' }} position="static">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" title={'xd'} component="div" sx={{ flexGrow: 1 }}>
             Meme Bingo
           </Typography>
          
@@ -75,15 +75,13 @@ export default function Navbar() {
                       color="primary"
                       sx={{ color: 'white', display: 'block', height: 64}}
                     >
-                   <Typography variant="h6"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', fontSize: 16}}>
+                   <Typography title={'Go to creating card'} variant="h6"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', fontSize: 16}}>
                     Create card
                    </Typography>
                  </Button>
-                 
-                 <Typography variant="h5"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', marginX: 2, marginBottom: 0.5}}>
-                  {auth['isGuest'] ? auth['name'] : auth['name']}
+                 <Typography title={'Hello, ' + auth['name'] + '!'} variant="h5"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', marginX: 2, marginBottom: 0.5}}>
+                  {auth['name'] ? auth['name'] : <></>}
                  </Typography>
-               
               <IconButton
                 size="large"
                 aria-label="menu"
@@ -91,6 +89,7 @@ export default function Navbar() {
                 aria-haspopup="true"
                 onClick={handleOpenMenu}
                 color="inherit"
+                title={'Open menu'}
                 sx={{aspectRatio: 1/1, width: 60, height: 60}}
               >
                 <AccountCircle sx={{width: 32, height: 32}} />

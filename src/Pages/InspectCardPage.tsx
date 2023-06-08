@@ -33,6 +33,7 @@ export default function InspectCardPage() {
     const [tilesColor, setTilesColor] = useState<string>('')
     const [ownerName, setOwnerName] = useState<string>('')
     const [textColor, setTextColor] = useState<string>('')
+    const [fontSizes, setFontSizes] = useState<string[]>([''])
     const [backgroundColor, setBackgroundColor] = useState<string>('')
     const {id} = useParams<string>();
     const auth = useSelector((state: RootState) => state).auth
@@ -53,6 +54,7 @@ export default function InspectCardPage() {
             setBackgroundColor(Response.data.appearance.backgroundColor)
             setAuthorId(Response.data.authorId)  
             setCardId(Response.data.id)
+            setFontSizes(Response.data.appearance.fontSizes)
             getAttributesById(Response.data.authorId).then((Response: XMLHttpRequest["response"]) => {
                 setOwnerName(Response.data.name)
              })
@@ -182,16 +184,17 @@ export default function InspectCardPage() {
                 phrases={phrases}
                 headerEditable={false}
                 playable={false}
+                fontSizes={fontSizes}
                 ></BingoField>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                 
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
-                                aria-label="password requirements"
                                 color="primary"
                                 variant="outlined"
                                 onClick={handlePlayCard}
+                                title={'Play'}
                                 sx={{ marginTop: 1, marginRight: 1, width: 120}}
                                 >
                                     <PlayArrowIcon  fontSize="large" style={{ color: "#fff" }}></PlayArrowIcon>
@@ -203,9 +206,9 @@ export default function InspectCardPage() {
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
-                                aria-label="password requirements"
                                 color="primary"
                                 variant="outlined"
+                                title={'Edit card'}
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 onClick={handleEditCard}
                                 >
@@ -217,6 +220,7 @@ export default function InspectCardPage() {
                         aria-haspopup="true"
                         color="primary"
                         variant="outlined"
+                        title={'Edit card'}
                         disabled
                         sx={{ marginTop: 1, marginLeft: 1}}
                     
@@ -227,9 +231,9 @@ export default function InspectCardPage() {
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
-                                aria-label="password requirements"
                                 color="primary"
                                 onClick={handleCloneCard}
+                                title={'Clone card'}
                                 variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 >
@@ -238,9 +242,9 @@ export default function InspectCardPage() {
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
-                                aria-label="password requirements"
                                 color="primary"
                                 onClick={handleShareCard}
+                                title={'Share card'}
                                 variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 >
@@ -250,9 +254,9 @@ export default function InspectCardPage() {
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
-                                aria-label="password requirements"
                                 color="primary"
                                 variant="outlined"
+                                title={'Delete card'}
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 onClick={handleDeleteCard}
                                 >
@@ -264,6 +268,7 @@ export default function InspectCardPage() {
                      aria-haspopup="true"
                      color="primary"
                      variant="outlined"
+                     title={'Delete card'}
                      disabled
                      sx={{ marginTop: 1, marginLeft: 1}}
                  

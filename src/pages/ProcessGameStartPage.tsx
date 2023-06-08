@@ -25,6 +25,7 @@ export default function ProcessGameStartPage() {
     const [description, setDescription] = useState<string>('')
     const [title, setTitle] = useState<string>('')
     const [tilesColor, setTilesColor] = useState<string>('')
+    const [fontSizes, setFontSizes] = useState<string[]>([''])
     const [textColor, setTextColor] = useState<string>('')
     const [backgroundColor, setBackgroundColor] = useState<string>('')
     const { pathname } = useLocation();
@@ -46,6 +47,7 @@ export default function ProcessGameStartPage() {
             setBackgroundColor(Response.data.appearance.backgroundColor)
             setAuthorId(Response.data.authorId)  
             setCardId(Response.data.id)
+            setFontSizes(Response.data.appearance.fontSizes)
             errorOff()
             } else {
                 navigate(-1);  
@@ -100,14 +102,15 @@ export default function ProcessGameStartPage() {
                 phrases={phrases}
                 headerEditable={false}
                 playable={true}
+                fontSizes={fontSizes}
                 ></BingoField>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
-                                aria-label="password requirements"
                                 color="primary"
+                                title={'Back to card'}
                                 variant="outlined"
                                 sx={{ marginTop: 1, marginRight: 1, width: 120, justifyContent: 'space-between'}}
                                 onClick={handleBackToCard}
@@ -119,9 +122,9 @@ export default function ProcessGameStartPage() {
                 <Button
                         size="medium"
                         aria-haspopup="true"
-                        aria-label="password requirements"
                         onClick={handleSaveGame}
                         color="primary"
+                        title={'Save game'}
                         variant="outlined"
                         sx={{ marginTop: 1}}
                         >

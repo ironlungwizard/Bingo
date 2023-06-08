@@ -103,7 +103,8 @@ export async function createCardFetch(userId: string, card: any, markType: strin
       "backgroundColor": card.backgroundColor,
       "textColor": card.textColor,
       "tilesColor": card.tilesColor,
-      "markType": markType
+      "markType": markType,
+      "fontSizes": card.fontSizes
       }
     }
   let response =  transportPOST(`cards/?userId=${userId}`, body)   
@@ -122,7 +123,8 @@ export async function updateCardFetch(userId: string, card: any, markType: strin
         "backgroundColor": card.backgroundColor,
         "textColor": card.textColor,
         "tilesColor": card.tilesColor,
-        "markType": markType
+        "markType": markType,
+        "fontSizes": card.fontSizes
         }
       }
     let response =  transportPUT(`cards/${id}?userId=${userId}`, body)   

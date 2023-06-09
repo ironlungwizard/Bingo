@@ -25,7 +25,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
     const [description, setDescription] = useState<string>('')
     const [title, setTitle] = useState<string>('')
     const [tilesColor, setTilesColor] = useState<string>('#273146')
-    const [textColor, setTextColor] = useState<string>('#fff')
+    const [textColor, setTextColor] = useState<string>('#ffffff')
     const [backgroundColor, setBackgroundColor] = useState<string>('#C2CCE1')
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -55,7 +55,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
             phrases: phrases, 
             title: title, 
             description: description, 
-            tags: tags, 
+            tags: tags.map(element => {return element.trim();}).filter(Boolean), 
             backgroundColor: backgroundColor, 
             textColor: textColor, 
             tilesColor: tilesColor,
@@ -117,7 +117,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                         title={'Randomize phrases'}
                         sx={{ marginTop: 1,   minWidth: 220}}
                         >
-                            <RefreshIcon fontSize="large" style={{ color: "#fff", aspectRatio: '1/1' }}></RefreshIcon>
+                            <RefreshIcon fontSize="large" style={{ color: "#ffffff", aspectRatio: '1/1' }}></RefreshIcon>
                        
         </Button>
         </div>
@@ -144,7 +144,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                         title={'Save card'}
                         sx={{ marginTop: 1, marginRight: 1}}
                         >
-                            <SaveIcon fontSize="large" style={{ color: "#fff", aspectRatio: '1/1' }}></SaveIcon>
+                            <SaveIcon fontSize="large" style={{ color: "#ffffff", aspectRatio: '1/1' }}></SaveIcon>
                        
             </Button>
             {type == 'edit' ?
@@ -159,7 +159,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                 sx={{ marginTop: 1, marginRight: 1, width: 120, marginLeft: 3}}
                 >
                   
-                  <PreviewIcon  fontSize="large" style={{ color: "#fff"}}></PreviewIcon>
+                  <PreviewIcon  fontSize="large" style={{ color: "#ffffff"}}></PreviewIcon>
             
                 </Button> : <></>
             }
@@ -174,7 +174,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 overflow: 'hidden', 
                                 WebkitBoxOrient: 'vertical',
                                 WebkitLineClamp: 3,
-                                color: "#fff"
+                                color: "#ffffff"
                                 }} 
                                 component="div">
                                    Background color
@@ -190,7 +190,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 overflow: 'hidden', 
                                 WebkitBoxOrient: 'vertical',
                                 WebkitLineClamp: 3,
-                                color: "#fff"
+                                color: "#ffffff"
                                 }} 
                                 component="div">
                                     Tiles color
@@ -206,7 +206,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 overflow: 'hidden', 
                                 WebkitBoxOrient: 'vertical',
                                 WebkitLineClamp: 3,
-                                color: "#fff"
+                                color: "#ffffff"
                                 }} 
                                 component="div">
                                     Font color

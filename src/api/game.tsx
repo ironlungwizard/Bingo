@@ -14,8 +14,8 @@ export async function getMyGamesFetch(userId: string) {
 }
 
 export async function getCardsFetch(limit: number, tags?: string[]) {
-  if (tags) {
-    let response =  transportGET(`cards?tags=${tags}&?limit=${limit}`) 
+  if (tags!.length >= 1) {
+    let response =  transportGET(`cards?tags=${tags!.join('&tags=')}&?limit=${limit}`) 
     const result = await (response);
     return result 
   } else {
@@ -61,6 +61,21 @@ export async function getGameFetch(id: string) {
     return result
   }  
 }
+
+export async function getTagsFetch(tags?: string[]) {
+  if (tags!.length >= 1) {
+    let response =  transportGET(`cards/tags/?tags=${tags!.join('&tags=')}`) 
+    const result: any = await (response);
+    return result
+  } else {
+    let response =  transportGET(`cards/tags`)
+    const result: any = await (response);
+    return result 
+  }
+}
+
+
+
 
 export async function startGameFetch(userId: string, cardId: any) {
     const body = {}

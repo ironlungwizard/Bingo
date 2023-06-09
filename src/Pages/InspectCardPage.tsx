@@ -131,7 +131,7 @@ export default function InspectCardPage() {
                         sx={{display: '-webkit-box', 
                         overflow: 'hidden', 
                         WebkitBoxOrient: 'vertical',
-                        color: '#fff'
+                        color: '#ffffff'
                         }} 
                         component="div">
                            {ownerName} <br/>
@@ -142,7 +142,7 @@ export default function InspectCardPage() {
                         sx={{display: '-webkit-box', 
                         overflow: 'hidden', 
                         WebkitBoxOrient: 'vertical',
-                        color: '#fff'
+                        color: '#ffffff'
                         }} 
                         component="div">
                             Tags: <br/>
@@ -156,7 +156,7 @@ export default function InspectCardPage() {
                         sx={{display: '-webkit-box', 
                         overflow: 'hidden', 
                         WebkitBoxOrient: 'vertical',
-                        color: '#fff'
+                        color: '#ffffff'
                         }} 
                         component="div">
                             Description:
@@ -167,7 +167,7 @@ export default function InspectCardPage() {
                         sx={{display: '-webkit-box', 
                         overflow: 'hidden', 
                         WebkitBoxOrient: 'vertical',
-                        color: '#fff'
+                        color: '#ffffff'
                         }} 
                         component="div">
                             {description}
@@ -197,7 +197,7 @@ export default function InspectCardPage() {
                                 title={'Play'}
                                 sx={{ marginTop: 1, marginRight: 1, width: 120}}
                                 >
-                                    <PlayArrowIcon  fontSize="large" style={{ color: "#fff" }}></PlayArrowIcon>
+                                    <PlayArrowIcon  fontSize="large" style={{ color: "#ffffff" }}></PlayArrowIcon>
                     </Button>
 
                
@@ -212,7 +212,7 @@ export default function InspectCardPage() {
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 onClick={handleEditCard}
                                 >
-                                    <EditIcon  fontSize="large" style={{ color: "#fff"}}></EditIcon>
+                                    <EditIcon  fontSize="large" style={{ color: "#ffffff"}}></EditIcon>
                     </Button>
                       :
                       <Button
@@ -225,7 +225,7 @@ export default function InspectCardPage() {
                         sx={{ marginTop: 1, marginLeft: 1}}
                     
                         >
-                            <EditIcon  fontSize="large" style={{ color: "#fff"}}></EditIcon>
+                            <EditIcon  fontSize="large" style={{ color: "#ffffff"}}></EditIcon>
                       </Button>
                   }
                     <Button
@@ -237,7 +237,7 @@ export default function InspectCardPage() {
                                 variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 >
-                                    <FileCopyIcon fontSize="large" style={{ color: "#fff"}}></FileCopyIcon>
+                                    <FileCopyIcon fontSize="large" style={{ color: "#ffffff"}}></FileCopyIcon>
                     </Button>
                     <Button
                                 size="medium"
@@ -248,7 +248,7 @@ export default function InspectCardPage() {
                                 variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 >
-                                    <ShareIcon fontSize="large" style={{ color: "#fff"}}></ShareIcon>
+                                    <ShareIcon fontSize="large" style={{ color: "#ffffff"}}></ShareIcon>
                     </Button>
                     { isOwned(authorId)?
                     <Button
@@ -260,7 +260,7 @@ export default function InspectCardPage() {
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 onClick={handleDeleteCard}
                                 >
-                                    <DeleteIcon fontSize="large" style={{ color: "#fff"}}></DeleteIcon>
+                                    <DeleteIcon fontSize="large" style={{ color: "#ffffff"}}></DeleteIcon>
                     </Button>
                      :
                      <Button
@@ -273,7 +273,7 @@ export default function InspectCardPage() {
                      sx={{ marginTop: 1, marginLeft: 1}}
                  
                      >
-                         <DeleteIcon fontSize="large" style={{ color: "#fff"}}></DeleteIcon>
+                         <DeleteIcon fontSize="large" style={{ color: "#ffffff"}}></DeleteIcon>
                    </Button>
                   }
             </div>

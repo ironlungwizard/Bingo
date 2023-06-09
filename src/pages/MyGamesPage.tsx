@@ -65,7 +65,7 @@ export default function MyGamesPage() {
                         sx={{display: '-webkit-box', 
                         overflow: 'hidden', 
                         WebkitBoxOrient: 'vertical',
-                        color: '#fff'
+                        color: '#ffffff'
                         }} 
                         component="div">
                             There's no cards in here, or URL is wrong!

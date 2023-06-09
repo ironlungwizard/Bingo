@@ -84,7 +84,7 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ph
                             {phrase}
                     </Typography >
                     { checkedArray && checkedArray.includes(index) ?
-                        <img src={tileX} style={{position: 'absolute', marginLeft: 6, opacity: '0.5'}}/>
+                        <img src={tileX} style={{position: 'absolute', marginLeft:0, opacity: '0.5'}}/>
                         :<></>
                     } 
                 </ButtonItem>

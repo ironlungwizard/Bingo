@@ -115,7 +115,7 @@ export default function ProcessGamePage() {
                                 sx={{ marginTop: 1, marginRight: 1, width: 120, justifyContent: 'space-between'}}
                                 onClick={handleBackToCard}
                                 >
-                                    <ArrowBackIcon  fontSize="large" style={{ color: "#fff" }}></ArrowBackIcon>to card
+                                    <ArrowBackIcon  fontSize="large" style={{ color: "#ffffff" }}></ArrowBackIcon>to card
                     </Button>
                                
                 <div >
@@ -129,7 +129,7 @@ export default function ProcessGamePage() {
                         variant="outlined"
                         sx={{ marginTop: 1}}
                         >
-                            <SaveIcon fontSize="large" style={{ color: "#fff"}}></SaveIcon>
+                            <SaveIcon fontSize="large" style={{ color: "#ffffff"}}></SaveIcon>
                        
                 </Button>
                 : <></>

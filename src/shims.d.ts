@@ -3,6 +3,7 @@ declare module '*.css' {
     export default classes;
   }
   declare module "*.jpg";
+  declare module "*.png";
   declare module "*.svg?url"{
     const content: any;
     export default content;

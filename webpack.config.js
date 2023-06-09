@@ -39,6 +39,14 @@ module.exports = {
         resourceQuery: /url/, // *.svg?url
       },
       {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+      {
         test: /\.svg$/i,
         issuer: /\.[jt]sx?$/,
         resourceQuery: { not: [/url/] }, // exclude react component if *.svg?url

@@ -1,16 +1,18 @@
-import { Button, Card, CardHeader, Chip, Grid, Stack, styled } from '@mui/material';
+import { Button, Card, CardHeader, Chip, Grid, Stack, Typography, styled } from '@mui/material';
 import * as React from 'react';
-import { getCardFetch } from '../../api/game';
+import { getCardFetch} from '../../api/game';
 import { useMemo, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAttributesById } from '../../api/auth';
 import PreviewIcon from '@mui/icons-material/Preview';
+import Dumpsterfire from '../../images/Dumpsterfire.png';
 
 
 export default function ErrorSnackBar({id}:{id: string}) {
     const [title, setTitle] = useState<string>()
     const [ownerName, setOwnerName] = useState<string>('')
     const [tags, setTags] = useState<string[]>([])
+    const [img, setImg] = useState<any>();
     const navigate = useNavigate();
 
 
@@ -34,14 +36,9 @@ export default function ErrorSnackBar({id}:{id: string}) {
         }
     })}, [id]);
 
-
-
-
     
 
-        const handleToCard = async () => {
-                navigate('/card/' + id); 
-        }
+  
 
        const tagChips = tags.map((tag, index) =>
                  <Chip  size="small" color='primary' variant="outlined" label={tag} key={index} />   
@@ -53,12 +50,24 @@ export default function ErrorSnackBar({id}:{id: string}) {
             <Item sx={{minWidth: 300,  backgroundColor: '#273049', height: 370}}>
                 <Stack direction='column' sx={{ alignItems: 'center'}}>
                     <div title={title ? title : 'No title'}>
-                        <CardHeader
-                            title={title ? title : 'No title'}
-                            sx={{wordWrap: "break-word",  overflow: 'hidden', padding: '0px', maxWidth: 270, maxHeight: 28}}
-                        /> 
+                    <Typography 
+                        style={{ wordWrap: "break-word"}} 
+                        sx={{ marginX: 1, wordWrap: "break-word",  display: '-webkit-box', 
+                        overflow: 'hidden', 
+                        WebkitBoxOrient: 'vertical',
+                        WebkitLineClamp: 1,
+                        fontSize: 17.5,
+                        maxWidth: 277
+                        }} 
+                        title={title}
+                        component="div">
+                            {title ? title : 'No title'}
+                    </Typography > 
                     </div>
-                <div  style={{width: 244, height: 244, backgroundColor: '#fff', margin: 8, marginBottom: 0}}></div> 
+                <div style={{width: 244, height: 244,  overflow: 'hidden', margin: 8, marginBottom: 0,alignContent: 'center', justifyContent: 'center', flexWrap: 'wrap', display: 'flex'}}>
+                    <img src={`http://localhost:8080/cards/${id}/image?size=full&withTitle=${false}`}  style={{width: 410, marginTop: 5, height: 420,  objectFit: 'contain', objectPosition: "center"}}></img> 
+                </div>
+                
                 <div title={ownerName}>
                     <CardHeader
                         title={ownerName}

@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { getCardFetch, getGameFetch, updateGameFetch } from '../api/game';
 import BingoField from '../components/BingoField/BingoField';
-import { useMemo } from 'react';
+import { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import PhotoIcon from '@mui/icons-material/Photo';
 import SaveIcon from '@mui/icons-material/Save';
@@ -39,7 +39,7 @@ export default function ProcessGamePage() {
     const [checkedArray, setCheckedArray] = useState<number[]>([])
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
     const { showSingUp, showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
-    useMemo(() =>  {getGameFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+    useEffect(() =>  {getGameFetch(id!).then((Response: XMLHttpRequest["response"]) => {
                     setGameId(Response.data.id)
                     setCheckedArray(Response.data.checkedPhrases)
             if (Response) {getCardFetch(Response.data.cardId).then((Response: XMLHttpRequest["response"]) => {

@@ -23,14 +23,19 @@ export async function logOutFetch() {
           return result
 }
 
-export async function refreshFetch() {
-    let response =  transportGET("auth/refresh")   
-    const result = await (response);
-          return result
-}
+// export async function refreshFetch() {
+//     let response =  transportGET("auth/refresh")   
+//     const result = await (response);
+//           return result
+// }
 
 export async function getAttributesById(ownerId: string) {
     let response =  transportGET(`auth/attributes/${ownerId}`)   
+    const result = await (response);
+          return result
+}
+export async function getAttributes() {
+    let response =  transportGET(`auth/attributes`)   
     const result = await (response);
           return result
 }

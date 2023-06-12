@@ -1,6 +1,3 @@
-import { refreshFetch } from "./auth";
-
-
 export async function transportPOSTold(path: string, body: object) {
   let response = await fetch(`http://localhost:8080/${path}`, {
           method: "POST",
@@ -61,8 +58,13 @@ export function transportDELETE (path: string) {
     xhr.send(JSON.stringify(''))
     xhr.onload = function () {
       if (this.status == 403) {
-        refreshFetch().then(async Response => {
-          xhr.open("GET", `http://localhost:8080/${path}`, true);
+        xhr.open("GET", `http://localhost:8080/aut/refresh`, true);
+        xhr.responseType = "json";
+        xhr.withCredentials = true;
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(''))
+        xhr.onload = function () {
+          xhr.open("DELETE", `http://localhost:8080/${path}`, true);
           xhr.responseType = "json";
           xhr.withCredentials = true;
           xhr.setRequestHeader("Content-Type", "application/json");
@@ -72,7 +74,7 @@ export function transportDELETE (path: string) {
               data: this.response,
             });
           }
-        })
+        }
       } else {
         resolve({
           data: this.response,
@@ -95,7 +97,12 @@ export function transportGET (path: string) {
     xhr.send(JSON.stringify(''))
     xhr.onload = function () {
       if (this.status == 403) {
-        refreshFetch().then(async Response => {
+        xhr.open("GET", `http://localhost:8080/aut/refresh`, true);
+        xhr.responseType = "json";
+        xhr.withCredentials = true;
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(''))
+        xhr.onload = function () {
           xhr.open("GET", `http://localhost:8080/${path}`, true);
           xhr.responseType = "json";
           xhr.withCredentials = true;
@@ -106,7 +113,7 @@ export function transportGET (path: string) {
               data: this.response,
             });
           }
-        })
+        }
       } else {
         resolve({
           data: this.response,
@@ -129,18 +136,23 @@ export function transportPUT (path: string, body: object) {
     xhr.send(JSON.stringify(body))
     xhr.onload = function () {
       if (this.status == 403) {
-        refreshFetch().then(async Response => {
-          xhr.open("POST", `http://localhost:8080/${path}`, true);
+        xhr.open("GET", `http://localhost:8080/aut/refresh`, true);
+        xhr.responseType = "json";
+        xhr.withCredentials = true;
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(''))
+        xhr.onload = function () {
+          xhr.open("PUT", `http://localhost:8080/${path}`, true);
           xhr.responseType = "json";
           xhr.withCredentials = true;
           xhr.setRequestHeader("Content-Type", "application/json");
-          xhr.send(JSON.stringify(body))
+          xhr.send(JSON.stringify(''))
           xhr.onload = function () {
             resolve({
               data: this.response,
             });
           }
-        })
+        }
       } else {
         resolve({
           data: this.response,
@@ -153,39 +165,44 @@ export function transportPUT (path: string, body: object) {
   });
 };
 
-export function transportPOST(path: string, body: object) {
-    return new Promise(function (resolve, reject) {
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", `http://localhost:8080/${path}`, true);
-      xhr.responseType = "json";
-      xhr.withCredentials = true;
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.send(JSON.stringify(body))
-      xhr.onload = function () {
-        if (this.status == 403) {
-          refreshFetch().then(async Response => {
-            xhr.open("POST", `http://localhost:8080/${path}`, true);
-            xhr.responseType = "json";
-            xhr.withCredentials = true;
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.send(JSON.stringify(body))
-            xhr.onload = function () {
-              resolve({
-                data: this.response,
-              });
-            }
-          })
-        } else {
-          resolve({
-            data: this.response,
-          });
+export function transportPOST (path: string, body: object) {
+  return new Promise(function (resolve, reject) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", `http://localhost:8080/${path}`, true);
+    xhr.responseType = "json";
+    xhr.withCredentials = true;
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(body))
+    xhr.onload = function () {
+      if (this.status == 403) {
+        xhr.open("GET", `http://localhost:8080/aut/refresh`, true);
+        xhr.responseType = "json";
+        xhr.withCredentials = true;
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(''))
+        xhr.onload = function () {
+          xhr.open("POST", `http://localhost:8080/${path}`, true);
+          xhr.responseType = "json";
+          xhr.withCredentials = true;
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.send(JSON.stringify(''))
+          xhr.onload = function () {
+            resolve({
+              data: this.response,
+            });
+          }
         }
-      };
-      xhr.onerror = function () {
-        reject(new Error("Network Error"));
-      };
-    });
-  };
+      } else {
+        resolve({
+          data: this.response,
+        });
+      }
+    };
+    xhr.onerror = function () {
+      reject(new Error("Network Error"));
+    };
+  });
+};
 
 
 

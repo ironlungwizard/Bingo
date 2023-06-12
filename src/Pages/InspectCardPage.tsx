@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { canEditCardFetch, cloneCardFetch, getCardFetch } from '../api/game';
 import BingoField from '../components/BingoField/BingoField';
-import { useMemo } from 'react';
+import { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -43,8 +43,8 @@ export default function InspectCardPage() {
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
     const { showSingUp, showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
     const { login } = bindActionCreators(actionCreators, dispatch)
-    useMemo(() =>  {getCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
-            if (Response) {
+    useEffect(() =>  {getCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+            if (Response ) {
             setPhrases(Response.data.phrases) 
             setTags(Response.data.tags)
             setDescription(Response.data.description)
@@ -109,7 +109,7 @@ export default function InspectCardPage() {
 
             
             
-            useMemo(() =>  {canEditCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+            useEffect(() =>  {canEditCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
                 setCanEdit(Response.data)
              })}, []);
        

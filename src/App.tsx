@@ -9,7 +9,7 @@ import Navbar from "./components/Navbar/Navbar"
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from "./components/Modal/Modal"
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { refreshFetch } from './api/auth';
+import { getAttributes } from './api/auth';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from './state';
 import LandingPage from './pages/LandingPage';
@@ -30,7 +30,7 @@ const dispatch = useDispatch();
 const { login } = bindActionCreators(actionCreators, dispatch)
 const auth = useSelector((state: RootState) => state).auth
 
-useMemo(() =>  {refreshFetch().then((Response: XMLHttpRequest["response"]) => {
+useMemo(() =>  {getAttributes().then((Response: XMLHttpRequest["response"]) => {
   login(Response.data.id, Response.data.isGuest, Response.data.name)
 })}, []);
 

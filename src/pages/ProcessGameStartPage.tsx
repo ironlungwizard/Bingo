@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { getCardFetch, startGameFetch, updateGameFetch } from '../api/game';
 import BingoField from '../components/BingoField/BingoField';
-import { useMemo } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import SaveIcon from '@mui/icons-material/Save';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -36,7 +36,7 @@ export default function ProcessGameStartPage() {
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
     const { login } = bindActionCreators(actionCreators, dispatch)
 
-    useMemo(() =>  {getCardFetch(pathname.replace('/card/', '').replace('/gamestart', '')).then((Response: XMLHttpRequest["response"]) => {
+    useEffect(() =>  {getCardFetch(pathname.replace('/card/', '').replace('/gamestart', '')).then((Response: XMLHttpRequest["response"]) => {
             if (Response) {
             setPhrases(Response.data.phrases) 
             setTags(Response.data.tags)

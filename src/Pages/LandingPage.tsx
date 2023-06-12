@@ -58,7 +58,7 @@ export default function LandingPage() {
         <div style={{width: '100%'}}>
           <Stack direction="row" spacing={1} sx={{marginLeft: 4, marginBottom: 2}}>
           <IconButton onClick={clearCheckedTags} aria-label="Clear checked tags"  size="large" style={{marginTop: -9}}>
-            <BackspaceIcon fontSize="inherit" />
+            <BackspaceIcon color='primary' fontSize="inherit" />
           </IconButton>
           {checkedTagChips}
           {tagChips}

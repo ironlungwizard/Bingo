@@ -22,6 +22,7 @@ import ProcessGamePage from './pages/ProcessGamePage';
 import MyCardsPage from './pages/MyCardsPage';
 import MyGamesPage from './pages/MyGamesPage';
 import { RootState } from './state/reducers';
+import { configDotenv } from 'dotenv';
 
 
 
@@ -50,7 +51,7 @@ useMemo(() =>  {getAttributes().then((Response: XMLHttpRequest["response"]) => {
                 <Navbar></Navbar>
                 <Modal></Modal>
                 <ErrorSnackBar></ErrorSnackBar>
-                <div className="appContainer">  
+                <div className="appContainer"> 
                 <Routes>
                   <Route  path='/*' element={< LandingPage />}></Route>
                   <Route  path='card/create' element={< CreateCardPage />}></Route>

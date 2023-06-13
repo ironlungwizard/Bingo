@@ -26,7 +26,6 @@ export default function CreateCardPage() {
                 navigate(`../card/edit/${Response.data.id}`);  })
         }}
 
-
     return (
     <> 
         <CreateEditComplex saveEditCard={saveCard} type='create'></CreateEditComplex>

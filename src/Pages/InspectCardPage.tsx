@@ -23,6 +23,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import { getAttributesById, signUpGuestFetch } from '../api/auth';
 
 export default function InspectCardPage() {
+    const baseUrl = process.env.REACT_APP_DB_URL
     const [authorId, setAuthorId] = useState<string>('')
     const [cardId, setCardId] = useState<string>('')
     const [phrases, setPhrases] = useState<string[]>([])
@@ -83,7 +84,7 @@ export default function InspectCardPage() {
                     if (auth['isGuest'] || !auth['id']) {
                       showSingUp()
                     } else {
-                      navigator.clipboard.writeText(pathname)
+                      navigator.clipboard.writeText(baseUrl+pathname)
                     }
             } 
 

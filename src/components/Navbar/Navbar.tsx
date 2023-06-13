@@ -19,10 +19,13 @@ import { useEffect, useState } from 'react';
 import { Button, Divider, ListItemIcon, Stack } from '@mui/material';
 import { actionCreators } from '../../state/';
 import { makeStyles } from '@mui/material';
-import { Theme } from '@mui/material';
+import { Theme, Link } from '@mui/material';
 import { Login, PersonAddAltRounded } from '@mui/icons-material';
 import { logOutFetch } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
+import StyleIcon from '@mui/icons-material/Style';
+import GamesIcon from '@mui/icons-material/Games';
+
 
 export default function Navbar() {
   const auth = useSelector((state: RootState) => state).auth
@@ -55,6 +58,9 @@ export default function Navbar() {
   const handleToMyGames = () => {
     navigate('/mygames/1')
   };
+  const handleToLanding = () => {
+    navigate('/')
+  };
   
 
  
@@ -63,17 +69,23 @@ export default function Navbar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar style={{ background: '#2E3B55' }} position="static">
-        <Toolbar>
-          <Typography variant="h6" title={'xd'} component="div" sx={{ flexGrow: 1 }}>
-            Meme Bingo
-          </Typography>
-         
+        <Toolbar style={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
+        <Button
+              onClick={handleToLanding}
+              color="primary"
+              sx={{ color: 'white', display: 'block', height: 64, textTransform: 'none'}}
+            >
+            <Typography title={'XD'} variant="h6"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', fontSize: 16}}>
+                    Meme Bingo
+            </Typography>
+        </Button>
+          
             <div className='rightNavbarBlock'>
               <Stack direction="row" >
                  <Button
                       onClick={handleCreateCard}
                       color="primary"
-                      sx={{ color: 'white', display: 'block', height: 64}}
+                      sx={{textTransform: 'none', color: 'white', display: 'block', height: 64}}
                     >
                    <Typography title={'Go to creating card'} variant="h6"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', fontSize: 16}}>
                     Create card
@@ -136,8 +148,18 @@ export default function Navbar() {
                         {auth['id']  || auth['isGuest']
                           ?  
                             <div>
-                              <MenuItem onClick={() =>{handleToMyCards(); handleCloseMenu()}}>My Cards</MenuItem>
-                              <MenuItem onClick={() =>{handleToMyGames(); handleCloseMenu()}}>My Games</MenuItem> 
+                              <MenuItem onClick={() =>{handleToMyCards(); handleCloseMenu()}}>
+                                <ListItemIcon>
+                                  <StyleIcon fontSize="small" />
+                                </ListItemIcon>
+                                My Cards
+                              </MenuItem>
+                              <MenuItem onClick={() =>{handleToMyGames(); handleCloseMenu()}}>
+                                <ListItemIcon>
+                                  <GamesIcon fontSize="small" />
+                                </ListItemIcon>
+                                My Games
+                              </MenuItem> 
                             </div>
                           : 
                         <div></div>} 

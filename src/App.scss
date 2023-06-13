@@ -39,7 +39,9 @@
 //   }
 
 // 
-
+body::-webkit-scrollbar{
+  display: none;
+}
 .App {
      background-color: #273146;
      width: 100%;

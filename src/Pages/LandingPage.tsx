@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { deleteCardsFetch, getCardsFetch, getTagsFetch } from '../api/game';
 import { createCardFetch } from '../api/game';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Card, CardHeader, Chip, Grid, IconButton, Stack, styled } from '@mui/material';
 import CardGamesPlate from '../components/CardGamesPlate/CardGamesPlate';
 import { useSelector } from 'react-redux';
@@ -20,11 +20,11 @@ export default function LandingPage() {
     const [tags, setTags] = useState<string[]>([])
     const [checkedTags, setCheckedTags] = useState<string[]>([])
  
-      useMemo(() =>  {getCardsFetch(20, checkedTags).then((Response: XMLHttpRequest["response"]) => {
+    useEffect(() =>  {getCardsFetch(20, checkedTags).then((Response: XMLHttpRequest["response"]) => {
         setIds(Response.data)
       })}, [checkedTags]);
       
-      useMemo(() =>  {getTagsFetch(checkedTags).then((Response: XMLHttpRequest["response"]) => {
+      useEffect(() =>  {getTagsFetch(checkedTags).then((Response: XMLHttpRequest["response"]) => {
         setTags(Response.data.slice(0, 15))
       })}, [checkedTags]);
 
@@ -33,10 +33,8 @@ export default function LandingPage() {
         setTags(tags.splice(index, 1))
       } 
       const handleDeleteTag = async (tag: string, index: number) => {
-        console.log(1, index, checkedTags)
         var arr = [...checkedTags]
         setCheckedTags(arr.filter(word => word != tag))
-        console.log(2, index,arr, checkedTags.filter(word => word != tag))
       } 
       const clearCheckedTags = async () => {
         setCheckedTags([])

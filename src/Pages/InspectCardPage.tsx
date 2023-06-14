@@ -34,6 +34,7 @@ export default function InspectCardPage() {
     const [tilesColor, setTilesColor] = useState<string>('')
     const [ownerName, setOwnerName] = useState<string>('')
     const [textColor, setTextColor] = useState<string>('')
+    const [markColor, setMarkColor] = useState<string>('')
     const [fontSizes, setFontSizes] = useState<string[]>([''])
     const [backgroundColor, setBackgroundColor] = useState<string>('')
     const {id} = useParams<string>();
@@ -52,6 +53,7 @@ export default function InspectCardPage() {
             setTitle(Response.data.title)
             setTilesColor(Response.data.appearance.tilesColor)
             setTextColor(Response.data.appearance.textColor)
+            setMarkColor(Response.data.appearance.markColor)
             setBackgroundColor(Response.data.appearance.backgroundColor)
             setAuthorId(Response.data.authorId)  
             setCardId(Response.data.id)
@@ -177,7 +179,7 @@ export default function InspectCardPage() {
         </div>
         <div>
             <BingoField title={title} 
-            isAGame={false}
+                isAGame={false}
                 setTitle={setTitle} 
                 backgroundColor={backgroundColor} 
                 tilesColor={tilesColor} 
@@ -186,6 +188,7 @@ export default function InspectCardPage() {
                 headerEditable={false}
                 playable={false}
                 fontSizes={fontSizes}
+                markColor={markColor}
                 ></BingoField>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                 

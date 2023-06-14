@@ -30,6 +30,7 @@ export default function ProcessGamePage() {
     const [title, setTitle] = useState<string>('')
     const [tilesColor, setTilesColor] = useState<string>('')
     const [textColor, setTextColor] = useState<string>('')
+    const [markColor, setMarkColor] = useState<string>('')
     const [backgroundColor, setBackgroundColor] = useState<string>('')
     const auth = useSelector((state: RootState) => state).auth
     const navigate = useNavigate();
@@ -49,6 +50,7 @@ export default function ProcessGamePage() {
                 setDescription(Response.data.description)
                 setTitle(Response.data.title)
                 setTilesColor(Response.data.appearance.tilesColor)
+                setMarkColor(Response.data.appearance.markColor)
                 setTextColor(Response.data.appearance.textColor)
                 setBackgroundColor(Response.data.appearance.backgroundColor)
                 setAuthorId(Response.data.authorId)  
@@ -103,6 +105,7 @@ export default function ProcessGamePage() {
                 headerEditable={false}
                 playable={true}
                 fontSizes={fontSizes}
+                markColor={markColor}
                 ></BingoField>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                

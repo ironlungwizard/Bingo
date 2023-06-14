@@ -32,7 +32,7 @@ export default function EditCardPage() {
 
             updateCardFetch(auth['id'], card, 'default', id!).then((Response: XMLHttpRequest["response"]) => {
                 navigate(`../card/edit/${Response.data.id}`);  })
-}
+    }
 
 
     useMemo(() =>  {
@@ -46,7 +46,8 @@ export default function EditCardPage() {
                 backgroundColor: Response.data.appearance.backgroundColor, 
                 textColor: Response.data.appearance.textColor, 
                 tilesColor: Response.data.appearance.tilesColor,
-                fontSizes: Response.data.appearance.fontSizes
+                fontSizes: Response.data.appearance.fontSizes,
+                markColor: Response.data.appearance.markColor
                 })
             setOwnerId(Response.data.authorId)    
         } else {

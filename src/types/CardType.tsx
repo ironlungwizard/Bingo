@@ -6,6 +6,7 @@ type Card = {
     backgroundColor: string, 
     textColor: string, 
     tilesColor: string, 
+    markColor: string, 
     fontSizes: string[]
   }
 

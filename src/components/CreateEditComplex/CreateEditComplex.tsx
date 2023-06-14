@@ -16,6 +16,8 @@ import { signUpGuestFetch } from '../../api/auth';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../../state';
 import PreviewIcon from '@mui/icons-material/Preview';
+import { Grid, Paper, Stack } from '@mui/material';
+import TileX from '../../images/TileX';
 
 const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Function, type: string, initialState?: Card}) => {
 
@@ -26,6 +28,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
     const [title, setTitle] = useState<string>('')
     const [tilesColor, setTilesColor] = useState<string>('#273146')
     const [textColor, setTextColor] = useState<string>('#ffffff')
+    const [markColor, setMarkColor] = useState<string>('black')
     const [backgroundColor, setBackgroundColor] = useState<string>('#C2CCE1')
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -39,6 +42,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
         setDescription(initialState.description)
         setTitle(initialState.title)
         setTilesColor(initialState.tilesColor)
+        setMarkColor(initialState.markColor)
         setTextColor(initialState.textColor)
         setFontSizes(initialState.fontSizes)
         setBackgroundColor(initialState.backgroundColor)
@@ -59,6 +63,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
             backgroundColor: backgroundColor, 
             textColor: textColor, 
             tilesColor: tilesColor,
+            markColor: markColor,
             fontSizes: fontSizes
           };
         if (!auth['id']) {
@@ -95,17 +100,19 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
 
     return (
     <> 
+    <Stack direction='column' sx={{justifyContent: 'space-around', width: '100%'}}>
+    <Stack direction='row' sx={{justifyContent: 'space-around', width: '100%'}}>
     <div style={{display: 'flex', marginLeft: 24,marginRight: 16,flexDirection: 'column', width: 420, minWidth: 220}}>
          <TextField
           id="standard-multiline-static"
           label="Phrases (split by Enter)"
           multiline
-          rows={32}
+          rows={34}
           title={'Textfield for phrases'}
           value={phrases.join('\r\n')}
           onChange={(e) => {handleSetPhrases(e)}} 
           variant="outlined"
-          sx={{ minWidth: 220}}
+          sx={{ minWidth: 220, height: '710px'}}
         />
         <Button
                         size="medium"
@@ -123,6 +130,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
         </div>
         <div>
             <BingoField title={title} 
+                markColor={markColor}
                 isAGame={false}
                 setTitle={setTitle} 
                 backgroundColor={backgroundColor} 
@@ -166,7 +174,55 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
         </div>
         </div>
        
-        <Box sx={{  display: 'flex', flexDirection: 'column', width: 420, minWidth: 220, marginRight: 3, marginLeft: 2, justifyContent: 'left'}}>
+            <Box sx={{  display: 'flex', flexDirection: 'column', width: 420, minWidth: 220, marginRight: 3, marginLeft: 2, alignContent: 'center'}}>
+                            <TextField 
+                                margin="dense"
+                                value={tags} 
+                                label="Tags (split by ,)"
+                                onChange={(e) => {setTags(e.target.value.split(','))}} 
+                                fullWidth 
+                                sx={{marginTop: 0}}
+                                id="Tags" 
+                                title={'Textfield for tags'}
+                                autoFocus={false} 
+                                >
+                            </TextField>
+                            <TextField
+                                id="standard-multiline-static"
+                                label="Description"
+                                multiline
+                                rows={10}
+                                title={'Textfield for description'}
+                                value={description}
+                                onChange={(e) => {setDescription(e.target.value)}} 
+                                variant="outlined"
+                                sx={{marginTop: 2}}
+                            />
+                            <Paper sx={{aspectRatio: '1/1', width: '130.02px',  alignItems: 'center', display: 'flex', justifyContent: 'center', backgroundColor: backgroundColor, marginTop: 2}}>
+                                <Paper sx={{aspectRatio: '1/1', width: '117.02px',  alignItems: 'center', display: 'flex', justifyContent: 'center', backgroundColor: tilesColor}}>
+                                    <Typography 
+                                        variant="h6" 
+                                        style={{ wordWrap: "break-word", padding: 5}} 
+                                        sx={{display: '-webkit-box', 
+                                        overflow: 'hidden', 
+                                        fontSize: '1rem',
+                                        WebkitBoxOrient: 'vertical',
+                                        WebkitLineClamp: '5',
+                                        color: textColor
+                                        }} 
+                                        align='center'
+                                        component="div">
+                                            Random text for checked example
+                                    </Typography > 
+                                    <TileX color={markColor}></TileX>
+                                </Paper>
+                            </Paper>
+                          
+                            
+        </Box>
+        </Stack>
+        <Grid container spacing={5} style={{display: 'flex', justifyContent: 'space-evenly', marginTop: 50,paddingBottom:50}}>
+                        <Grid item xs={'auto'} lg={'auto'} md={'auto'} sm={'auto'} >
                             <Typography 
                                 variant="h6"
                                 style={{ wordWrap: "break-word"}} 
@@ -179,10 +235,12 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 component="div">
                                    Background color
                             </Typography >
-                            <HexColorPicker style={{height: '106px', width: '420px'}}
+                            <HexColorPicker style={{height: '300px', width: '300px', marginTop: 10}}
                              color={backgroundColor}
                              onChange={(color) => setBackgroundColor(color)}
                             />
+                            </Grid>
+                            <Grid item xs={'auto'} lg={'auto'} md={'auto'} sm={'auto'} >
                             <Typography 
                                 variant="h6" 
                                 style={{ wordWrap: "break-word"}} 
@@ -195,10 +253,12 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 component="div">
                                     Tiles color
                             </Typography > 
-                            <HexColorPicker style={{height: '106px', width: '420px'}}
+                            <HexColorPicker style={{height: '300px', width: '300px', marginTop: 10}}
                              color={tilesColor}
                              onChange={(color) => setTilesColor(color)}
                             />
+                            </Grid>
+                            <Grid item xs={'auto'} lg={'auto'} md={'auto'} sm={'auto'} >
                             <Typography 
                                 variant="h6" 
                                 style={{ wordWrap: "break-word"}} 
@@ -211,34 +271,31 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 component="div">
                                     Font color
                             </Typography > 
-                            <HexColorPicker style={{height: '106px', width: '420px'}}
+                            <HexColorPicker style={{height: '300px', width: '300px', marginTop: 10}}
                              color={textColor}
                              onChange={(color) => setTextColor(color)}
                             />
-                            <TextField 
-                                margin="dense"
-                                value={tags} 
-                                label="Tags (split by ,)"
-                                onChange={(e) => {setTags(e.target.value.split(','))}} 
-                                fullWidth 
-                                id="Tags" 
-                                title={'Textfield for tags'}
-                                autoFocus={false} 
-                                sx={{marginTop: 5}}> 
-                            </TextField>
-                            <TextField
-                                id="standard-multiline-static"
-                                label="Description"
-                                multiline
-                                rows={10}
-                                title={'Textfield for description'}
-                                value={description}
-                                onChange={(e) => {setDescription(e.target.value)}} 
-                                variant="outlined"
-                                sx={{marginTop: 2}}
-                    />
-        </Box>
-        
+                            </Grid>
+                            <Grid item xs={'auto'} lg={'auto'} md={'auto'} sm={'auto'} >
+                            <Typography 
+                                variant="h6" 
+                                style={{ wordWrap: "break-word"}} 
+                                sx={{display: '-webkit-box', 
+                                overflow: 'hidden', 
+                                WebkitBoxOrient: 'vertical',
+                                WebkitLineClamp: 3,
+                                color: "#ffffff"
+                                }} 
+                                component="div">
+                                    Mark color
+                            </Typography > 
+                            <HexColorPicker style={{height: '300px', width: '300px', marginTop: 10}}
+                             color={markColor}
+                             onChange={(color) => setMarkColor(color)}
+                            />
+                            </Grid>
+        </Grid>
+        </Stack>
     </> 
         
     )

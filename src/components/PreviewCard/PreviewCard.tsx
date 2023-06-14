@@ -5,7 +5,6 @@ import { useMemo, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAttributesById } from '../../api/auth';
 import PreviewIcon from '@mui/icons-material/Preview';
-import Dumpsterfire from '../../images/Dumpsterfire.png';
 
 
 export default function ErrorSnackBar({id}:{id: string}) {

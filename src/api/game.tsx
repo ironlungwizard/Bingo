@@ -118,7 +118,7 @@ export async function createCardFetch(userId: string, card: any, markType: strin
       "backgroundColor": card.backgroundColor,
       "textColor": card.textColor,
       "tilesColor": card.tilesColor,
-      "markType": markType,
+      "markColor": card.markColor,
       "fontSizes": card.fontSizes
       }
     }
@@ -138,7 +138,7 @@ export async function updateCardFetch(userId: string, card: any, markType: strin
         "backgroundColor": card.backgroundColor,
         "textColor": card.textColor,
         "tilesColor": card.tilesColor,
-        "markType": markType,
+        "markColor": card.markColor,
         "fontSizes": card.fontSizes
         }
       }

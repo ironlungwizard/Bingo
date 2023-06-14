@@ -26,6 +26,7 @@ export default function ProcessGameStartPage() {
     const [title, setTitle] = useState<string>('')
     const [tilesColor, setTilesColor] = useState<string>('')
     const [fontSizes, setFontSizes] = useState<string[]>([''])
+    const [markColor, setMarkColor] = useState<string>('')
     const [textColor, setTextColor] = useState<string>('')
     const [backgroundColor, setBackgroundColor] = useState<string>('')
     const { pathname } = useLocation();
@@ -44,6 +45,7 @@ export default function ProcessGameStartPage() {
             setTitle(Response.data.title)
             setTilesColor(Response.data.appearance.tilesColor)
             setTextColor(Response.data.appearance.textColor)
+            setMarkColor(Response.data.appearance.markColor)
             setBackgroundColor(Response.data.appearance.backgroundColor)
             setAuthorId(Response.data.authorId)  
             setCardId(Response.data.id)
@@ -97,7 +99,8 @@ export default function ProcessGameStartPage() {
                 isAGame={true}
                 setTitle={setTitle} 
                 backgroundColor={backgroundColor} 
-                tilesColor={tilesColor} 
+                tilesColor={tilesColor}
+                markColor={markColor} 
                 textColor={textColor} 
                 phrases={phrases}
                 headerEditable={false}

@@ -2,11 +2,11 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import { Box, Paper, Grid, Typography, styled, Button} from '@mui/material';
 import { useState } from 'react';
-import tileX from '../../images/tileX.svg?url'
+import TileX from '../../images/TileX';
 
 
-const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, phrases, headerEditable, isAGame, playable, checkedArray, setCheckedArray, fontSizes}:
-    {title: string, setTitle: Function, backgroundColor: string, tilesColor: string, textColor: string, phrases: string[], 
+const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, markColor, phrases, headerEditable, isAGame, playable, checkedArray, setCheckedArray, fontSizes}:
+    {title: string, setTitle: Function, backgroundColor: string, tilesColor: string, textColor: string, markColor: string, phrases: string[], 
         headerEditable: boolean, isAGame: boolean, playable: boolean, checkedArray?: number[], setCheckedArray?: Function, fontSizes: string[]}) => {
         
 
@@ -84,7 +84,9 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ph
                             {phrase}
                     </Typography >
                     { checkedArray && checkedArray.includes(index) ?
-                        <img src={tileX} style={{position: 'absolute', marginLeft:0, opacity: '0.5'}}/>
+                    <>
+                        <TileX color={markColor}></TileX>
+                    </>
                         :<></>
                     } 
                 </ButtonItem>

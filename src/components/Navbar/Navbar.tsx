@@ -22,6 +22,7 @@ import { makeStyles } from '@mui/material';
 import { Theme, Link } from '@mui/material';
 import { Login, PersonAddAltRounded } from '@mui/icons-material';
 import { logOutFetch } from '../../api/auth';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import StyleIcon from '@mui/icons-material/Style';
 import GamesIcon from '@mui/icons-material/Games';
@@ -181,7 +182,12 @@ export default function Navbar() {
                               </div>
                           : 
                         <div></div>} 
-                        {auth['id'] && !auth['isGuest'] ? <MenuItem onClick={() =>{handleLogOut(), handleCloseMenu()}} >Log Out</MenuItem> :  <div></div>} 
+                        {auth['id'] && !auth['isGuest'] ? <MenuItem onClick={() =>{handleLogOut(), handleCloseMenu()}} >
+                          <ListItemIcon>
+                              <LogoutIcon fontSize="small" />
+                          </ListItemIcon>
+                          Log Out
+                          </MenuItem> :  <div></div>} 
               </Menu>
             
             </div>

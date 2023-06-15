@@ -91,12 +91,6 @@ export async function cloneCardFetch(userId: string, cardId: any) {
         return result
 }
 
-export async function startGameFetch1(userId: string, cardId: any) {
-  const body = {}
-  let response =  transportPOST(`games/?userId=${userId}&cardId=${cardId}`, body)   
-  const result = await (response);
-        return result
-}
 
 export async function updateGameFetch(gameId: string, userId: string,  checkedPhrases: number[]) {
   const body = {

@@ -16,6 +16,7 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
             textAlign: 'center',
             padding: 0,
             textTransform: 'none',
+            borderRadius: '8px',
             ":hover": {
                 backgroundColor: tilesColor
             }
@@ -24,6 +25,7 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
             backgroundColor: tilesColor,
             ...theme.typography.body2,
             textAlign: 'center',
+            borderRadius: '8px',
             color: theme.palette.text.secondary,
             paddingLeft: 0
           }));
@@ -68,11 +70,13 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
         listItems = phrases.fill(' ', phrases.length, 25).slice(0, 25).concat(blankArray.slice(phrases.length, 25)).map((phrase, index) =>
             <Grid xs={5} key={index} item >
                 { playable ? 
-                <ButtonItem sx={{aspectRatio: '1/1', width: '95%',  alignItems: 'center', display: 'flex', justifyContent: 'center', marginBottom: '8px'}} onClick={() => handleToggleTile(index)}>
+                <ButtonItem sx={{aspectRatio: '1/1', width: '117px',  alignItems: 'center', display: 'flex', justifyContent: 'center', marginBottom: '6px', 
+                boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)'}} onClick={() => handleToggleTile(index)}>
                     <Typography 
                         variant="h6" 
                         style={{ wordWrap: "break-word", padding: 5}} 
                         sx={{display: '-webkit-box', 
+                       
                         overflow: 'hidden', 
                         fontSize: fontSizeDummy[index],
                         WebkitBoxOrient: 'vertical',
@@ -91,7 +95,7 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
                     } 
                 </ButtonItem>
                 : 
-                <PaperItem sx={{aspectRatio: '1/1', width: '95%',  alignItems: 'center', display: 'flex', justifyContent: 'center', marginBottom: '8px'}}>
+                <PaperItem sx={{aspectRatio: '1/1', width: '117px',  alignItems: 'center', display: 'flex', justifyContent: 'center', backgroundImage: 'none', marginBottom: '6px'}}>
                     <Typography 
                         variant="h6" 
                         style={{ wordWrap: "break-word", padding: 5}} 
@@ -112,8 +116,8 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
         );}
     return (
         <div style={{width: '626px', height: '711px'}}>
-          <Box sx={{ width: '100%', padding: 1, paddingBottom: 0, backgroundColor: backgroundColor}}>
-                <Paper sx={{marginBottom: 1, height: 70, backgroundColor: tilesColor, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <Box sx={{ width: '100%', padding: 1, paddingBottom: '3px', backgroundColor: backgroundColor}}>
+                <Paper sx={{marginBottom: 1, height: 70, backgroundColor: tilesColor, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: 'none', borderRadius: '8px'}}>
                     {headerEditable ?
                     <TextField 
                         margin="dense"

@@ -9,7 +9,7 @@ export function transportDELETE (path: string) {
     xhr.send(JSON.stringify(''))
     xhr.onload = function () {
       if (this.status == 403) {
-        xhr.open("GET", `${baseUrl}aut/refresh`, true);
+        xhr.open("GET", `${baseUrl}auth/refresh`, true);
         xhr.responseType = "json";
         xhr.withCredentials = true;
         xhr.setRequestHeader("Content-Type", "application/json");
@@ -48,7 +48,7 @@ export function transportGET (path: string) {
     xhr.send(JSON.stringify(''))
     xhr.onload = function () {
       if (this.status == 403) {
-        xhr.open("GET", `${baseUrl}aut/refresh`, true);
+        xhr.open("GET", `${baseUrl}auth/refresh`, true);
         xhr.responseType = "json";
         xhr.withCredentials = true;
         xhr.setRequestHeader("Content-Type", "application/json");
@@ -87,7 +87,7 @@ export function transportPUT (path: string, body: object) {
     xhr.send(JSON.stringify(body))
     xhr.onload = function () {
       if (this.status == 403) {
-        xhr.open("GET", `${baseUrl}aut/refresh`, true);
+        xhr.open("GET", `${baseUrl}auth/refresh`, true);
         xhr.responseType = "json";
         xhr.withCredentials = true;
         xhr.setRequestHeader("Content-Type", "application/json");
@@ -97,7 +97,7 @@ export function transportPUT (path: string, body: object) {
           xhr.responseType = "json";
           xhr.withCredentials = true;
           xhr.setRequestHeader("Content-Type", "application/json");
-          xhr.send(JSON.stringify(''))
+          xhr.send(JSON.stringify(body))
           xhr.onload = function () {
             resolve({
               data: this.response,
@@ -126,7 +126,7 @@ export function transportPOST (path: string, body: object) {
     xhr.send(JSON.stringify(body))
     xhr.onload = function () {
       if (this.status == 403) {
-        xhr.open("GET", `${baseUrl}aut/refresh`, true);
+        xhr.open("GET", `${baseUrl}auth/refresh`, true);
         xhr.responseType = "json";
         xhr.withCredentials = true;
         xhr.setRequestHeader("Content-Type", "application/json");
@@ -136,7 +136,7 @@ export function transportPOST (path: string, body: object) {
           xhr.responseType = "json";
           xhr.withCredentials = true;
           xhr.setRequestHeader("Content-Type", "application/json");
-          xhr.send(JSON.stringify(''))
+          xhr.send(JSON.stringify(body))
           xhr.onload = function () {
             resolve({
               data: this.response,

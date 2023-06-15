@@ -4,7 +4,6 @@ import { Action } from "../actions/error.actions"
 
 export const errorOn = (errorText: string) => {
     return (dispatch: Dispatch<Action>) => {
-        console.log('хуита')
         dispatch({
             type: ActionType.ERRORON,
             text: errorText

@@ -28,7 +28,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
     const [title, setTitle] = useState<string>('')
     const [tilesColor, setTilesColor] = useState<string>('#273146')
     const [textColor, setTextColor] = useState<string>('#ffffff')
-    const [markColor, setMarkColor] = useState<string>('black')
+    const [markColor, setMarkColor] = useState<string>('#000000')
     const [backgroundColor, setBackgroundColor] = useState<string>('#C2CCE1')
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -198,8 +198,8 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 variant="outlined"
                                 sx={{marginTop: 2}}
                             />
-                            <Paper sx={{aspectRatio: '1/1', width: '130.02px',  alignItems: 'center', display: 'flex', justifyContent: 'center', backgroundColor: backgroundColor, marginTop: 2}}>
-                                <Paper sx={{aspectRatio: '1/1', width: '117.02px',  alignItems: 'center', display: 'flex', justifyContent: 'center', backgroundColor: tilesColor}}>
+                            <Paper sx={{aspectRatio: '1/1', width: '130px',  alignItems: 'center', display: 'flex', justifyContent: 'center', backgroundColor: backgroundColor, marginTop: 2}}>
+                                <Paper sx={{aspectRatio: '1/1', width: '117px',  alignItems: 'center', display: 'flex', justifyContent: 'center', backgroundColor: tilesColor}}>
                                     <Typography 
                                         variant="h6" 
                                         style={{ wordWrap: "break-word", padding: 5}} 

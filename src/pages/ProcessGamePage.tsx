@@ -19,7 +19,7 @@ import { actionCreators } from '../state';
 
 
 export default function ProcessGamePage() {
-
+    const baseUrl = process.env.REACT_APP_FRONT_URL
     const [authorId, setAuthorId] = useState<string>('')
     const [gameId, setGameId] = useState<string>('')
     const [cardId, setCardId] = useState<string>('')
@@ -79,9 +79,22 @@ export default function ProcessGamePage() {
                     if (auth['isGuest'] || !auth['id']) {
                       showSingUp()
                     } else {
-                      navigator.clipboard.writeText(pathname)
+                      navigator.clipboard.writeText(baseUrl + pathname)
                     }
             } 
+            const handleShareGameImage = async () => {
+                if (auth['isGuest'] || !auth['id']) {
+                  showSingUp()
+                } else {
+                    const response = await fetch(`http://localhost:8080/games/${id}/image?size=full&withTitle=true`)
+                    const blob = await response.blob()
+                    await navigator.clipboard.write([
+                        new ClipboardItem({
+                          'image/png': blob
+                        }),
+                      ]);
+                }
+        } 
             
 
 
@@ -153,6 +166,7 @@ export default function ProcessGamePage() {
                                 aria-haspopup="true"
                                 color="primary"
                                 title={'Share game image'}
+                                onClick={handleShareGameImage}
                                 variant="outlined"
                                 sx={{ marginTop: 1, marginLeft: 1}}
                                 >

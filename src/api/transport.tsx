@@ -1,3 +1,5 @@
+//мне очень жаль, что это так плохо написано, это повторится
+
 const baseUrl = process.env.REACT_APP_DB_URL
 export function transportDELETE (path: string) {
   return new Promise(function (resolve, reject) {
@@ -77,7 +79,7 @@ export function transportGET (path: string) {
   });
 };
 
-export function transportPUT (path: string, body: object) {
+export function transportPUT (path: string, body: object, ) {
   return new Promise(function (resolve, reject) {
     var xhr = new XMLHttpRequest();
     xhr.open("PUT", `${baseUrl}${path}`, true);
@@ -113,6 +115,56 @@ export function transportPUT (path: string, body: object) {
     xhr.onerror = function () {
       reject(new Error("Network Error"));
     };
+  });
+};
+
+export function transportPUTRefreshFirst (path: string, body: object) {
+  return new Promise(function (resolve, reject) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", `${baseUrl}auth/refresh`, true);
+    xhr.responseType = "json";
+    xhr.withCredentials = true;
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(''))
+    xhr.onload = function () { 
+      if (this.status != 403) {
+        resolve({
+          data: this.response,
+        });
+      } else {
+      xhr.open("PUT", `${baseUrl}${path}`, true);
+      xhr.responseType = "json";
+      xhr.withCredentials = true;
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify(body))
+      xhr.onload = function () {
+        if (this.status == 403) {
+          xhr.open("GET", `${baseUrl}auth/refresh`, true);
+          xhr.responseType = "json";
+          xhr.withCredentials = true;
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.send(JSON.stringify(''))
+          xhr.onload = function () {
+            xhr.open("PUT", `${baseUrl}${path}`, true);
+            xhr.responseType = "json";
+            xhr.withCredentials = true;
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify(body))
+            xhr.onload = function () {
+              resolve({
+                data: this.response,
+              });
+            }
+          }
+        } else {
+          resolve({
+            data: this.response,
+          });
+       } }
+      };
+      xhr.onerror = function () {
+        reject(new Error("Network Error"));
+      };}
   });
 };
 

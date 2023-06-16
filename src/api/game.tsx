@@ -1,5 +1,4 @@
 import { transportGET, transportPUT, transportDELETE, transportPOST} from "./transport";
-import Card from '../types/CardType';
 
 export async function getMyCardsFetch(userId: string) {
     let response =  transportGET(`cards/myCards?userId=${userId}`)   
@@ -34,6 +33,17 @@ export async function getMyGamesByCardFetch(cardId: string, userId: string) {
 
 export async function canEditCardFetch(cardId: string) {
   let response =  transportGET(`cards/${cardId}/canEdit`)   
+  const result = await (response);
+        return result
+}
+
+export async function canShareGameFetch(gamedId: string) {
+  let response =  transportGET(`games/${gamedId}/canShare`)   
+  const result = await (response);
+        return result
+}
+export async function canShareCardFetch(cardId: string) {
+  let response =  transportGET(`cards/${cardId}/canShare`)   
   const result = await (response);
         return result
 }

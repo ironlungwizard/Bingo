@@ -20,7 +20,9 @@ import { actionCreators } from '../state';
 import { Stack, Typography } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import MetaTags from 'react-meta-tags';
 import { getAttributesById, signUpGuestFetch } from '../api/auth';
+import { canShareCardFetch } from '../api/game';
 
 export default function InspectCardPage() {
     const baseUrl = process.env.REACT_APP_DB_URL
@@ -40,6 +42,7 @@ export default function InspectCardPage() {
     const {id} = useParams<string>();
     const auth = useSelector((state: RootState) => state).auth
     const navigate = useNavigate();
+    
     const { pathname } = useLocation();
     const dispatch = useDispatch();
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
@@ -83,10 +86,16 @@ export default function InspectCardPage() {
             } 
 
             const handleShareCard = async () => {
-                    if (auth['isGuest'] || !auth['id']) {
+                    if (auth['isGuest'] || !auth['id'] ) {
                       showSingUp()
-                    } else {
+                    } else { 
+                    var canShare = false
+                    canShareCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+                        canShare = Response.data
+                    })
+                    if (canShare) {
                       navigator.clipboard.writeText(baseUrl+pathname)
+                    }
                     }
             } 
 
@@ -95,7 +104,7 @@ export default function InspectCardPage() {
                 cloneCardFetch(auth['id'], cardId).then((Response: XMLHttpRequest["response"]) => {
                     navigate('/card/' + Response.data.id); 
                     setCardId(Response.data.id)
-
+                    setCanEdit(true)
                 })
                } else {
                 signUpGuestFetch().then((Response: XMLHttpRequest["response"]) => {
@@ -103,6 +112,7 @@ export default function InspectCardPage() {
                     cloneCardFetch(auth['id'], cardId).then((Response: XMLHttpRequest["response"]) => {
                         navigate('/card/' + Response.data.id); 
                         setCardId(Response.data.id)
+                        setCanEdit(true)
                     })
                 })  
                    
@@ -122,8 +132,7 @@ export default function InspectCardPage() {
 
 
     return (
-    <>
-    
+    <>    
          <div
           style={{width: 420, minWidth: 220, marginLeft: 3, marginRight: 2}}
         >

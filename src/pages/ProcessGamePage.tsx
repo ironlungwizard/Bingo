@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-import { getCardFetch, getGameFetch, updateGameFetch } from '../api/game';
+import { canShareCardFetch, canShareGameFetch, getCardFetch, getGameFetch, updateGameFetch } from '../api/game';
 import BingoField from '../components/BingoField/BingoField';
 import { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
@@ -13,13 +13,16 @@ import  isOwned  from '../utils/isOwned';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../state/reducers';
+import MetaTags from 'react-meta-tags';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../state';
+import { Helmet } from 'react-helmet-async';
 
 
 export default function ProcessGamePage() {
     const baseUrl = process.env.REACT_APP_FRONT_URL
+    const dbUrl = process.env.REACT_APP_DB_URL
     const [authorId, setAuthorId] = useState<string>('')
     const [gameId, setGameId] = useState<string>('')
     const [cardId, setCardId] = useState<string>('')
@@ -43,6 +46,7 @@ export default function ProcessGamePage() {
     useEffect(() =>  {getGameFetch(id!).then((Response: XMLHttpRequest["response"]) => {
                     setGameId(Response.data.id)
                     setCheckedArray(Response.data.checkedPhrases)
+                    setAuthorId(Response.data.ownerId) 
             if (Response) {getCardFetch(Response.data.cardId).then((Response: XMLHttpRequest["response"]) => {
                 if (Response) {
                 setPhrases(Response.data.phrases) 
@@ -53,7 +57,6 @@ export default function ProcessGamePage() {
                 setMarkColor(Response.data.appearance.markColor)
                 setTextColor(Response.data.appearance.textColor)
                 setBackgroundColor(Response.data.appearance.backgroundColor)
-                setAuthorId(Response.data.authorId)  
                 setCardId(Response.data.id)
                 setFontSizes(Response.data.appearance.fontSizes)
                 errorOff()
@@ -61,38 +64,49 @@ export default function ProcessGamePage() {
                     navigate(-1); 
                     errorOn('Card not found! It may be deleted or URL is not right.')
                 }
-            })}})}, []);
+            })}})}, [id]);
 
             const handleBackToCard = async () => {
                     navigate('../card/' + cardId); 
             } 
 
             const handleSaveGame = async () => {
-               
-                        updateGameFetch(gameId, auth['id'], checkedArray).then(Response => {
-                            navigate((`..` + `/game/`+ gameId).replace('cards/', '')); 
+                        updateGameFetch(id!, auth['id'], checkedArray).then(Response => {
+                            navigate((`..` + `/game/`+ id!).replace('cards/', '')); 
                         })
-                     
                 }
 
                 const handleShareGame = async () => {
-                    if (auth['isGuest'] || !auth['id']) {
-                      showSingUp()
-                    } else {
-                      navigator.clipboard.writeText(baseUrl + pathname)
-                    }
-            } 
+                    if (auth['isGuest'] || !auth['id'] ) {
+                        showSingUp()
+                      } else { 
+                      var canShare = false
+                      canShareGameFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+                          canShare = Response.data
+                      })
+                      if (canShare) {
+                        navigator.clipboard.writeText(baseUrl+pathname)
+                      }
+                      }
+                } 
+
             const handleShareGameImage = async () => {
                 if (auth['isGuest'] || !auth['id']) {
                   showSingUp()
                 } else {
-                    const response = await fetch(`http://localhost:8080/games/${id}/image?size=full&withTitle=true`)
+                    var canShare = false
+                    canShareGameFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+                        canShare = Response.data
+                    })
+                    if (canShare) {
+                    const response = await fetch(`${dbUrl}games/${id}/image?size=full&withTitle=true`)
                     const blob = await response.blob()
                     await navigator.clipboard.write([
                         new ClipboardItem({
                           'image/png': blob
                         }),
                       ]);
+                    }
                 }
         } 
             
@@ -104,7 +118,12 @@ export default function ProcessGamePage() {
          <div
           style={{display: 'flex'}}
         >
-       
+        <Helmet>
+            <link rel="canonical" href="https://www.tacobell.com/" />
+            <meta property="og:image" content={`${dbUrl}games/${id}/image?size=full&withTitle=true`} />
+        </Helmet>
+          
+      
         <div>
             <BingoField title={title} 
                 checkedArray={checkedArray}

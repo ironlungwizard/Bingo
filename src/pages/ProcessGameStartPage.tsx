@@ -18,7 +18,6 @@ import {  signUpGuestFetch } from '../api/auth';
 
 export default function ProcessGameStartPage() {
 
-    const [authorId, setAuthorId] = useState<string>('')
     const [cardId, setCardId] = useState<string>('')
     const [phrases, setPhrases] = useState<string[]>([])
     const [tags, setTags] = useState<string[]>([''])
@@ -46,8 +45,7 @@ export default function ProcessGameStartPage() {
             setTilesColor(Response.data.appearance.tilesColor)
             setTextColor(Response.data.appearance.textColor)
             setMarkColor(Response.data.appearance.markColor)
-            setBackgroundColor(Response.data.appearance.backgroundColor)
-            setAuthorId(Response.data.authorId)  
+            setBackgroundColor(Response.data.appearance.backgroundColor) 
             setCardId(Response.data.id)
             setFontSizes(Response.data.appearance.fontSizes)
             errorOff()

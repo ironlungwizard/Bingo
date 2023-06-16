@@ -23,10 +23,11 @@ import MyCardsPage from './pages/MyCardsPage';
 import MyGamesPage from './pages/MyGamesPage';
 import { RootState } from './state/reducers';
 import { configDotenv } from 'dotenv';
-
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 
 function App() {
+const helmetContext = {};
 const dispatch = useDispatch();
 const { login } = bindActionCreators(actionCreators, dispatch)
 const auth = useSelector((state: RootState) => state).auth
@@ -47,6 +48,7 @@ useMemo(() =>  {getAttributes().then((Response: XMLHttpRequest["response"]) => {
       <ThemeProvider theme={theme}>
         {/* <React.StrictMode> */}
           <BrowserRouter>
+          <HelmetProvider context={helmetContext}>
               <div className="App"> 
                 <Navbar></Navbar>
                 <Modal></Modal>
@@ -64,6 +66,7 @@ useMemo(() =>  {getAttributes().then((Response: XMLHttpRequest["response"]) => {
                 </Routes>
                 </div>
               </div>
+            </HelmetProvider>
           </BrowserRouter>
         {/* </React.StrictMode> */}
       </ThemeProvider>

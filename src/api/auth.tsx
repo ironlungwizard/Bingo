@@ -1,7 +1,7 @@
 
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { actionCreators } from "../state";
-import { transportPOST, transportGET, transportPUT } from "./transport";
+import { transportPOST, transportGET, transportPUT, transportPUTRefreshFirst } from "./transport";
 import { useDispatch } from "react-redux";
 
 
@@ -53,7 +53,7 @@ export async function signUpFetch(name: string, email: string, password: string)
 
 export async function signUpGuestFetch() {
     const body = {}
-    let response =  transportPUT("auth/signup-guest", body)   
+    let response =  transportPUTRefreshFirst("auth/signup-guest", body)   
     const result = await (response);
           return result
 }

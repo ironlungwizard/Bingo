@@ -11,6 +11,7 @@ import { RootState } from '../state/reducers';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useLocation, useNavigate, useNavigation, useParams } from 'react-router-dom';
+import ModalDeleteConfirm from '../ModalDeleteConfirm/ModalDeleteConfirm';
 
 
 export default function MyCardsPage() {
@@ -21,6 +22,9 @@ export default function MyCardsPage() {
     const {page} = useParams<string>();
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState<number>(parseInt(page!,10))
+  
+
+
     useMemo(() =>  {getMyCardsFetch(auth['id']).then((Response: XMLHttpRequest["response"]) => {
             setIds(Response.data)
             setPageIds(Response.data.slice((currentPage-1)*cardsOnPage, currentPage*cardsOnPage))
@@ -51,7 +55,8 @@ export default function MyCardsPage() {
                     array.splice(indexToRemove, 1);
                 setIds([...array])
                 setPageIds(array.slice((currentPage-1)*cardsOnPage, currentPage*cardsOnPage))
-        }})} 
+        }})
+        } 
 
     const cards = pageIds.map((id: string, index: number) =>
         <CardGamesPlate deleteCard={deleteCard} id={id} key={index} index={index}></CardGamesPlate>
@@ -59,7 +64,7 @@ export default function MyCardsPage() {
 
     return (
         <>
-                    <> 
+          
                     {pageIds.length < 1 ?
                         <Typography 
                         variant="h5" 
@@ -70,7 +75,7 @@ export default function MyCardsPage() {
                         color: '#ffffff'
                         }} 
                         component="div">
-                            There's no cards in here, or URL is wrong!
+                            There's no cards in here!
                         </Typography > 
                         :
                         <>
@@ -81,7 +86,7 @@ export default function MyCardsPage() {
                         </Stack>
                         </>
                     }
-                    </>
+                    
         </>
     )
 }

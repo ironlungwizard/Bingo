@@ -18,6 +18,7 @@ export const showLogIn = () => {
     }
 } 
 
+
 export const hide = () => {
     return (dispatch: Dispatch<Action>) => {
         dispatch({

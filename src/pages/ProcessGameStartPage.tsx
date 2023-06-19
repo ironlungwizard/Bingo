@@ -37,7 +37,7 @@ export default function ProcessGameStartPage() {
     const { login } = bindActionCreators(actionCreators, dispatch)
 
     useEffect(() =>  {getCardFetch(pathname.replace('/card/', '').replace('/gamestart', '')).then((Response: XMLHttpRequest["response"]) => {
-            if (Response) {
+            if (Response && !Response.data.detail) {
             setPhrases(Response.data.phrases) 
             setTags(Response.data.tags)
             setDescription(Response.data.description)

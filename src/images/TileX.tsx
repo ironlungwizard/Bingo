@@ -1,7 +1,6 @@
 import React from "react";
 
 function TileX({color}:{color: string}) {
-   console.log(color)
     return (
         <svg  style={{verticalAlign: 'middle', width: '105px', height: '105px',fill: color, overflow: 'hidden', position: 'absolute', marginLeft:0, opacity: '0.5'}} 
         viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">

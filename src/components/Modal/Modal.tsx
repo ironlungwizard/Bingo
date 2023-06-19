@@ -14,6 +14,7 @@ import TextField from '@mui/material/TextField';
 import { Dialog } from '@mui/material';
 import SignUpForm from '../ModalForms/SignUpForm'
 import LogInForm from '../ModalForms/LogInForm'
+import DeleteForm from '../ModalForms/DeleteForm';
 
 
 const style = {
@@ -42,7 +43,7 @@ export default function Modal() {
       <ModalWindow
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        open={modal.isShown}
+        open={modal['isShown']}
         onClose={hide}
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
@@ -52,14 +53,16 @@ export default function Modal() {
           },
         }}
       >
-        <Fade in={modal.isShown}>
+        <Fade in={modal['isShown']}>
           <Box sx={style}>
           {(function () {
-            switch (modal.type) {
+            switch (modal['type']) {
               case "LOGIN":
                 return <LogInForm></LogInForm> ;
               case "SIGNUP":
                 return <SignUpForm></SignUpForm>;
+              case "DELETE":
+                return <DeleteForm></DeleteForm>;
               default:
                 return null;
             }

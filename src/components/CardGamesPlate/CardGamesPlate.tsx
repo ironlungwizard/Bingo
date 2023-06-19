@@ -23,6 +23,7 @@ import { Button, Chip, Divider, Stack } from '@mui/material';
 import isOwned from '../../utils/isOwned';
 import { RootState } from '../../state/reducers';
 import { getAttributesById } from '../../api/auth';
+import ModalDeleteConfirm from '../../ModalDeleteConfirm/ModalDeleteConfirm';
 
 const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, deleteCard: Function}) => {
         interface ExpandMoreProps extends IconButtonProps {
@@ -38,6 +39,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
         const [tags, setTags] = useState<string[]>([])
         const navigate = useNavigate();
         const dispatch = useDispatch();
+        const [openModal, setOpenModal] = useState<boolean>(false);
         const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
         const ExpandMore = styled((props: ExpandMoreProps) => {
             const { expand, ...other } = props;
@@ -116,6 +118,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
 
     return (
         <Card key={index} sx={{ width: 1000, backgroundColor: '#273049'}}>
+            <ModalDeleteConfirm deleteFunction={handleDeleteCard} open={openModal} setOpen={setOpenModal}></ModalDeleteConfirm>
             <Stack direction='row' sx={{justifyContent: 'space-between'}}>
             <CardHeader
                 title={title ? title : 'No title'}
@@ -151,7 +154,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                                 size="medium"
                                 aria-haspopup="true"
                                 color="primary"
-                                onClick={handleDeleteCard}
+                                onClick={() => {setOpenModal(true)}}
                                 variant="outlined"
                                 title={'Delete card'}
                                 sx={{ marginTop: 1, marginLeft: 1}}

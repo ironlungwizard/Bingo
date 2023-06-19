@@ -8,7 +8,6 @@ export default  function authFrontValidation(setPassword: Function, password: st
     const lowercasePassword = lowercaseRegExp.test(password[0]);
     const digitsPassword = digitsRegExp.test(password[0]);
     const minLengthPassword =   password[0].length >= 8;
-    console.log(uppercasePassword,lowercasePassword, digitsPassword, minLengthPassword)
     if (nickname && setNickname && nickname[0].length < 3)
     {
         setNickname( [nickname[0], "nickname is too short"])

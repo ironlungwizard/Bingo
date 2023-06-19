@@ -13,7 +13,6 @@ import  isOwned  from '../utils/isOwned';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../state/reducers';
-import MetaTags from 'react-meta-tags';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../state';
@@ -21,7 +20,7 @@ import { Helmet } from 'react-helmet-async';
 
 
 export default function ProcessGamePage() {
-    const baseUrl = process.env.REACT_APP_FRONT_URL
+    const frontUrl = process.env.REACT_APP_FRONT_URL
     const dbUrl = process.env.REACT_APP_DB_URL
     const [authorId, setAuthorId] = useState<string>('')
     const [gameId, setGameId] = useState<string>('')
@@ -47,8 +46,8 @@ export default function ProcessGamePage() {
                     setGameId(Response.data.id)
                     setCheckedArray(Response.data.checkedPhrases)
                     setAuthorId(Response.data.ownerId) 
-            if (Response) {getCardFetch(Response.data.cardId).then((Response: XMLHttpRequest["response"]) => {
-                if (Response) {
+            if (  Response && !Response.data.detail ) {getCardFetch(Response.data.cardId).then((Response: XMLHttpRequest["response"]) => {
+                if (Response && !Response.data.detail) {
                 setPhrases(Response.data.phrases) 
                 setTags(Response.data.tags)
                 setDescription(Response.data.description)
@@ -85,7 +84,7 @@ export default function ProcessGamePage() {
                           canShare = Response.data
                       })
                       if (canShare) {
-                        navigator.clipboard.writeText(baseUrl+pathname)
+                        navigator.clipboard.writeText(frontUrl+pathname)
                       }
                       }
                 } 
@@ -99,7 +98,7 @@ export default function ProcessGamePage() {
                         canShare = Response.data
                     })
                     if (canShare) {
-                    const response = await fetch(`${dbUrl}games/${id}/image?size=full&withTitle=true`)
+                    const response = await fetch(`${dbUrl}games/${id}/image-titled-full.png`)
                     const blob = await response.blob()
                     await navigator.clipboard.write([
                         new ClipboardItem({
@@ -119,8 +118,8 @@ export default function ProcessGamePage() {
           style={{display: 'flex'}}
         >
         <Helmet>
-            <link rel="canonical" href="https://www.tacobell.com/" />
-            <meta property="og:image" content={`${dbUrl}games/${id}/image?size=full&withTitle=true`} />
+            <link rel="canonical" href={frontUrl+pathname} />
+            <meta property="og:image" content={`${dbUrl}games/${id}/image-titled-full.png`} />
         </Helmet>
           
       

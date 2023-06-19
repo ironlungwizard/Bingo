@@ -16,7 +16,7 @@ const ModalReducer = (state = initialState, action: Action) => {
         case ActionType.SHOW_SIGNUP:
             return {
                 isShown: true,
-                type: 'SIGNUP'
+                type: 'SIGNUP',
             }
         case ActionType.HIDE:
             return {

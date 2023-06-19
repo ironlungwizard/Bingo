@@ -16,16 +16,19 @@ import  isOwned  from '../utils/isOwned';
 export default function EditCardPage() {
     const navigate = useNavigate();
     const auth = useSelector((state: RootState) => state).auth
-    const dispatch = useDispatch();
     const [ownerId, setOwnerId] = useState<string>('')
-    const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
+    const dispatch = useDispatch();
+    const { errorOn } = bindActionCreators(actionCreators, dispatch)
     const {id} = useParams<string>();
     const [initialState, setInitialState] = useState<Card>()
+    const [canEdit, setCanEdit] = useState<boolean>(false)
 
     useMemo(() =>  {canEditCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+
         if (Response.data == false) {
-            navigate(-1); 
             errorOn('You cant edit this card, because it was already played!')
+        } else {
+            setCanEdit(true)
         }
      })}, []);
 
@@ -60,7 +63,7 @@ export default function EditCardPage() {
    
     return (
     <> 
-        {isOwned(ownerId) ? 
+        {isOwned(ownerId) &&  canEdit? 
         <CreateEditComplex saveEditCard={saveCard} initialState={initialState} type='edit'></CreateEditComplex> 
         :
         <Typography 

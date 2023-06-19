@@ -20,12 +20,14 @@ import { actionCreators } from '../state';
 import { Stack, Typography } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
-import MetaTags from 'react-meta-tags';
 import { getAttributesById, signUpGuestFetch } from '../api/auth';
 import { canShareCardFetch } from '../api/game';
+import { Helmet } from 'react-helmet-async';
+import ModalDeleteConfirm from '../ModalDeleteConfirm/ModalDeleteConfirm';
 
 export default function InspectCardPage() {
-    const baseUrl = process.env.REACT_APP_DB_URL
+    const frontUrl = process.env.REACT_APP_FRONT_URL
+    const dbUrl = process.env.REACT_APP_DB_URL
     const [authorId, setAuthorId] = useState<string>('')
     const [cardId, setCardId] = useState<string>('')
     const [phrases, setPhrases] = useState<string[]>([])
@@ -42,14 +44,18 @@ export default function InspectCardPage() {
     const {id} = useParams<string>();
     const auth = useSelector((state: RootState) => state).auth
     const navigate = useNavigate();
-    
+    const [openModal, setOpenModal] = useState<boolean>(false);
     const { pathname } = useLocation();
     const dispatch = useDispatch();
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
     const { showSingUp, showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
     const { login } = bindActionCreators(actionCreators, dispatch)
+    
+    
+
     useEffect(() =>  {getCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
-            if (Response ) {
+            if (Response && !Response.data.detail) {
+                console.log(111)
             setPhrases(Response.data.phrases) 
             setTags(Response.data.tags)
             setDescription(Response.data.description)
@@ -94,7 +100,7 @@ export default function InspectCardPage() {
                         canShare = Response.data
                     })
                     if (canShare) {
-                      navigator.clipboard.writeText(baseUrl+pathname)
+                      navigator.clipboard.writeText(frontUrl+pathname)
                     }
                     }
             } 
@@ -132,7 +138,12 @@ export default function InspectCardPage() {
 
 
     return (
-    <>    
+    <>  
+        <Helmet>
+            <link rel="canonical" href={frontUrl+pathname} />
+            <meta property="og:image" content={`${dbUrl}cards/${id}/image?size=full&withTitle=true`} />
+        </Helmet> 
+       
          <div
           style={{width: 420, minWidth: 220, marginLeft: 3, marginRight: 2}}
         >
@@ -199,6 +210,7 @@ export default function InspectCardPage() {
                 fontSizes={fontSizes}
                 markColor={markColor}
                 ></BingoField>
+                 <ModalDeleteConfirm deleteFunction={handleDeleteCard} open={openModal} setOpen={setOpenModal}></ModalDeleteConfirm> 
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                 
                     <Button
@@ -271,7 +283,7 @@ export default function InspectCardPage() {
                                 variant="outlined"
                                 title={'Delete card'}
                                 sx={{ marginTop: 1, marginLeft: 1}}
-                                onClick={handleDeleteCard}
+                                onClick={()=>{setOpenModal(true)}}
                                 >
                                     <DeleteIcon fontSize="large" style={{ color: "#ffffff"}}></DeleteIcon>
                     </Button>

@@ -11,7 +11,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../state/reducers';
 import PreviewCard from '../components/PreviewCard/PreviewCard'
 import BackspaceIcon from '@mui/icons-material/Backspace';
-
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import { actionCreators } from '../state';
+import { useNavigate } from 'react-router-dom';
 
 export default function LandingPage() {
   
@@ -19,13 +22,19 @@ export default function LandingPage() {
     const [ids, setIds] = useState<string[]>([])
     const [tags, setTags] = useState<string[]>([])
     const [checkedTags, setCheckedTags] = useState<string[]>([])
- 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
     useEffect(() =>  {getCardsFetch(20, checkedTags).then((Response: XMLHttpRequest["response"]) => {
+      if (Response && !Response.data.detail) {
         setIds(Response.data)
+      } 
       })}, [checkedTags]);
       
       useEffect(() =>  {getTagsFetch(checkedTags).then((Response: XMLHttpRequest["response"]) => {
+        if (Response && !Response.data.detail) {
         setTags(Response.data.slice(0, 15))
+        }
       })}, [checkedTags]);
 
       const handleClickTag = async (tag: string, index: number) => {

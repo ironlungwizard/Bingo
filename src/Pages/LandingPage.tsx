@@ -63,13 +63,15 @@ export default function LandingPage() {
     
     return (
         <div style={{width: '100%'}}>
-          <Stack direction="row" spacing={1} sx={{marginLeft: 4, marginBottom: 2}}>
+          <Stack direction="row" spacing={1} sx={{marginLeft: 4, marginRight: 4,marginBottom: 2,  maxWidth: '95%', overflow: 'hidden'}}>
           <IconButton onClick={clearCheckedTags} aria-label="Clear checked tags"  size="large" style={{marginTop: -9}}>
             <BackspaceIcon color='primary' fontSize="inherit" />
           </IconButton>
+          
           {checkedTagChips}
           {tagChips}
           </Stack>
+
         <Grid container spacing={5} style={{display: 'flex', justifyContent: 'space-evenly', paddingLeft: 30,paddingBottom:50,paddingRight: 30}}>
          {cards}
         </Grid>

@@ -70,7 +70,7 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
         listItems = phrases.fill(' ', phrases.length, 25).slice(0, 25).concat(blankArray.slice(phrases.length, 25)).map((phrase, index) =>
             <Grid xs={5} key={index} item >
                 { playable ? 
-                <ButtonItem sx={{aspectRatio: '1/1', width: '117px',  alignItems: 'center', display: 'flex', justifyContent: 'center', marginBottom: '6px', 
+                <ButtonItem sx={{aspectRatio: '1/1', width: {xs: '70px', sm: '117px'},  alignItems: 'center', display: 'flex', justifyContent: 'center', marginBottom: {xs: '3px', sm: '6px'}, 
                 boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)'}} onClick={() => handleToggleTile(index)}>
                     <Typography 
                         variant="h6" 
@@ -95,7 +95,7 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
                     } 
                 </ButtonItem>
                 : 
-                <PaperItem sx={{aspectRatio: '1/1', width: '117px',  alignItems: 'center', display: 'flex', justifyContent: 'center', backgroundImage: 'none', marginBottom: '6px'}}>
+                <PaperItem sx={{aspectRatio: '1/1', width: {xs: '70px', sm: '117px'},  alignItems: 'center', display: 'flex', justifyContent: 'center', backgroundImage: 'none', marginBottom: {xs: '3px', sm: '6px'}}}>
                     <Typography 
                         variant="h6" 
                         style={{ wordWrap: "break-word", padding: 5}} 
@@ -115,9 +115,9 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
             </Grid>
         );}
     return (
-        <div style={{width: '626px', height: '711px'}}>
-          <Box sx={{ width: '100%', padding: 1, paddingBottom: '3px', backgroundColor: backgroundColor}}>
-                <Paper sx={{marginBottom: 1, height: 70, backgroundColor: tilesColor, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: 'none', borderRadius: '8px'}}>
+        <Box sx={{width: {xs: '375px', sm: '626px'},  height: {xs: '426px', sm: '711px'}}}>
+          <Box sx={{ width: '100%', padding: {xs: 0.5, sm: 1}, paddingBottom: '3px', backgroundColor: backgroundColor}}>
+                <Paper sx={{marginBottom: {xs: 0.5, sm: 1}, height: {xs: 50, sm: 70}, backgroundColor: tilesColor, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: 'none', borderRadius: '8px'}}>
                     {headerEditable ?
                     <TextField 
                         margin="dense"
@@ -128,7 +128,7 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
                         title={title}
                         autoFocus={false}
                         size='small' 
-                        sx={{input: {wordWrap: "break-word",  overflow: 'hidden',textAlign: "center", fontSize: 25, color: textColor, WebkitLineClamp: 2}, paddingX: 1}}> 
+                        sx={{input: {wordWrap: "break-word",  overflow: 'hidden',textAlign: "center", fontSize: {xs: 18, sm: 25}, color: textColor, WebkitLineClamp: 2}, paddingX: 1}}> 
                     </TextField>
                     :
                     <Typography 
@@ -139,7 +139,7 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
                         WebkitBoxOrient: 'vertical',
                         WebkitLineClamp: 2,
                         color: textColor, 
-                        fontSize: 25,
+                        fontSize: {xs: 18, sm: 25},
                         }} 
                         title={title}
                         component="div">
@@ -147,12 +147,12 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
                     </Typography > 
                     }
                 </Paper>
-                <Grid  container  columns={25} sx={{margin: 0, width: 'calc(100% + 6px)'}}>
+                <Grid  container  columns={25} sx={{margin: 0, width: {xs: 'calc(100% + 4.5px)', sm: 'calc(100% + 6.5px)'}}}>
                     {listItems}
                 </Grid>
                 
         </Box>
-        </div> 
+        </Box> 
     )
 }
 

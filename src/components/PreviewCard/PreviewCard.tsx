@@ -64,7 +64,7 @@ export default function ErrorSnackBar({id}:{id: string}) {
                     </Typography > 
                     </div>
                 <div style={{width: 244, height: 244,  overflow: 'hidden', margin: 8, marginBottom: 0,alignContent: 'center', justifyContent: 'center', flexWrap: 'wrap', display: 'flex'}}>
-                    <img src={`http://localhost:8080/cards/${id}/image-untitled-full.png`}  style={{width: 410, marginTop: 0, height: 420,  objectFit: 'contain', objectPosition: "center"}}></img> 
+                    <img src={`http://localhost/i/cards/${id}/image-untitled-full.png`}  style={{width: 410, marginTop: 0, height: 420,  objectFit: 'contain', objectPosition: "center"}}></img> 
                 </div>
                 
                 <div title={ownerName}>

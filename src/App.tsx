@@ -41,6 +41,15 @@ useMemo(() =>  {getAttributes().then((Response: XMLHttpRequest["response"]) => {
     palette: {
         mode: 'dark',
       },
+      breakpoints: {
+        values: {
+          xs: 0,
+          sm: 626,
+          md: 900,
+          lg: 1024,
+          xl: 1536,
+        },
+      },
   });
 
 

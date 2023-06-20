@@ -76,7 +76,7 @@ export default function Navbar() {
               color="primary"
               sx={{ color: 'white', display: 'block', height: 64, textTransform: 'none'}}
             >
-            <Typography title={'XD'} variant="h6"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', fontSize: 16}}>
+            <Typography title={'XD'} variant="h6"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', fontSize: 16, minWidth: '92px'}}>
                     Meme Bingo
             </Typography>
         </Button>
@@ -88,13 +88,11 @@ export default function Navbar() {
                       color="primary"
                       sx={{textTransform: 'none', color: 'white', display: 'block', height: 64}}
                     >
-                   <Typography title={'Go to creating card'} variant="h6"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', fontSize: 16}}>
+                   <Typography title={'Go to creating card'} variant="h6"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', fontSize: 16, minWidth: '85px'}}>
                     Create card
                    </Typography>
                  </Button>
-                 <Typography title={'Hello, ' + auth['name'] + '!'} variant="h5"  sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', marginX: 2, marginBottom: 0.5}}>
-                  {auth['name'] ? auth['name'] : <></>}
-                 </Typography>
+                 
               <IconButton
                 size="large"
                 aria-label="menu"
@@ -122,7 +120,7 @@ export default function Navbar() {
                     overflow: 'visible',
                     filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                     mt: 1.5,
-                    width: 148,
+                    
                     '& .MuiAvatar-root': {
                       width: 32,
                       height: 32,
@@ -188,6 +186,14 @@ export default function Navbar() {
                           </ListItemIcon>
                           Log Out
                           </MenuItem> :  <div></div>} 
+                          {auth['name'] ?
+                          <MenuItem>
+                          <Typography title={'Hello, ' + auth['name'] + '!'}   sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', marginBottom: 0.5}}>
+                            {auth['name']}
+                          </Typography>
+                          </MenuItem> 
+                          : <></>
+                          }
               </Menu>
             
             </div>

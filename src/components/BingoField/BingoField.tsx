@@ -115,7 +115,7 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
             </Grid>
         );}
     return (
-        <Box sx={{width: {xs: '375px', sm: '626px'},  height: {xs: '426px', sm: '711px'}}}>
+        <Box sx={{width: {xs: '374px', sm: '626px'},  height: {xs: '426px', sm: '711px'}}}>
           <Box sx={{ width: '100%', padding: {xs: 0.5, sm: 1}, paddingBottom: '3px', backgroundColor: backgroundColor}}>
                 <Paper sx={{marginBottom: {xs: 0.5, sm: 1}, height: {xs: 50, sm: 70}, backgroundColor: tilesColor, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: 'none', borderRadius: '8px'}}>
                     {headerEditable ?

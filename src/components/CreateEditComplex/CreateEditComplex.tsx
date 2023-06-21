@@ -102,7 +102,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
     <> 
     <Stack direction='column' sx={{justifyContent: 'space-around', width: '100%'}}>
     <Stack direction={{ xs: 'column', lg: 'row' }} sx={{justifyContent: 'space-around', width: '100%', alignItems: {lg:'flex-start', xs: 'center'}}}>
-    {/* <Box sx={{ order: {xs: '2', lg: '1'}, width: {xs: '626px', lg: '420px'}, marginTop: {xs: '16px', lg: '0'}, marginLeft: {xs: '0', lg: '24px'}, marginRight: {xs: '0', lg: '16px'}}} 
+    <Box sx={{ order: {xs: '2', lg: '1'}, width: {sm: '626px', xs: '374px', lg: '420px'}, marginTop: {xs: '16px', lg: '0'}, marginLeft: {xs: '0', lg: '24px'}, marginRight: {xs: '0', lg: '16px'}}} 
     style={{display: 'flex', flexDirection: 'column',  minWidth: 160}}>
          <TextField
           id="standard-multiline-static"
@@ -129,7 +129,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                             <RefreshIcon fontSize="large" style={{ color: "#ffffff", aspectRatio: '1/1' }}></RefreshIcon>
                        
         </Button>
-        </Box> */}
+        </Box>
         <Box sx={{ order: {xs: '1', lg: '2'} }}>
             <BingoField title={title} 
                 markColor={markColor}
@@ -143,7 +143,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                 playable={false}
                 fontSizes={fontSizes}
                 ></BingoField>
-        {/* <Box  style={{display: 'flex', justifyContent: 'space-between'}}>
+        <Box  style={{display: 'flex', justifyContent: 'space-between'}}>
             <Button
                         size="medium"
                         aria-haspopup="true"
@@ -173,10 +173,10 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
             
                 </Button> : <></>
             }
-        </Box> */}
+        </Box>
         </Box>
        
-            {/* <Box sx={{  order: '3',  display: 'flex', alignItems: 'center', flexDirection: 'column', width: {xs: '626px', lg: '420px'}, minWidth: 160, marginLeft: {xs: '0', lg: '16px'}, marginRight: {xs: '0', lg: '24px'}, alignContent: 'center'}}>
+            <Box sx={{  order: '3',  display: 'flex', alignItems: 'center', flexDirection: 'column', width: {sm: '626px', xs: '374px', lg: '420px'}, minWidth: 160, marginLeft: {xs: '0', lg: '16px'}, marginRight: {xs: '0', lg: '24px'}, alignContent: 'center'}}>
                             <TextField 
                                 margin="dense"
                                 value={tags} 
@@ -219,9 +219,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                     <TileX color={markColor}></TileX>
                                 </Paper>
                             </Paper>
-                          
-                            
-        </Box> */}
+        </Box>
         </Stack>
         <Grid container spacing={5} style={{display: 'flex', justifyContent: 'space-evenly', marginTop: 50,paddingBottom:50}}>
                         <Grid item xs={'auto'} lg={'auto'} md={'auto'} sm={'auto'} >
@@ -237,7 +235,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 component="div">
                                    Background color
                             </Typography >
-                            <HexColorPicker style={{height: '250px', width: '250px', marginTop: 10}}
+                            <HexColorPicker style={{height: '220px', width: '220px', marginTop: 10}}
                              color={backgroundColor}
                              onChange={(color) => setBackgroundColor(color)}
                             />
@@ -255,7 +253,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 component="div">
                                     Tiles color
                             </Typography > 
-                            <HexColorPicker style={{height: '250px', width: '250px', marginTop: 10}}
+                            <HexColorPicker style={{height: '220px', width: '220px', marginTop: 10}}
                              color={tilesColor}
                              onChange={(color) => setTilesColor(color)}
                             />
@@ -273,7 +271,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 component="div">
                                     Font color
                             </Typography > 
-                            <HexColorPicker style={{height: '250px', width: '250px', marginTop: 10}}
+                            <HexColorPicker style={{height: '220px', width: '220px', marginTop: 10}}
                              color={textColor}
                              onChange={(color) => setTextColor(color)}
                             />
@@ -291,7 +289,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 component="div">
                                     Mark color
                             </Typography > 
-                            <HexColorPicker style={{height: '250px', width: '250px', marginTop: 10}}
+                            <HexColorPicker style={{height: '220px', width: '220px', marginTop: 10}}
                              color={markColor}
                              onChange={(color) => setMarkColor(color)}
                             />

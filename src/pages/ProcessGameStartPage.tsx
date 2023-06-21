@@ -13,7 +13,8 @@ import { RootState } from '../state/reducers';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../state';
-import {  signUpGuestFetch } from '../api/auth';
+import {  getAttributesById, signUpGuestFetch } from '../api/auth';
+import { Box, Chip, Stack, Typography } from '@mui/material';
 
 
 export default function ProcessGameStartPage() {
@@ -26,6 +27,7 @@ export default function ProcessGameStartPage() {
     const [tilesColor, setTilesColor] = useState<string>('')
     const [fontSizes, setFontSizes] = useState<string[]>([''])
     const [markColor, setMarkColor] = useState<string>('')
+    const [ownerName, setOwnerName] = useState<string>('')
     const [textColor, setTextColor] = useState<string>('')
     const [backgroundColor, setBackgroundColor] = useState<string>('')
     const { pathname } = useLocation();
@@ -48,6 +50,9 @@ export default function ProcessGameStartPage() {
             setBackgroundColor(Response.data.appearance.backgroundColor) 
             setCardId(Response.data.id)
             setFontSizes(Response.data.appearance.fontSizes)
+            getAttributesById(Response.data.authorId).then((Response: XMLHttpRequest["response"]) => {
+                setOwnerName(Response.data.name)
+             })
             errorOff()
             } else {
                 navigate(-1);  
@@ -82,15 +87,69 @@ export default function ProcessGameStartPage() {
                 }
             } 
        
-
+            const tagChips = tags.map((tag, index) =>
+            <Chip color='primary' variant="outlined" label={tag} key={index} />   
+            );
     return (
   
     
-         <div
-          style={{display: 'flex'}}
-        >
+    
        
-        <div>
+       <Stack direction={{ xs: 'column', lg: 'row' }} sx={{width: '100%', justifyContent: 'space-around', alignItems: {xs: 'center', lg: 'inherit'}}}>
+        <Box sx={{ order: {xs: '2', lg: '1'}, width: {sm: '626px', xs: '374px', lg: '375px'}, marginTop: {xs: '16px', lg: '0'}, marginLeft: {xs: '0', lg: '10px'}, marginRight: {xs: '0', lg: '6px'}}} >
+           
+           <Typography 
+                      variant="h5" 
+                      style={{ wordWrap: "break-word"}} 
+                      sx={{display: '-webkit-box', 
+                      overflow: 'hidden', 
+                      WebkitBoxOrient: 'vertical',
+                      color: '#ffffff',
+                      marginBottom: 2
+                      }} 
+                      component="div">
+                         Author: {ownerName} <br/>
+              </Typography > 
+              <Typography 
+                      variant="h5" 
+                      style={{ wordWrap: "break-word"}} 
+                      sx={{display: '-webkit-box', 
+                      overflow: 'hidden', 
+                      WebkitBoxOrient: 'vertical',
+                      color: '#ffffff',
+                      marginBottom: 1
+                      }} 
+                      component="div">
+                          Tags: <br/>
+              </Typography > 
+              <Stack useFlexGap sx={{ marginBottom: 2}} flexWrap="wrap" direction="row" spacing={{ xs: 1, sm: 0.5 }}>
+                  {tagChips}
+              </Stack>
+              <Typography 
+                      variant="h5" 
+                      style={{ wordWrap: "break-word"}} 
+                      sx={{display: '-webkit-box', 
+                      overflow: 'hidden', 
+                      WebkitBoxOrient: 'vertical',
+                      color: '#ffffff',
+                      }} 
+                      component="div">
+                          Description:
+              </Typography > 
+              <Typography 
+                      variant="h6" 
+                      style={{ wordWrap: "break-word"}} 
+                      sx={{display: '-webkit-box', 
+                      overflow: 'hidden', 
+                      WebkitBoxOrient: 'vertical',
+                      color: '#ffffff',
+                      }} 
+                      component="div">
+                          {description}
+              </Typography > 
+          
+     </Box>
+     <Box sx={{order: {xs: '1', lg: '2'}}}>
             <BingoField title={title} 
                 checkedArray={checkedArray}
                 setCheckedArray={setCheckedArray}
@@ -135,11 +194,11 @@ export default function ProcessGameStartPage() {
             </div>
             
             </div>
-        </div>
-       
-        </div>
-        
-   
+            </Box>
+            <Box
+            sx={{order: 3, width: {sm: '0px', xs: '0px', lg: '390px'}}}
+            />
+        </Stack> 
         
     )
 }

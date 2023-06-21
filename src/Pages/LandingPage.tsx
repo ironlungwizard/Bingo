@@ -25,6 +25,7 @@ export default function LandingPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
+    
     useEffect(() =>  {getCardsFetch(20, checkedTags).then((Response: XMLHttpRequest["response"]) => {
       if (Response && !Response.data.detail) {
         setIds(Response.data)
@@ -54,20 +55,19 @@ export default function LandingPage() {
         );
 
         const checkedTagChips = checkedTags.map((tag, index) =>
-                <Chip color='primary' onDelete={(e) => {handleDeleteTag(tag, index)}} variant="outlined" label={tag} key={index} />   
+                <Chip color='primary' onDelete={(e) => {handleDeleteTag(tag, index)}} variant="outlined" label={tag} key={index} sx={{marginBottom: '12px'}} />   
         );
         const tagChips = tags.filter(item => !checkedTags.includes(item)).map((tag, index) =>
-                <Chip label={tag} onClick={(e) => {handleClickTag(tag, index)}} color='primary' variant="outlined" key={index} />   
+                <Chip label={tag} onClick={(e) => {handleClickTag(tag, index)}} color='primary' variant="outlined" key={index} sx={{marginBottom: '12px'}} />   
         );
 
     
     return (
         <div style={{width: '100%'}}>
-          <Stack direction="row" spacing={1} sx={{marginLeft: 4, marginRight: 4,marginBottom: 2,  maxWidth: '95%', overflow: 'hidden'}}>
+          <Stack flexWrap="wrap" direction="row" sx={{marginLeft: 4, marginRight: 4,marginBottom: 2,  maxWidth: '95%', overflow: 'hidden'}}>
           <IconButton onClick={clearCheckedTags} aria-label="Clear checked tags"  size="large" style={{marginTop: -9}}>
             <BackspaceIcon color='primary' fontSize="inherit" />
           </IconButton>
-          
           {checkedTagChips}
           {tagChips}
           </Stack>

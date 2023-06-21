@@ -17,7 +17,7 @@ import { RootState } from '../state/reducers';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../state';
-import { Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import { getAttributesById, signUpGuestFetch } from '../api/auth';
@@ -143,21 +143,20 @@ export default function InspectCardPage() {
             <link rel="canonical" href={frontUrl+pathname} />
             <meta property="og:image" content={`${dbUrl}cards/${id}/image?size=full&withTitle=true`} />
         </Helmet> 
-       
-         <div
-          style={{width: 420, minWidth: 220, marginLeft: 3, marginRight: 2}}
-        >
-             <Stack direction="column" spacing={2}>
+       <Stack direction={{ xs: 'column', lg: 'row' }} sx={{width: '100%', justifyContent: 'space-around', alignItems: {xs: 'center', lg: 'inherit'}}}>
+        <Box sx={{ order: {xs: '2', lg: '1'}, width: {sm: '626px', xs: '374px', lg: '375px'}, marginTop: {xs: '16px', lg: '0'}, marginLeft: {xs: '0', lg: '10px'}, marginRight: {xs: '0', lg: '6px'}}} >
+           
              <Typography 
-                        variant="h4" 
+                        variant="h5" 
                         style={{ wordWrap: "break-word"}} 
                         sx={{display: '-webkit-box', 
                         overflow: 'hidden', 
                         WebkitBoxOrient: 'vertical',
-                        color: '#ffffff'
+                        color: '#ffffff',
+                        marginBottom: 2
                         }} 
                         component="div">
-                           {ownerName} <br/>
+                           Author: {ownerName} <br/>
                 </Typography > 
                 <Typography 
                         variant="h5" 
@@ -165,12 +164,13 @@ export default function InspectCardPage() {
                         sx={{display: '-webkit-box', 
                         overflow: 'hidden', 
                         WebkitBoxOrient: 'vertical',
-                        color: '#ffffff'
+                        color: '#ffffff',
+                        marginBottom: 1
                         }} 
                         component="div">
                             Tags: <br/>
                 </Typography > 
-                <Stack useFlexGap flexWrap="wrap" direction="row" spacing={{ xs: 1, sm: 0.5 }}>
+                <Stack useFlexGap sx={{ marginBottom: 2}} flexWrap="wrap" direction="row" spacing={{ xs: 1, sm: 0.5 }}>
                     {tagChips}
                 </Stack>
                 <Typography 
@@ -179,7 +179,7 @@ export default function InspectCardPage() {
                         sx={{display: '-webkit-box', 
                         overflow: 'hidden', 
                         WebkitBoxOrient: 'vertical',
-                        color: '#ffffff'
+                        color: '#ffffff',
                         }} 
                         component="div">
                             Description:
@@ -190,14 +190,14 @@ export default function InspectCardPage() {
                         sx={{display: '-webkit-box', 
                         overflow: 'hidden', 
                         WebkitBoxOrient: 'vertical',
-                        color: '#ffffff'
+                        color: '#ffffff',
                         }} 
                         component="div">
                             {description}
                 </Typography > 
-            </Stack>
-        </div>
-        <div>
+            
+       </Box>
+        <Box sx={{order: {xs: '1', lg: '2'}}}>
             <BingoField title={title} 
                 isAGame={false}
                 setTitle={setTitle} 
@@ -220,7 +220,7 @@ export default function InspectCardPage() {
                                 variant="outlined"
                                 onClick={handlePlayCard}
                                 title={'Play'}
-                                sx={{ marginTop: 1, marginRight: 1, width: 120}}
+                                sx={{ marginTop: 1, marginRight: 1, width: {xs: 64, sm: 120}}}
                                 >
                                     <PlayArrowIcon  fontSize="large" style={{ color: "#ffffff" }}></PlayArrowIcon>
                     </Button>
@@ -303,12 +303,12 @@ export default function InspectCardPage() {
                   }
             </div>
             </div>
-        </div>
-       
-        <div
-          style={{width: 420, minWidth: 220, marginLeft: 3, marginRight: 2}}
-        />
+        </Box>
         
+        <Box
+          sx={{order: 3, width: {sm: '0px', xs: '0px', lg: '390px'}}}
+        />
+        </Stack>
     </> 
         
     )

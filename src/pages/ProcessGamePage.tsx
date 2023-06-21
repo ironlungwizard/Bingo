@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../state';
 import { Helmet } from 'react-helmet-async';
+import { Chip } from '@mui/material';
 
 
 export default function ProcessGamePage() {
@@ -109,7 +110,9 @@ export default function ProcessGamePage() {
                 }
         } 
             
-
+        const tagChips = tags.map((tag, index) =>
+        <Chip color='primary' variant="outlined" label={tag} key={index} />   
+    );
 
     return (
   
@@ -124,6 +127,7 @@ export default function ProcessGamePage() {
           
       
         <div>
+            
             <BingoField title={title} 
                 checkedArray={checkedArray}
                 setCheckedArray={setCheckedArray}

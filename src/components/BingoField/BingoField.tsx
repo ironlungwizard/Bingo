@@ -89,7 +89,7 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
                     </Typography >
                     { checkedArray && checkedArray.includes(index) ?
                     <>
-                        <TileX color={markColor}></TileX>
+                        <TileX  color={markColor}></TileX>
                     </>
                         :<></>
                     } 

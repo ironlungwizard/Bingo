@@ -16,7 +16,7 @@ import { signUpGuestFetch } from '../../api/auth';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../../state';
 import PreviewIcon from '@mui/icons-material/Preview';
-import { Grid, Paper, Stack } from '@mui/material';
+import { Grid, Paper, Stack, styled } from '@mui/material';
 import TileX from '../../images/TileX';
 
 const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Function, type: string, initialState?: Card}) => {
@@ -26,6 +26,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
     const [tags, setTags] = useState<string[]>([])
     const [description, setDescription] = useState<string>('')
     const [title, setTitle] = useState<string>('')
+    const [testTitleOn, setTestTitleOn] = useState<boolean>(true)
     const [tilesColor, setTilesColor] = useState<string>('#273146')
     const [textColor, setTextColor] = useState<string>('#ffffff')
     const [markColor, setMarkColor] = useState<string>('#000000')
@@ -47,6 +48,18 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
         setFontSizes(initialState.fontSizes)
         setBackgroundColor(initialState.backgroundColor)
     }}, [initialState]);
+
+    const ButtonItem = styled(Button)(({ theme }) => ({
+        backgroundColor: tilesColor,
+        ...theme.typography.body2,
+        textAlign: 'center',
+        padding: 0,
+        textTransform: 'none',
+        borderRadius: '8px',
+        ":hover": {
+            backgroundColor: tilesColor
+        }
+      }));
 
     const handleResortPhrases = async () => {
         setPhrases(phrases.sort(() => Math.random() - 0.5).slice())
@@ -201,25 +214,31 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                 sx={{marginTop: 2, width: '100%'}}
                             />
                             <Paper sx={{aspectRatio: '1/1', width: '130px',  alignItems: 'center', display: 'flex', justifyContent: 'center', backgroundColor: backgroundColor, marginTop: 2}}>
-                                <Paper sx={{aspectRatio: '1/1', width: '117px',  alignItems: 'center', display: 'flex', justifyContent: 'center', backgroundColor: tilesColor}}>
-                                    <Typography 
-                                        variant="h6" 
-                                        style={{ wordWrap: "break-word", padding: 5}} 
-                                        sx={{display: '-webkit-box', 
-                                        overflow: 'hidden', 
-                                        fontSize: '1rem',
-                                        WebkitBoxOrient: 'vertical',
-                                        WebkitLineClamp: '5',
-                                        color: textColor
-                                        }} 
-                                        align='center'
-                                        component="div">
-                                            Random text for checked example
-                                    </Typography > 
-                                    <TileX color={markColor}></TileX>
-                                </Paper>
-                            </Paper>
-        </Box>
+                           <ButtonItem sx={{aspectRatio: '1/1', width: '117px',  alignItems: 'center', display: 'flex', justifyContent: 'center', marginBottom: {xs: '3px', sm: '6px'}, 
+                            boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)'}} onClick={() => setTestTitleOn(!testTitleOn)}>
+                                <Typography 
+                                    variant="h6" 
+                                    style={{ wordWrap: "break-word", padding: 5}} 
+                                    sx={{display: '-webkit-box', 
+                                
+                                    overflow: 'hidden', 
+                                    fontSize: '1rem',
+                                    WebkitBoxOrient: 'vertical',
+                                    WebkitLineClamp: 5,
+                                    color: textColor
+                                    }} 
+                                    title='Click me!'
+                                    component="div">
+                                        Click me! Random phrase.
+                                </Typography >
+                                { testTitleOn ?
+                                <>
+                                    <TileX  color={markColor}></TileX>
+                                </>
+                                    :<></>
+                                } 
+                            </ButtonItem> </Paper>
+        </Box>             
         </Stack>
         <Grid container spacing={5} style={{display: 'flex', justifyContent: 'space-evenly', marginTop: 50,paddingBottom:50}}>
                         <Grid item xs={'auto'} lg={'auto'} md={'auto'} sm={'auto'} >

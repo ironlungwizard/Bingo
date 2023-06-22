@@ -117,7 +117,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
         } 
 
     return (
-        <Card key={index} sx={{ width: 1000, backgroundColor: '#273049'}}>
+        <Card key={index} sx={{ width: {xs: '360px', sm: '620px', lg: '1000px'}, backgroundColor: '#273049'}}>
             <ModalDeleteConfirm deleteFunction={handleDeleteCard} open={openModal} setOpen={setOpenModal}></ModalDeleteConfirm>
             <Stack direction='row' sx={{justifyContent: 'space-between'}}>
             <CardHeader
@@ -134,7 +134,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                                 onClick={handleToCard}
                                 variant="outlined"
                                 title={'View card'}
-                                sx={{ marginTop: 1, marginLeft: 1}}
+                                sx={{ marginTop: 1, marginLeft: 1, paddingLeft: {xs: '5px', lg: '15px'}, paddingRight: {xs: '5px', lg: '15px'}, minWidth: {xs: '30px', lg: '64px'}}}
                             
                                 >
                                     <PreviewIcon  fontSize="large" style={{ color: "#fff"}}></PreviewIcon>
@@ -145,7 +145,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                                 color="primary"
                                 variant="outlined"
                                 title={'Share card'}
-                                sx={{ marginTop: 1, marginLeft: 1}}
+                                sx={{ marginTop: 1, marginLeft: 1, paddingLeft: {xs: '5px', lg: '15px'}, paddingRight: {xs: '5px', lg: '15px'}, minWidth: {xs: '30px', lg: '64px'}}}
                                 >
                                     <ShareIcon fontSize="large" style={{ color: "#fff"}}></ShareIcon>
                     </Button>
@@ -157,7 +157,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                                 onClick={() => {setOpenModal(true)}}
                                 variant="outlined"
                                 title={'Delete card'}
-                                sx={{ marginTop: 1, marginLeft: 1}}
+                                sx={{ marginTop: 1, marginLeft: 1, paddingLeft: {xs: '5px', lg: '15px'}, paddingRight: {xs: '5px', lg: '15px'}, minWidth: {xs: '30px', lg: '64px'}}}
                                 
                                 >
                                     <DeleteIcon fontSize="large" style={{ color: "#fff"}}></DeleteIcon>
@@ -170,10 +170,10 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                                 variant="outlined"
                                 title={'Delete card'}
                                 disabled
-                                sx={{ marginTop: 1, marginLeft: 1}}
+                                sx={{ marginTop: 1, marginLeft: 1, paddingLeft: {xs: '5px', lg: '15px'}, paddingRight: {xs: '5px', lg: '15px'}, minWidth: {xs: '30px', lg: '64px'}}}
                             
                                 >
-                                    <DeleteIcon fontSize="large" style={{ color: "#fff"}}></DeleteIcon>
+                                    <DeleteIcon  fontSize="large" style={{ color: "#fff"}}></DeleteIcon>
                     </Button>
                 }
             </div>
@@ -185,7 +185,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                             title={'Play'}
                             color="primary"
                             variant="outlined"
-                            sx={{ marginTop: 1, marginLeft: 1, width: 208}}
+                            sx={{ marginTop: 1, marginLeft: 1, width: {xs: '144px', lg: '208px'}}}
                             >
                                 <PlayArrowIcon  fontSize="large" style={{ color: "#fff" }}></PlayArrowIcon>
             </Button>

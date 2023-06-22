@@ -14,7 +14,6 @@ import TextField from '@mui/material/TextField';
 import { Dialog } from '@mui/material';
 import SignUpForm from '../ModalForms/SignUpForm'
 import LogInForm from '../ModalForms/LogInForm'
-import DeleteForm from '../ModalForms/DeleteForm';
 
 
 const style = {
@@ -22,7 +21,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 500,
+  width: {xs: '360px', sm: '500px'},
   bgcolor: '#2E3B55',
   boxShadow: 14,
   p: 4,
@@ -61,8 +60,6 @@ export default function Modal() {
                 return <LogInForm></LogInForm> ;
               case "SIGNUP":
                 return <SignUpForm></SignUpForm>;
-              case "DELETE":
-                return <DeleteForm></DeleteForm>;
               default:
                 return null;
             }

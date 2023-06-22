@@ -70,7 +70,7 @@ export default function LogInForm() {
             <PasswordReqPopup/>
             </div>
             <Button title={'Log In'} type="submit" sx={{ marginTop: 2 }} onClick={handleLogIn} size='large' variant="contained">Log In</Button>
-            <Button title={'Go to registration'} sx={{ marginTop: 2, marginLeft: 5 }} onClick={showSingUp} variant="text" >I don't have an account yet</Button>
+            <Button title={'Go to registration'} sx={{ marginTop: 2, marginLeft: '18px' }} onClick={showSingUp} variant="text" >I don't have an account</Button>
             </form> 
         </> 
     )

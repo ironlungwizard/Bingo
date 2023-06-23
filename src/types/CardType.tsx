@@ -7,7 +7,7 @@ type Card = {
     textColor: string, 
     tilesColor: string, 
     markColor: string, 
-    fontSizes: string[]
+    fontSizes: number[]
   }
 
 export default Card

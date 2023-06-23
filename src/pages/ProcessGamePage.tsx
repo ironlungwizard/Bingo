@@ -29,7 +29,7 @@ export default function ProcessGamePage() {
     const [phrases, setPhrases] = useState<string[]>([])
     const [tags, setTags] = useState<string[]>([''])
     const [description, setDescription] = useState<string>('')
-    const [fontSizes, setFontSizes] = useState<string[]>([''])
+    const [fontSizes, setFontSizes] = useState<number[]>([])
     const [title, setTitle] = useState<string>('')
     const [tilesColor, setTilesColor] = useState<string>('')
     const [textColor, setTextColor] = useState<string>('')

@@ -39,7 +39,7 @@ export default function InspectCardPage() {
     const [ownerName, setOwnerName] = useState<string>('')
     const [textColor, setTextColor] = useState<string>('')
     const [markColor, setMarkColor] = useState<string>('')
-    const [fontSizes, setFontSizes] = useState<string[]>([''])
+    const [fontSizes, setFontSizes] = useState<number[]>([])
     const [backgroundColor, setBackgroundColor] = useState<string>('')
     const {id} = useParams<string>();
     const auth = useSelector((state: RootState) => state).auth

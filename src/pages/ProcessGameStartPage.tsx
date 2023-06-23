@@ -25,7 +25,7 @@ export default function ProcessGameStartPage() {
     const [description, setDescription] = useState<string>('')
     const [title, setTitle] = useState<string>('')
     const [tilesColor, setTilesColor] = useState<string>('')
-    const [fontSizes, setFontSizes] = useState<string[]>([''])
+    const [fontSizes, setFontSizes] = useState<number[]>([])
     const [markColor, setMarkColor] = useState<string>('')
     const [ownerName, setOwnerName] = useState<string>('')
     const [textColor, setTextColor] = useState<string>('')

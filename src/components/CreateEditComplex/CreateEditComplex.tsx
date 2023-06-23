@@ -22,7 +22,7 @@ import TileX from '../../images/TileX';
 const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Function, type: string, initialState?: Card}) => {
 
     const [phrases, setPhrases] = useState<string[]>([])
-    const [fontSizes, setFontSizes] = useState<string[]>(Array(25).fill('1.25rem'))
+    const [fontSizes, setFontSizes] = useState<number[]>(Array(25).fill(1.25))
     const [tags, setTags] = useState<string[]>([])
     const [description, setDescription] = useState<string>('')
     const [title, setTitle] = useState<string>('')
@@ -93,15 +93,15 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
         phrasesArray.forEach((value: string, index: number) => {
            if(value.length > 45) {
                 var fontSizesArray = fontSizes
-                fontSizesArray[index] = '0.90rem'
+                fontSizesArray[index] = 0.90
                 setFontSizes(fontSizesArray)
            } else if(value.length > 27) {
                 var fontSizesArray = fontSizes
-                fontSizesArray[index] = '1rem'
+                fontSizesArray[index] = 1
                 setFontSizes(fontSizesArray)
            } else {
                 var fontSizesArray = fontSizes
-                fontSizesArray[index] = '1.25rem'
+                fontSizesArray[index] = 1.25
                 setFontSizes(fontSizesArray)
            }
         });
@@ -115,7 +115,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
     <> 
     <Stack direction='column' sx={{justifyContent: 'space-around', width: '100%'}}>
     <Stack direction={{ xs: 'column', lg: 'row' }} sx={{justifyContent: 'space-around', width: '100%', alignItems: {lg:'flex-start', xs: 'center'}}}>
-    <Box sx={{ order: {xs: '2', lg: '1'}, width: {sm: '626px', xs: '374px', lg: '420px'}, marginTop: {xs: '16px', lg: '0'}, marginLeft: {xs: '0', lg: '24px'}, marginRight: {xs: '0', lg: '16px'}}} 
+    <Box sx={{ order: {xs: '2', lg: '1'}, width: {sm: '626px', xs: '360px', lg: '420px'}, marginTop: {xs: '16px', lg: '0'}, marginLeft: {xs: '0', lg: '24px'}, marginRight: {xs: '0', lg: '16px'}}} 
     style={{display: 'flex', flexDirection: 'column',  minWidth: 160}}>
          <TextField
           id="standard-multiline-static"
@@ -189,7 +189,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
         </Box>
         </Box>
        
-            <Box sx={{  order: '3',  display: 'flex', alignItems: 'center', flexDirection: 'column', width: {sm: '626px', xs: '374px', lg: '420px'}, minWidth: 160, marginLeft: {xs: '0', lg: '16px'}, marginRight: {xs: '0', lg: '24px'}, alignContent: 'center'}}>
+            <Box sx={{  order: '3',  display: 'flex', alignItems: 'center', flexDirection: 'column', width: {sm: '626px', xs: '360px', lg: '420px'}, minWidth: 160, marginLeft: {xs: '0', lg: '16px'}, marginRight: {xs: '0', lg: '24px'}, alignContent: 'center'}}>
                             <TextField 
                                 margin="dense"
                                 value={tags} 
@@ -229,7 +229,7 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
                                     }} 
                                     title='Click me!'
                                     component="div">
-                                        Click me! Random phrase.
+                                        You can click me! Random phrase.
                                 </Typography >
                                 { testTitleOn ?
                                 <>

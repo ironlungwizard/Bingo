@@ -7,7 +7,7 @@ import TileX from '../../images/TileX';
 
 const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, markColor, phrases, headerEditable, isAGame, playable, checkedArray, setCheckedArray, fontSizes}:
     {title: string, setTitle: Function, backgroundColor: string, tilesColor: string, textColor: string, markColor: string, phrases: string[], 
-        headerEditable: boolean, isAGame: boolean, playable: boolean, checkedArray?: number[], setCheckedArray?: Function, fontSizes: string[]}) => {
+        headerEditable: boolean, isAGame: boolean, playable: boolean, checkedArray?: number[], setCheckedArray?: Function, fontSizes: number[]}) => {
         
 
         const ButtonItem = styled(Button)(({ theme }) => ({
@@ -45,24 +45,24 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
             }
             } 
 
-        var fontSizeDummy: string[]  
+        var fontSizeDummy: number[]  
         if (!fontSizes){
-            fontSizeDummy = Array(25).fill('1.25rem');
+            fontSizeDummy = Array(25).fill(1.25);
         } else {
             fontSizeDummy = fontSizes
         }
 
         var linesCount = Array(25).fill('3');
-        fontSizeDummy.forEach((value: string, index: number) => {
-            if (value == '0.90rem') {
+        fontSizeDummy.forEach((value: number, index: number) => {
+            if (value == 0.90) {
                 linesCount[index] = 5
-            } else if (value == '1rem') {
+            } else if (value == 1) {
                 linesCount[index] = 4
-            } else if (value == '1.25rem') {
+            } else if (value == 1.25) {
                 linesCount[index] = 5
             }  
         });
-
+        console.log(linesCount)
 
         const blankArray = Array(25).fill('');
         var listItems
@@ -78,7 +78,7 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
                         sx={{display: '-webkit-box', 
                        
                         overflow: 'hidden', 
-                        fontSize: fontSizeDummy[index],
+                        fontSize: {xs: fontSizeDummy[index] * 0.6 + 'rem', sm: fontSizeDummy[index] + 'rem'},
                         WebkitBoxOrient: 'vertical',
                         WebkitLineClamp: linesCount[index],
                         color: textColor
@@ -95,13 +95,13 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
                     } 
                 </ButtonItem>
                 : 
-                <PaperItem sx={{aspectRatio: '1/1', width: {xs: '70px', sm: '117px'},  alignItems: 'center', display: 'flex', justifyContent: 'center', backgroundImage: 'none', marginBottom: {xs: '3px', sm: '6px'}}}>
+                <PaperItem sx={{aspectRatio: '1/1', width: {xs: '67px', sm: '117px'},  alignItems: 'center', display: 'flex', justifyContent: 'center', backgroundImage: 'none', marginBottom: {xs: '3px', sm: '6px'}}}>
                     <Typography 
                         variant="h6" 
                         style={{ wordWrap: "break-word", padding: 5}} 
                         sx={{display: '-webkit-box', 
                         overflow: 'hidden', 
-                        fontSize: fontSizeDummy[index],
+                        fontSize: {xs: fontSizeDummy[index] * 0.6 + 'rem', sm: fontSizeDummy[index] + 'rem'},
                         WebkitBoxOrient: 'vertical',
                         WebkitLineClamp: linesCount[index],
                         color: textColor
@@ -115,7 +115,7 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
             </Grid>
         );}
     return (
-        <Box sx={{width: {xs: '374px', sm: '626px'},  height: {xs: '426px', sm: '711px'}}}>
+        <Box sx={{width: {xs: '360px', sm: '626px'},  height: {xs: '426px', sm: '711px'}}}>
           <Box sx={{ width: '100%', padding: {xs: 0.5, sm: 1}, paddingBottom: '3px', backgroundColor: backgroundColor}}>
                 <Paper sx={{marginBottom: {xs: 0.5, sm: 1}, height: {xs: 50, sm: 70}, backgroundColor: tilesColor, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: 'none', borderRadius: '8px'}}>
                     {headerEditable ?
@@ -128,7 +128,8 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
                         title={title}
                         autoFocus={false}
                         size='small' 
-                        sx={{input: {wordWrap: "break-word",  overflow: 'hidden',textAlign: "center", fontSize: {xs: 18, sm: 25}, color: textColor, WebkitLineClamp: 2}, paddingX: 1}}> 
+                        sx={{input: {wordWrap: "break-word",  overflow: 'hidden',textAlign: "center", 
+                        fontSize: {xs: 18, sm: 25}, color: textColor, WebkitLineClamp: 2}, paddingX: 1, marginY: 1}}> 
                     </TextField>
                     :
                     <Typography 
@@ -140,6 +141,7 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
                         WebkitLineClamp: 2,
                         color: textColor, 
                         fontSize: {xs: 18, sm: 25},
+                        
                         }} 
                         title={title}
                         component="div">

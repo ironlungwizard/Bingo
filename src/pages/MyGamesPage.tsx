@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import { deleteCardsFetch, getMyGamesFetch } from '../api/game';
 import { createCardFetch } from '../api/game';
 import { useMemo, useState } from 'react';
-import { Pagination, Stack } from '@mui/material';
+import { Box, Pagination, Stack } from '@mui/material';
 import CardGamesPlate from '../components/CardGamesPlate/CardGamesPlate';
 import { RootState } from '../state/reducers';
 import { useSelector } from 'react-redux';
@@ -56,7 +56,23 @@ export default function MyGamesPage() {
     );
 
     return (
-        <>
+        <div style={{width: '100%'}}>
+        <Box>
+            <Typography 
+                          variant="h5" 
+                          style={{ wordWrap: "break-word"}} 
+                          sx={{display: '-webkit-box', 
+                          overflow: 'hidden', 
+                          WebkitBoxOrient: 'vertical',
+                          color: '#ffffff',
+                          marginLeft: 10,
+                          marginTop: 2,
+                          marginBottom: 2
+                          }} 
+                          component="div">
+                          My games page
+            </Typography>
+        </Box>
                     <> 
                     {pageIds.length < 1 ?
                         <Typography 
@@ -80,6 +96,6 @@ export default function MyGamesPage() {
                         </>
                     }
                     </>
-        </>
+        </div>
     )
 }

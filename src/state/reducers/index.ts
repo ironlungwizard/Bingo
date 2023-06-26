@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
 import authReducer from "./authReducer"
 import modalReducer from './modalReducer'
-import errorReducer from './errorReducer'
+import infoReducer from './infoReducer'
 
 
 const reducers = combineReducers({
-    error: errorReducer,
+    info: infoReducer,
     modal: modalReducer,
     auth: authReducer,
     

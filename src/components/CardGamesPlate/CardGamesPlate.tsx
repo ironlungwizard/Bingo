@@ -19,7 +19,7 @@ import PreviewIcon from '@mui/icons-material/Preview';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ShareIcon from '@mui/icons-material/Share';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import { Button, Chip, Divider, Stack } from '@mui/material';
+import { Badge, Button, Chip, Divider, Stack } from '@mui/material';
 import isOwned from '../../utils/isOwned';
 import { RootState } from '../../state/reducers';
 import { getAttributesById } from '../../api/auth';
@@ -40,7 +40,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
         const navigate = useNavigate();
         const dispatch = useDispatch();
         const [openModal, setOpenModal] = useState<boolean>(false);
-        const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
+        const { infoOn, infoOff } = bindActionCreators(actionCreators, dispatch)
         const ExpandMore = styled((props: ExpandMoreProps) => {
             const { expand, ...other } = props;
             return <IconButton {...other} />;
@@ -62,7 +62,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                      })
             } else {
                 navigate(`..`); 
-                errorOn('Card not found! It may be deleted or URL is not right.')
+                infoOn('Card not found! It may be deleted or URL is not right.', 'error')
             }
         })}, [id]);
 
@@ -209,7 +209,9 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                 aria-expanded={expanded}
                 aria-label="show more"
                 >
+                <Badge color="primary" badgeContent={expanded ? 0 : gamesList.length}>
                 <ExpandMoreIcon fontSize="large" />
+                </Badge>
                 </ExpandMore>
                 
                 : <></>

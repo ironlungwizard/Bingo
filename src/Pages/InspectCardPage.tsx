@@ -47,7 +47,7 @@ export default function InspectCardPage() {
     const [openModal, setOpenModal] = useState<boolean>(false);
     const { pathname } = useLocation();
     const dispatch = useDispatch();
-    const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
+    const { infoOn, infoOff } = bindActionCreators(actionCreators, dispatch)
     const { showSingUp, showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
     const { login } = bindActionCreators(actionCreators, dispatch)
     
@@ -70,10 +70,10 @@ export default function InspectCardPage() {
             getAttributesById(Response.data.authorId).then((Response: XMLHttpRequest["response"]) => {
                 setOwnerName(Response.data.name)
              })
-            errorOff()
+             infoOff()
             } else {
                 navigate(-1); 
-                errorOn('Card not found! It may be deleted or URL is not right.')
+                infoOn('You cant edit this card, because it was already played!', 'error')
             }
         })}, [id]);
 
@@ -138,7 +138,23 @@ export default function InspectCardPage() {
 
 
     return (
-    <>  
+    <div style={{width: '100%'}}>  
+       <Box>
+                  <Typography 
+                          variant="h5" 
+                          style={{ wordWrap: "break-word"}} 
+                          sx={{display: '-webkit-box', 
+                          overflow: 'hidden', 
+                          WebkitBoxOrient: 'vertical',
+                          color: '#ffffff',
+                          marginLeft: 6,
+                          marginTop: 2,
+                          marginBottom: 2
+                          }} 
+                          component="div">
+                            Card page
+                  </Typography>
+                </Box>
         <Helmet>
             <link rel="canonical" href={frontUrl+pathname} />
             <meta property="og:image" content={`${dbUrl}cards/${id}/image?size=full&withTitle=true`} />
@@ -309,7 +325,7 @@ export default function InspectCardPage() {
           sx={{order: 3, width: {sm: '0px', xs: '0px', lg: '390px'}}}
         />
         </Stack>
-    </> 
+    </div> 
         
     )
 }

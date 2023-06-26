@@ -7,6 +7,7 @@ import CreateEditComplex from '../components/CreateEditComplex/CreateEditComplex
 import Card from '../types/CardType';
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { actionCreators } from "../state";
+import { Box, Typography } from '@mui/material';
 
 
 export default function CreateCardPage() {

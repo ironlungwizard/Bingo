@@ -35,7 +35,7 @@ export default function ProcessGameStartPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [checkedArray, setCheckedArray] = useState<number[]>([])
-    const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
+    const { infoOn, infoOff } = bindActionCreators(actionCreators, dispatch)
     const { login } = bindActionCreators(actionCreators, dispatch)
 
     useEffect(() =>  {getCardFetch(pathname.replace('/card/', '').replace('/gamestart', '')).then((Response: XMLHttpRequest["response"]) => {
@@ -53,10 +53,10 @@ export default function ProcessGameStartPage() {
             getAttributesById(Response.data.authorId).then((Response: XMLHttpRequest["response"]) => {
                 setOwnerName(Response.data.name)
              })
-            errorOff()
+             infoOff()
             } else {
                 navigate(-1);  
-                errorOn('Card not found! It may be deleted or URL is not right.')
+                infoOn('You cant edit this card, because it was already played!', 'error')
             }
         })}, []);
 

@@ -41,7 +41,7 @@ export default function ProcessGamePage() {
     const dispatch = useDispatch();
     const {id} = useParams<string>();
     const [checkedArray, setCheckedArray] = useState<number[]>([])
-    const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
+    const { infoOn, infoOff } = bindActionCreators(actionCreators, dispatch)
     const { showSingUp, showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
     useEffect(() =>  {getGameFetch(id!).then((Response: XMLHttpRequest["response"]) => {
                     setGameId(Response.data.id)
@@ -59,10 +59,10 @@ export default function ProcessGamePage() {
                 setBackgroundColor(Response.data.appearance.backgroundColor)
                 setCardId(Response.data.id)
                 setFontSizes(Response.data.appearance.fontSizes)
-                errorOff()
+                infoOff()
                 } else {
                     navigate(-1); 
-                    errorOn('Card not found! It may be deleted or URL is not right.')
+                    infoOn('You cant edit this card, because it was already played!', 'error')
                 }
             })}})}, [id]);
 

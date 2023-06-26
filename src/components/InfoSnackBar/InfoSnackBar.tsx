@@ -15,20 +15,20 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function ErrorSnackBar() {
+export default function InfoSnackBar() {
 
   const dispatch = useDispatch();
 
-  const { errorOff } = bindActionCreators(actionCreators, dispatch)
+  const { infoOff } = bindActionCreators(actionCreators, dispatch)
   
-  const error = useSelector((state: RootState) => state).error
+  const info = useSelector((state: RootState) => state).info
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    errorOff()
+    infoOff()
   };
   return (
-      <Snackbar open={error['isShown']} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+      <Snackbar open={info['isShown']} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={info['infoType']} sx={{ width: '100%' }}>
         <Typography     
                 style={{ wordWrap: "break-word"}} 
                 sx={{display: '-webkit-box', 
@@ -38,7 +38,7 @@ export default function ErrorSnackBar() {
                 color: "#fff"
                 }} 
                 component="div">
-                {error['text']}
+                {info['text']}
         </Typography >
             
         </Alert>

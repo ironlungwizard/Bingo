@@ -113,7 +113,24 @@ const CreateEditComplex = ({saveEditCard, type, initialState}:{saveEditCard: Fun
 
     return (
     <> 
+    
     <Stack direction='column' sx={{justifyContent: 'space-around', width: '100%'}}>
+        <Box>
+            <Typography 
+                          variant="h5" 
+                          style={{ wordWrap: "break-word"}} 
+                          sx={{display: '-webkit-box', 
+                          overflow: 'hidden', 
+                          WebkitBoxOrient: 'vertical',
+                          color: '#ffffff',
+                          marginLeft: 10,
+                          marginTop: 2,
+                          marginBottom: 2
+                          }} 
+                          component="div">
+                           {type.charAt(0).toUpperCase() + type.slice(1)} page
+            </Typography>
+        </Box>
     <Stack direction={{ xs: 'column', lg: 'row' }} sx={{justifyContent: 'space-around', width: '100%', alignItems: {lg:'flex-start', xs: 'center'}}}>
     <Box sx={{ order: {xs: '2', lg: '1'}, width: {sm: '626px', xs: '360px', lg: '420px'}, marginTop: {xs: '16px', lg: '0'}, marginLeft: {xs: '0', lg: '24px'}, marginRight: {xs: '0', lg: '16px'}}} 
     style={{display: 'flex', flexDirection: 'column',  minWidth: 160}}>

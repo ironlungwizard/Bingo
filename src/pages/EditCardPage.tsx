@@ -18,7 +18,7 @@ export default function EditCardPage() {
     const auth = useSelector((state: RootState) => state).auth
     const [ownerId, setOwnerId] = useState<string>('')
     const dispatch = useDispatch();
-    const { errorOn } = bindActionCreators(actionCreators, dispatch)
+    const { infoOn } = bindActionCreators(actionCreators, dispatch)
     const {id} = useParams<string>();
     const [initialState, setInitialState] = useState<Card>()
     const [canEdit, setCanEdit] = useState<boolean>(false)
@@ -26,7 +26,7 @@ export default function EditCardPage() {
     useMemo(() =>  {canEditCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
 
         if (Response.data == false) {
-            errorOn('You cant edit this card, because it was already played!')
+            infoOn('You cant edit this card, because it was already played!', 'error')
         } else {
             setCanEdit(true)
         }
@@ -56,7 +56,7 @@ export default function EditCardPage() {
             setOwnerId(Response.data.authorId)    
         } else {
             navigate(-1); 
-            errorOn('Card not found! It may be deleted or URL is not right.')
+            infoOn('You cant edit this card, because it was already played!', 'error')
         }
     })
 }, []);

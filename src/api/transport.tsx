@@ -1,4 +1,4 @@
-import { errorOn, showLogIn } from '../state/action-creators';
+import { infoOn, showLogIn } from '../state/action-creators';
 import { ActionType } from '../state/action-types/auth.actionTypes';
 import {store} from './../state/store'
 
@@ -41,11 +41,11 @@ export function transportDELETE (path: string) {
     };
     xhr.onerror = function () {
       reject(new Error("Network Error"));
-      store.dispatch(errorOn('Server does not response, please try later.'))
+      store.dispatch(infoOn('Server does not response, please try later.', 'error'))
     };
     xhr.ontimeout = function() {
       reject(new Error("Network Timeout"));
-      store.dispatch(errorOn('Server does not response, please try later.'))
+      store.dispatch(infoOn('Server does not response, please try later.', 'error'))
     };
   });
 };
@@ -85,11 +85,11 @@ export function transportGET (path: string) {
     };
     xhr.onerror = function () {
       reject(new Error("Network Error"));
-      store.dispatch(errorOn('Server does not response, please try later.'))
+      store.dispatch(infoOn('Server does not response, please try later.', 'error'))
     };
     xhr.ontimeout = function() {
       reject(new Error("Network Timeout"));
-      store.dispatch(errorOn('Server does not response, please try later.'))
+      store.dispatch(infoOn('Server does not response, please try later.', 'error'))
     };
   });
 };
@@ -129,11 +129,11 @@ export function transportPUT (path: string, body: object, ) {
     };
     xhr.onerror = function () {
       reject(new Error("Network Error"));
-      store.dispatch(errorOn('Server does not response, please try later.'))
+      store.dispatch(infoOn('Server does not response, please try later.', 'error'))
     };
     xhr.ontimeout = function() {
       reject(new Error("Network Timeout"));
-      store.dispatch(errorOn('Server does not response, please try later.'))
+      store.dispatch(infoOn('Server does not response, please try later.', 'error'))
     };
   });
 };
@@ -148,7 +148,7 @@ export function transportPUTRefreshFirst (path: string, body: object) {
     xhr.send(JSON.stringify(''))
     xhr.onerror = function () {
       reject(new Error("Network Error"));
-      store.dispatch(errorOn('Server does not response, please try later.'))
+      store.dispatch(infoOn('Server does not response, please try later.', 'error'))
     }
     xhr.onload = function () { 
       if (this.status != 403) {
@@ -188,11 +188,11 @@ export function transportPUTRefreshFirst (path: string, body: object) {
       };
       xhr.onerror = function () {
         reject(new Error("Network Error"));
-        store.dispatch(errorOn('Server does not response, please try later.'))
+        store.dispatch(infoOn('Server does not response, please try later.', 'error'))
       };
       xhr.ontimeout = function() {
         reject(new Error("Network Timeout"));
-        store.dispatch(errorOn('Server does not response, please try later.'))
+        store.dispatch(infoOn('Server does not response, please try later.', 'error'))
       };
     }
   });
@@ -233,11 +233,11 @@ export function transportPOST (path: string, body: object) {
     };
     xhr.onerror = function () {
       reject(new Error("Network Error"));
-      store.dispatch(errorOn('Server does not response, please try later.'))
+      store.dispatch(infoOn('Server does not response, please try later.', 'error'))
     };
     xhr.ontimeout = function() {
       reject(new Error("Network Timeout"));
-      store.dispatch(errorOn('Server does not response, please try later.'))
+      store.dispatch(infoOn('Server does not response, please try later.', 'error'))
     };
   });
 };

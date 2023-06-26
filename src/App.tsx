@@ -15,7 +15,7 @@ import { actionCreators } from './state';
 import LandingPage from './pages/LandingPage';
 import CreateCardPage from './pages/CreateCardPage';
 import InspectCardPage from './pages/InspectCardPage';
-import ErrorSnackBar from './components/ErrorSnackBar/ErrorSnackBar';
+import InfoSnackBar from './components/InfoSnackBar/InfoSnackBar';
 import EditCardPage from './pages/EditCardPage';
 import ProcessGameStartPage from './pages/ProcessGameStartPage';
 import ProcessGamePage from './pages/ProcessGamePage';
@@ -24,6 +24,7 @@ import MyGamesPage from './pages/MyGamesPage';
 import { RootState } from './state/reducers';
 import { configDotenv } from 'dotenv';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { Box, Typography } from '@mui/material';
 
 
 function App() {
@@ -61,7 +62,7 @@ useMemo(() =>  {getAttributes().then((Response: XMLHttpRequest["response"]) => {
               <div className="App"> 
                 <Navbar></Navbar>
                 <Modal></Modal>
-                <ErrorSnackBar></ErrorSnackBar>
+                <InfoSnackBar></InfoSnackBar>
                 <div className="appContainer"> 
                 <Routes>
                   <Route  path='/*' element={< LandingPage />}></Route>

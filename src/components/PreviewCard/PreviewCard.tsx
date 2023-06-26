@@ -56,7 +56,7 @@ export default function ErrorSnackBar({id}:{id: string}) {
                         WebkitBoxOrient: 'vertical',
                         WebkitLineClamp: 1,
                         fontSize: 17.5,
-                        maxWidth: 277
+                        maxWidth: 266
                         }} 
                         title={title}
                         component="div">

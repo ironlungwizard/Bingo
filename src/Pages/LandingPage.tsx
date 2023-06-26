@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import { deleteCardsFetch, getCardsFetch, getTagsFetch } from '../api/game';
 import { createCardFetch } from '../api/game';
 import { useMemo, useState, useEffect } from 'react';
-import { Card, CardHeader, Chip, Grid, IconButton, Stack, styled } from '@mui/material';
+import { Box, Card, CardHeader, Chip, Grid, IconButton, Stack, styled } from '@mui/material';
 import CardGamesPlate from '../components/CardGamesPlate/CardGamesPlate';
 import { useSelector } from 'react-redux';
 import { RootState } from '../state/reducers';
@@ -24,7 +24,7 @@ export default function LandingPage() {
     const [checkedTags, setCheckedTags] = useState<string[]>([])
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { errorOn, errorOff } = bindActionCreators(actionCreators, dispatch)
+    const { infoOn, infoOff } = bindActionCreators(actionCreators, dispatch)
     
     useEffect(() =>  {getCardsFetch(20, checkedTags).then((Response: XMLHttpRequest["response"]) => {
       if (Response && !Response.data.detail) {
@@ -64,6 +64,22 @@ export default function LandingPage() {
     
     return (
         <div style={{width: '100%'}}>
+              <Box>
+                  <Typography 
+                          variant="h5" 
+                          style={{ wordWrap: "break-word"}} 
+                          sx={{display: '-webkit-box', 
+                          overflow: 'hidden', 
+                          WebkitBoxOrient: 'vertical',
+                          color: '#ffffff',
+                          marginLeft: 6,
+                          marginTop: 2,
+                          marginBottom: 2
+                          }} 
+                          component="div">
+                            Landing page
+                  </Typography>
+                </Box>
           <Stack flexWrap="wrap" direction="row" sx={{marginLeft: 4, marginRight: 4,marginBottom: 2,  maxWidth: '95%', overflow: 'hidden'}}>
           <IconButton onClick={clearCheckedTags} aria-label="Clear checked tags"  size="large" style={{marginTop: -9}}>
             <BackspaceIcon color='primary' fontSize="inherit" />

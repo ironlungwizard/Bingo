@@ -74,7 +74,7 @@ export async function getGameFetch(id: string) {
 
 export async function getTagsFetch(tags?: string[]) {
   if (tags!.length >= 1) {
-    let response =  transportGET(`cards/tags/?tags=${tags!.join('&tags=')}`) 
+    let response =  transportGET(`cards/tags?tags=${tags!.join('&tags=')}`) 
     const result: any = await (response);
     return result
   } else {

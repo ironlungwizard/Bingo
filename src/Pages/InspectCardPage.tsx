@@ -98,10 +98,10 @@ export default function InspectCardPage() {
                     var canShare = false
                     canShareCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
                         canShare = Response.data
+                        if (canShare) {
+                            navigator.clipboard.writeText(frontUrl+pathname)
+                          }
                     })
-                    if (canShare) {
-                      navigator.clipboard.writeText(frontUrl+pathname)
-                    }
                     }
             } 
 

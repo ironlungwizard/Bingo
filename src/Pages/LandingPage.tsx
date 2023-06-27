@@ -55,10 +55,10 @@ export default function LandingPage() {
         );
 
         const checkedTagChips = checkedTags.map((tag, index) =>
-                <Chip color='primary' onDelete={(e) => {handleDeleteTag(tag, index)}} variant="outlined" label={tag} key={index} sx={{marginBottom: '12px'}} />   
+                <Chip color='primary' onDelete={(e) => {handleDeleteTag(tag, index)}} variant="outlined" label={tag} key={index} sx={{marginTop: '8px'}} />   
         );
         const tagChips = tags.filter(item => !checkedTags.includes(item)).map((tag, index) =>
-                <Chip label={tag} onClick={(e) => {handleClickTag(tag, index)}} color='primary' variant="outlined" key={index} sx={{marginBottom: '12px'}} />   
+                <Chip label={tag} onClick={(e) => {handleClickTag(tag, index)}} color='primary' variant="outlined" key={index} sx={{marginTop: '8px'}} />   
         );
 
     
@@ -80,8 +80,8 @@ export default function LandingPage() {
                             Landing page
                   </Typography>
                 </Box>
-          <Stack flexWrap="wrap" direction="row" sx={{marginLeft: 4, marginRight: 4,marginBottom: 2,  maxWidth: '95%', overflow: 'hidden'}}>
-          <IconButton onClick={clearCheckedTags} aria-label="Clear checked tags"  size="large" style={{marginTop: -9}}>
+          <Stack flexWrap="wrap" direction="row" sx={{marginLeft: 4, marginRight: 4,marginBottom: 2,  maxWidth: '95%', overflow: 'hidden', alignItems:' flex-start'}}>
+          <IconButton onClick={clearCheckedTags} aria-label="Clear checked tags"  size="large" style={{marginTop: 2, marginRight: 6,padding: '10px'}}>
             <BackspaceIcon color='primary' fontSize="inherit" />
           </IconButton>
           {checkedTagChips}

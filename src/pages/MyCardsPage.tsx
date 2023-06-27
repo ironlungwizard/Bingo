@@ -82,17 +82,7 @@ export default function MyCardsPage() {
         </Box>
           
                     {pageIds.length < 1 ?
-                        <Typography 
-                        variant="h5" 
-                        style={{ wordWrap: "break-word"}} 
-                        sx={{display: '-webkit-box', 
-                        overflow: 'hidden', 
-                        WebkitBoxOrient: 'vertical',
-                        color: '#ffffff'
-                        }} 
-                        component="div">
-                            There's no cards in here!
-                        </Typography > 
+                        <> </>
                         :
                         <>
                         <Stack direction="column" spacing={2} sx={{marginBottom: 5, display: 'flex', alignItems: 'center'}}>

@@ -70,7 +70,7 @@ export default function ErrorSnackBar({id}:{id: string}) {
                 <div title={ownerName}>
                     <CardHeader
                         title={ownerName}
-                        sx={{wordWrap: "break-word",  overflow: 'hidden', padding: '8px'}}
+                        sx={{wordWrap: "break-word",  overflow: 'hidden', padding: '8px', maxWidth: 266}}
                     /> 
                 </div>
                 <Stack direction='row' sx={{ alignItems: 'center', overflow: 'hidden', maxWidth: 270}}>

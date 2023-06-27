@@ -27,7 +27,7 @@ export default function InfoSnackBar() {
     infoOff()
   };
   return (
-      <Snackbar open={info['isShown']} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar open={info['isShown']} autoHideDuration={info['infoType'] == 'error' ? 6000 : 2000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={info['infoType']} sx={{ width: '100%' }}>
         <Typography     
                 style={{ wordWrap: "break-word"}} 

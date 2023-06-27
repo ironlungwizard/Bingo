@@ -70,7 +70,7 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
         listItems = phrases.fill(' ', phrases.length, 25).slice(0, 25).concat(blankArray.slice(phrases.length, 25)).map((phrase, index) =>
             <Grid xs={5} key={index} item >
                 { playable ? 
-                <ButtonItem sx={{aspectRatio: '1/1', width: {xs: '70px', sm: '117px'},  alignItems: 'center', display: 'flex', justifyContent: 'center', marginBottom: {xs: '3px', sm: '6px'}, 
+                <ButtonItem sx={{aspectRatio: '1/1', width: {xs: '67px', sm: '117px'},  alignItems: 'center', display: 'flex', justifyContent: 'center', marginBottom: {xs: '3px', sm: '6px'}, 
                 boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)'}} onClick={() => handleToggleTile(index)}>
                     <Typography 
                         variant="h6" 

@@ -17,13 +17,15 @@ import { useDispatch } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../state';
 import { Helmet } from 'react-helmet-async';
-import { Chip } from '@mui/material';
+import { Box, Chip, Stack, Typography } from '@mui/material';
+import { getAttributesById } from '../api/auth';
 
 
 export default function ProcessGamePage() {
     const frontUrl = process.env.REACT_APP_FRONT_URL
     const dbUrl = process.env.REACT_APP_DB_URL
     const [authorId, setAuthorId] = useState<string>('')
+    const [ownerName, setOwnerName] = useState<string>('')
     const [gameId, setGameId] = useState<string>('')
     const [cardId, setCardId] = useState<string>('')
     const [phrases, setPhrases] = useState<string[]>([])
@@ -59,6 +61,9 @@ export default function ProcessGamePage() {
                 setBackgroundColor(Response.data.appearance.backgroundColor)
                 setCardId(Response.data.id)
                 setFontSizes(Response.data.appearance.fontSizes)
+                getAttributesById(Response.data.authorId).then((Response: XMLHttpRequest["response"]) => {
+                    setOwnerName(Response.data.name)
+                 })
                 infoOff()
                 } else {
                     navigate(-1); 
@@ -95,18 +100,18 @@ export default function ProcessGamePage() {
                   showSingUp()
                 } else {
                     var canShare = false
-                    canShareGameFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+                    canShareGameFetch(id!).then(async (Response: XMLHttpRequest["response"]) => {
                         canShare = Response.data
+                        const response = await fetch(`${dbUrl}games/${id}/image-titled-full.png`)
+                        const blob = (await response).blob()
+                        console.log('1')
+                        await navigator.clipboard.write([
+                            new ClipboardItem({
+                              'image/png': blob
+                            }),
+                          ]);
                     })
-                    if (canShare) {
-                    const response = await fetch(`${dbUrl}games/${id}/image-titled-full.png`)
-                    const blob = await response.blob()
-                    await navigator.clipboard.write([
-                        new ClipboardItem({
-                          'image/png': blob
-                        }),
-                      ]);
-                    }
+                   
                 }
         } 
             
@@ -118,29 +123,102 @@ export default function ProcessGamePage() {
   
     
          <div
-          style={{display: 'flex'}}
+         style={{width: '100%'}}
         >
+        <Box>
+            <Typography 
+                          variant="h5" 
+                          style={{ wordWrap: "break-word"}} 
+                          sx={{display: '-webkit-box', 
+                          overflow: 'hidden', 
+                          WebkitBoxOrient: 'vertical',
+                          color: '#ffffff',
+                          marginLeft: 10,
+                          marginTop: 2,
+                          marginBottom: 2
+                          }} 
+                          component="div">
+                           Game page
+            </Typography>
+        </Box>
         <Helmet>
             <link rel="canonical" href={frontUrl+pathname} />
             <meta property="og:image" content={`${dbUrl}games/${id}/image-titled-full.png`} />
         </Helmet>
           
       
-        <div>
-            
+       
+    
+    
+       
+        <Stack direction={{ xs: 'column', lg: 'row' }} sx={{width: '100%', justifyContent: 'space-around', alignItems: {xs: 'center', lg: 'inherit'}}}>
+        <Box sx={{ order: {xs: '2', lg: '1'}, width: {sm: '626px', xs: '360px', lg: '375px'}, marginTop: {xs: '16px', lg: '0'}, marginLeft: {xs: '0', lg: '10px'}, marginRight: {xs: '0', lg: '6px'}}} >
+           
+           <Typography 
+                      variant="h5" 
+                      style={{ wordWrap: "break-word"}} 
+                      sx={{display: '-webkit-box', 
+                      overflow: 'hidden', 
+                      WebkitBoxOrient: 'vertical',
+                      color: '#ffffff',
+                      marginBottom: 2
+                      }} 
+                      component="div">
+                         Author: {ownerName} <br/>
+              </Typography > 
+              <Typography 
+                      variant="h5" 
+                      style={{ wordWrap: "break-word"}} 
+                      sx={{display: '-webkit-box', 
+                      overflow: 'hidden', 
+                      WebkitBoxOrient: 'vertical',
+                      color: '#ffffff',
+                      marginBottom: 1
+                      }} 
+                      component="div">
+                          Tags: <br/>
+              </Typography > 
+              <Stack useFlexGap sx={{ marginBottom: 2}} flexWrap="wrap" direction="row" spacing={{ xs: 1, sm: 0.5 }}>
+                  {tagChips}
+              </Stack>
+              <Typography 
+                      variant="h5" 
+                      style={{ wordWrap: "break-word"}} 
+                      sx={{display: '-webkit-box', 
+                      overflow: 'hidden', 
+                      WebkitBoxOrient: 'vertical',
+                      color: '#ffffff',
+                      }} 
+                      component="div">
+                          Description:
+              </Typography > 
+              <Typography 
+                      variant="h6" 
+                      style={{ wordWrap: "break-word"}} 
+                      sx={{display: '-webkit-box', 
+                      overflow: 'hidden', 
+                      WebkitBoxOrient: 'vertical',
+                      color: '#ffffff',
+                      }} 
+                      component="div">
+                          {description}
+              </Typography > 
+          
+     </Box>
+     <Box sx={{order: {xs: '1', lg: '2'}}}>
             <BingoField title={title} 
                 checkedArray={checkedArray}
                 setCheckedArray={setCheckedArray}
                 isAGame={true}
                 setTitle={setTitle} 
                 backgroundColor={backgroundColor} 
-                tilesColor={tilesColor} 
+                tilesColor={tilesColor}
+                markColor={markColor} 
                 textColor={textColor} 
                 phrases={phrases}
                 headerEditable={false}
                 playable={true}
                 fontSizes={fontSizes}
-                markColor={markColor}
                 ></BingoField>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                
@@ -148,8 +226,8 @@ export default function ProcessGamePage() {
                                 size="medium"
                                 aria-haspopup="true"
                                 color="primary"
-                                variant="outlined"
                                 title={'Back to card'}
+                                variant="outlined"
                                 sx={{ marginTop: 1, marginRight: 1, width: 120, justifyContent: 'space-between'}}
                                 onClick={handleBackToCard}
                                 >
@@ -170,9 +248,20 @@ export default function ProcessGamePage() {
                             <SaveIcon fontSize="large" style={{ color: "#ffffff"}}></SaveIcon>
                        
                 </Button>
-                : <></>
+                : <Button
+                size="medium"
+                aria-haspopup="true"
+                disabled
+                title={'Save game'}
+                color="primary"
+                variant="outlined"
+                sx={{ marginTop: 1}}
+                >
+                    <SaveIcon fontSize="large" style={{ color: "#ffffff"}}></SaveIcon>
+               
+        </Button>
                 }    
-                    <Button
+                <Button
                                 size="medium"
                                 aria-haspopup="true"
                                 color="primary"
@@ -194,11 +283,15 @@ export default function ProcessGamePage() {
                                 >
                                     <PhotoIcon fontSize="large" style={{ color: "#fff"}}></PhotoIcon>
                     </Button>
-                  
             </div>
+            
             </div>
-        </div>
-       
+            </Box>
+            <Box
+            sx={{order: 3, width: {sm: '0px', xs: '0px', lg: '390px'}}}
+            />
+        </Stack> 
+        
         </div>
         
    

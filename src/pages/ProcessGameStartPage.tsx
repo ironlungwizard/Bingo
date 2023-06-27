@@ -93,10 +93,28 @@ export default function ProcessGameStartPage() {
     return (
   
     
-    
+        <div
+        style={{width: '100%'}}
+       >
+       <Box>
+           <Typography 
+                         variant="h5" 
+                         style={{ wordWrap: "break-word"}} 
+                         sx={{display: '-webkit-box', 
+                         overflow: 'hidden', 
+                         WebkitBoxOrient: 'vertical',
+                         color: '#ffffff',
+                         marginLeft: 10,
+                         marginTop: 2,
+                         marginBottom: 2
+                         }} 
+                         component="div">
+                         Game page
+           </Typography>
+       </Box>
        
        <Stack direction={{ xs: 'column', lg: 'row' }} sx={{width: '100%', justifyContent: 'space-around', alignItems: {xs: 'center', lg: 'inherit'}}}>
-        <Box sx={{ order: {xs: '2', lg: '1'}, width: {sm: '626px', xs: '374px', lg: '375px'}, marginTop: {xs: '16px', lg: '0'}, marginLeft: {xs: '0', lg: '10px'}, marginRight: {xs: '0', lg: '6px'}}} >
+        <Box sx={{ order: {xs: '2', lg: '1'}, width: {sm: '626px', xs: '360px', lg: '375px'}, marginTop: {xs: '16px', lg: '0'}, marginLeft: {xs: '0', lg: '10px'}, marginRight: {xs: '0', lg: '6px'}}} >
            
            <Typography 
                       variant="h5" 
@@ -199,6 +217,6 @@ export default function ProcessGameStartPage() {
             sx={{order: 3, width: {sm: '0px', xs: '0px', lg: '390px'}}}
             />
         </Stack> 
-        
+        </div>
     )
 }

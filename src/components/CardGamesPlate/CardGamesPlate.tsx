@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState, useMemo } from 'react';
 import CardType from '../../types/CardType';
-import { canEditCardFetch, deleteCardsFetch, getCardFetch, getMyGamesByCardFetch } from '../../api/game';
+import { canEditCardFetch, canShareCardFetch, deleteCardsFetch, getCardFetch, getMyGamesByCardFetch } from '../../api/game';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
@@ -40,7 +40,9 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
         const navigate = useNavigate();
         const dispatch = useDispatch();
         const [openModal, setOpenModal] = useState<boolean>(false);
-        const { infoOn, infoOff } = bindActionCreators(actionCreators, dispatch)
+        const { pathname } = useLocation();
+        const frontUrl = process.env.REACT_APP_FRONT_URL
+        const { infoOn, infoOff, showSingUp, showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
         const ExpandMore = styled((props: ExpandMoreProps) => {
             const { expand, ...other } = props;
             return <IconButton {...other} />;
@@ -97,6 +99,20 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
       
         const [expanded, setExpanded] = React.useState(false);
       
+        const handleShareCard = async () => {
+            if (auth['isGuest'] || !auth['id'] ) {
+              showSingUp()
+            } else { 
+            var canShare = false
+            canShareCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+                canShare = Response.data
+                if (canShare) {
+                    navigator.clipboard.writeText(frontUrl+'/card/'+id)
+                  }
+            })
+            }
+    } 
+
         const handleExpandClick = () => {
           setExpanded(!expanded);
         };
@@ -143,6 +159,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                                 size="medium"
                                 aria-haspopup="true"
                                 color="primary"
+                                onClick={handleShareCard}
                                 variant="outlined"
                                 title={'Share card'}
                                 sx={{ marginTop: 1, marginLeft: 1, paddingLeft: {xs: '5px', lg: '15px'}, paddingRight: {xs: '5px', lg: '15px'}, minWidth: {xs: '30px', lg: '64px'}}}

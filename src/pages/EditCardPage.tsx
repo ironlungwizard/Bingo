@@ -75,7 +75,7 @@ export default function EditCardPage() {
                         color: '#fff'
                         }} 
                         component="div">
-                            You can't edit this card.
+                           
         </Typography > 
         }
     </>   

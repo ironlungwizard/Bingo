@@ -34,7 +34,7 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { login, logout } = bindActionCreators(actionCreators, dispatch)
+  const { infoOn, login, logout } = bindActionCreators(actionCreators, dispatch)
   const { showSingUp, showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
 
   const handleLogOut = async () => {
@@ -42,6 +42,7 @@ export default function Navbar() {
         logout(Response.data.id, Response.data.isGuest,  Response.data.name)
     })
     hide()
+    infoOn(`You logged out!`, 'success')
   };
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

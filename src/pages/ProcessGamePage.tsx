@@ -78,6 +78,7 @@ export default function ProcessGamePage() {
             const handleSaveGame = async () => {
                         updateGameFetch(id!, auth['id'], checkedArray).then(Response => {
                             navigate((`..` + `/game/`+ id!).replace('cards/', '')); 
+                            infoOn('Game saved!', 'success')
                         })
                 }
 
@@ -85,13 +86,16 @@ export default function ProcessGamePage() {
                     if (auth['isGuest'] || !auth['id'] ) {
                         showSingUp()
                       } else { 
-                      var canShare = false
+                     
                       canShareGameFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+                          var canShare = false
                           canShare = Response.data
+                          if (canShare) {
+                            navigator.clipboard.writeText(frontUrl+pathname)
+                            infoOn('Link copied!', 'success')
+                          }
                       })
-                      if (canShare) {
-                        navigator.clipboard.writeText(frontUrl+pathname)
-                      }
+                     
                       }
                 } 
 
@@ -99,17 +103,18 @@ export default function ProcessGamePage() {
                 if (auth['isGuest'] || !auth['id']) {
                   showSingUp()
                 } else {
-                    var canShare = false
+                   
                     canShareGameFetch(id!).then(async (Response: XMLHttpRequest["response"]) => {
+                        var canShare = false
                         canShare = Response.data
                         const response = await fetch(`${dbUrl}games/${id}/image-titled-full.png`)
                         const blob = (await response).blob()
-                        console.log('1')
                         await navigator.clipboard.write([
                             new ClipboardItem({
                               'image/png': blob
                             }),
                           ]);
+                        infoOn('Image copied!', 'success')
                     })
                    
                 }
@@ -235,32 +240,17 @@ export default function ProcessGamePage() {
                     </Button>
                                
                 <div >
-                {isOwned(authorId) ? 
                 <Button
-                        size="medium"
-                        aria-haspopup="true"
-                        onClick={handleSaveGame}
-                        title={'Save game'}
-                        color="primary"
-                        variant="outlined"
-                        sx={{ marginTop: 1}}
-                        >
-                            <SaveIcon fontSize="large" style={{ color: "#ffffff"}}></SaveIcon>
-                       
-                </Button>
-                : <Button
-                size="medium"
-                aria-haspopup="true"
-                disabled
-                title={'Save game'}
-                color="primary"
-                variant="outlined"
-                sx={{ marginTop: 1}}
-                >
-                    <SaveIcon fontSize="large" style={{ color: "#ffffff"}}></SaveIcon>
-               
-        </Button>
-                }    
+                                size="medium"
+                                aria-haspopup="true"
+                                color="primary"
+                                title={'Share game image'}
+                                onClick={handleShareGameImage}
+                                variant="outlined"
+                                sx={{ marginTop: 1}}
+                                >
+                                    <PhotoIcon fontSize="large" style={{ color: "#fff"}}></PhotoIcon>
+                    </Button>
                 <Button
                                 size="medium"
                                 aria-haspopup="true"
@@ -272,17 +262,33 @@ export default function ProcessGamePage() {
                                 >
                                     <ShareIcon  fontSize="large" style={{ color: "#fff"}}></ShareIcon>
                     </Button>
-                    <Button
-                                size="medium"
-                                aria-haspopup="true"
-                                color="primary"
-                                title={'Share game image'}
-                                onClick={handleShareGameImage}
-                                variant="outlined"
-                                sx={{ marginTop: 1, marginLeft: 1}}
-                                >
-                                    <PhotoIcon fontSize="large" style={{ color: "#fff"}}></PhotoIcon>
-                    </Button>
+                    
+                    {isOwned(authorId) ? 
+                <Button
+                        size="medium"
+                        aria-haspopup="true"
+                        onClick={handleSaveGame}
+                        title={'Save game'}
+                        color="primary"
+                        variant="outlined"
+                        sx={{ marginTop: 1, marginLeft: 1}}
+                        >
+                            <SaveIcon fontSize="large" style={{ color: "#ffffff"}}></SaveIcon>
+                       
+                </Button>
+                : <Button
+                size="medium"
+                aria-haspopup="true"
+                disabled
+                title={'Save game'}
+                color="primary"
+                variant="outlined"
+                sx={{ marginTop: 1, marginLeft: 1}}
+                >
+                    <SaveIcon fontSize="large" style={{ color: "#ffffff"}}></SaveIcon>
+               
+        </Button>
+                }    
             </div>
             
             </div>

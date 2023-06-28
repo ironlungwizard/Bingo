@@ -17,7 +17,7 @@ export default function SignUpForm() {
     const [password, setPassword] = useState<string[]>(['', ])
     const [confirmPassword, setConfirmPassword] = useState<string[]>(['', ])
     const dispatch = useDispatch();
-    const { showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
+    const { infoOn, showLogIn, hide } = bindActionCreators(actionCreators, dispatch)
     const { login } = bindActionCreators(actionCreators, dispatch)
 
     const handleSignUp = async (e: React.FormEvent) => {
@@ -32,6 +32,7 @@ export default function SignUpForm() {
             } else {
                 login(Response.data.id, Response.data.isGuest,  Response.data.name)
                 hide()
+                infoOn(`You signed up as ${Response.data.name}!`, 'success')
             }
         })
     };

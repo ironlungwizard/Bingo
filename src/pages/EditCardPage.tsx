@@ -33,9 +33,10 @@ export default function EditCardPage() {
      })}, []);
 
     const saveCard = async (card: Card) => {
-
             updateCardFetch(auth['id'], card, 'default', id!).then((Response: XMLHttpRequest["response"]) => {
-                navigate(`../card/edit/${Response.data.id}`);  })
+                navigate(`../card/edit/${Response.data.id}`);  
+                infoOn('Card saved!', 'success')
+            })
     }
 
 

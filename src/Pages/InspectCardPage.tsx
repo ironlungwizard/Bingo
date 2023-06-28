@@ -81,6 +81,7 @@ export default function InspectCardPage() {
         const handleDeleteCard = async () => {
             deleteCardsFetch(cardId, auth['id']).then(Response => {
                 navigate(-1); 
+                infoOn('Card deleted!', 'success')
             })} 
 
             const handleEditCard = async () => {
@@ -100,7 +101,8 @@ export default function InspectCardPage() {
                         canShare = Response.data
                         if (canShare) {
                             navigator.clipboard.writeText(frontUrl+pathname)
-                          }
+                            infoOn('Link copied!', 'success')
+                        }
                     })
                     }
             } 
@@ -111,6 +113,7 @@ export default function InspectCardPage() {
                     navigate('/card/' + Response.data.id); 
                     setCardId(Response.data.id)
                     setCanEdit(true)
+                    infoOn('Card cloned!', 'success')
                 })
                } else {
                 signUpGuestFetch().then((Response: XMLHttpRequest["response"]) => {
@@ -119,6 +122,7 @@ export default function InspectCardPage() {
                         navigate('/card/' + Response.data.id); 
                         setCardId(Response.data.id)
                         setCanEdit(true)
+                        infoOn('Card cloned!', 'success')
                     })
                 })  
                    

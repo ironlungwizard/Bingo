@@ -8,9 +8,11 @@ import { useMemo, useState } from 'react';
 import { Box, Pagination, Stack } from '@mui/material';
 import CardGamesPlate from '../components/CardGamesPlate/CardGamesPlate';
 import { RootState } from '../state/reducers';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useLocation, useNavigate, useNavigation, useParams } from 'react-router-dom';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import { actionCreators } from '../state';
 
 export default function MyGamesPage() {
     const auth = useSelector((state: RootState) => state).auth
@@ -19,7 +21,10 @@ export default function MyGamesPage() {
     const [pageIds, setPageIds] = useState<string[]>([])
     const {page} = useParams<string>();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { infoOn } = bindActionCreators(actionCreators, dispatch)
     const [currentPage, setCurrentPage] = useState<number>(parseInt(page!,10))
+
     useMemo(() =>  {getMyGamesFetch(auth['id']).then((Response: XMLHttpRequest["response"]) => {
             setIds(Response.data)
             setPageIds(Response.data.slice((currentPage-1)*cardsOnPage, currentPage*cardsOnPage))
@@ -47,9 +52,10 @@ export default function MyGamesPage() {
                 if (array.includes(id)) {
                     var indexToRemove = array.indexOf(id);
                     array.splice(indexToRemove, 1);
+                infoOn('Card deleted!', 'success')
                 setIds([...array])
-                setPageIds(array.slice((currentPage-1)*cardsOnPage, currentPage*cardsOnPage))
-        }})} 
+                setPageIds(array.slice((currentPage-1)*cardsOnPage, currentPage*cardsOnPage))}
+    })} 
 
     const cards = pageIds.map((id: string, index: number) =>
         <CardGamesPlate deleteCard={deleteCard} id={id} key={index} index={index}></CardGamesPlate>

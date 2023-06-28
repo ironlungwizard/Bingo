@@ -70,6 +70,7 @@ export default function ProcessGameStartPage() {
                         console.log(Response)
                         updateGameFetch(gameId, auth['id'], checkedArray).then(Response => {
                             navigate((`..` + `/game/`+ gameId).replace('cards/', '')); 
+                            infoOn('Game saved!', 'success')
                         })
                     })    
                } else {
@@ -80,6 +81,7 @@ export default function ProcessGameStartPage() {
                             var gameId = Response.data.id
                             updateGameFetch(gameId, auth['id'], checkedArray).then(Response => {
                                 navigate((`..` + `/game/`+ gameId).replace('cards/', '')); 
+                                infoOn('Game saved!', 'success')
                             })
                         })    
                 })  

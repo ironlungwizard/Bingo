@@ -109,6 +109,7 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                 if (canShare) {
                     navigator.clipboard.writeText(frontUrl+'/card/'+id)
                   }
+                infoOn('Link copied!', 'success')
             })
             }
     } 

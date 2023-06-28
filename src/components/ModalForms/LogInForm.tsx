@@ -16,7 +16,7 @@ export default function LogInForm() {
     const dispatch = useDispatch();
     const [email, setEmail] = useState<string[]>(['', ])
     const [password, setPassword] = useState<string[]>(['', ])
-    const { showSingUp , hide} = bindActionCreators(actionCreators, dispatch)
+    const { infoOn, showSingUp , hide} = bindActionCreators(actionCreators, dispatch)
     const { login } = bindActionCreators(actionCreators, dispatch)
 
 
@@ -30,8 +30,9 @@ export default function LogInForm() {
                 authServerValidation(Response, setEmail, email, setPassword, password)
                 
             } else {
-                login(Response.data.id, Response.data.isGuest,  Response.data.name)
+                login(Response.data.id, Response.data.isGuest,  Response.data.name)                
                 hide()
+                infoOn(`You logged in as ${Response.data.name}!`, 'success')
             }
         })
     }

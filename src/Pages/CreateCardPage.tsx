@@ -14,17 +14,18 @@ export default function CreateCardPage() {
     const navigate = useNavigate();
     const auth = useSelector((state: RootState) => state).auth
     const dispatch = useDispatch();
-    const { login } = bindActionCreators(actionCreators, dispatch)
+    const { login, infoOn } = bindActionCreators(actionCreators, dispatch)
 
     const saveCard = async (card: Card, guestId?: string, guestName?: string) => {
-
-            if (guestId && guestName) {
+        if (guestId && guestName) {
             createCardFetch(guestId, card, 'default').then((Response: XMLHttpRequest["response"]) => {
             navigate(`../card/edit/${Response.data.id}`);  })
             login(guestId, true,  guestName)
+            infoOn('Card saved!', 'success')
         } else {
             createCardFetch(auth['id'], card, 'default').then((Response: XMLHttpRequest["response"]) => {
                 navigate(`../card/edit/${Response.data.id}`);  })
+                infoOn('Card saved!', 'success')
         }}
 
     return (

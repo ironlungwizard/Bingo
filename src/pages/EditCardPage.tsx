@@ -10,7 +10,7 @@ import { getCardFetch } from '../api/game';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators } from '../state';
 import { useState } from 'react';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import  isOwned  from '../utils/isOwned';
 
 export default function EditCardPage() {
@@ -67,17 +67,19 @@ export default function EditCardPage() {
         {isOwned(ownerId) &&  canEdit? 
         <CreateEditComplex saveEditCard={saveCard} initialState={initialState} type='edit'></CreateEditComplex> 
         :
-        <Typography 
-                        variant="h5" 
-                        style={{ wordWrap: "break-word"}} 
-                        sx={{display: '-webkit-box', 
-                        overflow: 'hidden', 
-                        WebkitBoxOrient: 'vertical',
-                        color: '#fff'
-                        }} 
-                        component="div">
-                           
-        </Typography > 
+        <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', marginTop: '50px'}}>
+            <Typography 
+                            variant="h5" 
+                            style={{ wordWrap: "break-word"}} 
+                            sx={{display: '-webkit-box', 
+                            overflow: 'hidden', 
+                            WebkitBoxOrient: 'vertical',
+                            color: '#ffffff',
+                            }} 
+                            component="div">
+                                You can't edit this card.
+            </Typography > 
+        </Box>
         }
     </>   
     )

@@ -9,6 +9,7 @@ import { Box, Card, CardHeader, Chip, Grid, IconButton, Stack, styled } from '@m
 import CardGamesPlate from '../components/CardGamesPlate/CardGamesPlate';
 import { useSelector } from 'react-redux';
 import { RootState } from '../state/reducers';
+import DeleteIcon from '@mui/icons-material/Delete';
 import PreviewCard from '../components/PreviewCard/PreviewCard'
 import BackspaceIcon from '@mui/icons-material/Backspace';
 import { useDispatch } from 'react-redux';
@@ -81,9 +82,13 @@ export default function LandingPage() {
                   </Typography>
                 </Box>
           <Stack flexWrap="wrap" direction="row" sx={{marginLeft: 4, marginRight: 4,marginBottom: 2,  maxWidth: '95%', overflow: 'hidden', alignItems:' flex-start'}}>
-          <IconButton onClick={clearCheckedTags} aria-label="Clear checked tags"  size="large" style={{marginTop: 2, marginRight: 6,padding: '10px'}}>
-            <BackspaceIcon color='primary' fontSize="inherit" />
+          { checkedTags.length > 0 ?
+          <IconButton onClick={clearCheckedTags} aria-label="Clear checked tags"  size="large" style={{marginTop: 2, marginRight: 6, padding: '6px'}}>
+            <DeleteIcon fontSize="large" color='primary'></DeleteIcon>
           </IconButton>
+          :
+          <></>
+          }
           {checkedTagChips}
           {tagChips}
           </Stack>

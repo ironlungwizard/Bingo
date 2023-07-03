@@ -62,7 +62,6 @@ const BingoField = ({title, setTitle, backgroundColor, tilesColor, textColor, ma
                 linesCount[index] = 5
             }  
         });
-        console.log(linesCount)
 
         const blankArray = Array(25).fill('');
         var listItems

@@ -227,9 +227,14 @@ const CardGamesPlate = ({index, id, deleteCard}:{index: number, id: string, dele
                 aria-expanded={expanded}
                 aria-label="show more"
                 >
-                <Badge color="primary" badgeContent={expanded ? 0 : gamesList.length}>
+                <Stack>
+                {expanded ? '' : 
+                <Typography  sx={{wordWrap: "break-word", position: 'absolute', overflow: 'hidden' , left: 19, bottom: 23}} color="text.secondary">
+                {gamesList.length}
+                </Typography>
+                }
                 <ExpandMoreIcon fontSize="large" />
-                </Badge>
+                </Stack>
                 </ExpandMore>
                 
                 : <></>

@@ -64,7 +64,7 @@ export default function ProcessGamePage() {
                 getAttributesById(Response.data.authorId).then((Response: XMLHttpRequest["response"]) => {
                     setOwnerName(Response.data.name)
                  })
-                infoOff()
+               
                 } else {
                     navigate(-1); 
                     infoOn('You cant edit this card, because it was already played!', 'error')

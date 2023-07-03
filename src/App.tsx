@@ -56,7 +56,7 @@ useMemo(() =>  {getAttributes().then((Response: XMLHttpRequest["response"]) => {
 
   return (
       <ThemeProvider theme={theme}>
-        {/* <React.StrictMode> */}
+         <React.StrictMode>
           <BrowserRouter>
           <HelmetProvider context={helmetContext}>
               <div className="App"> 
@@ -78,7 +78,7 @@ useMemo(() =>  {getAttributes().then((Response: XMLHttpRequest["response"]) => {
               </div>
             </HelmetProvider>
           </BrowserRouter>
-        {/* </React.StrictMode> */}
+        </React.StrictMode> 
       </ThemeProvider>
   );
 }

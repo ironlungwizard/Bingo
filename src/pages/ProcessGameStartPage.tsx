@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-import { getCardFetch, startGameFetch, updateGameFetch } from '../api/game';
+import { canShareCardFetch, getCardFetch, startGameFetch, updateGameFetch } from '../api/game';
 import BingoField from '../components/BingoField/BingoField';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import SaveIcon from '@mui/icons-material/Save';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useSelector } from 'react-redux';
@@ -29,6 +29,8 @@ export default function ProcessGameStartPage() {
     const [markColor, setMarkColor] = useState<string>('')
     const [ownerName, setOwnerName] = useState<string>('')
     const [textColor, setTextColor] = useState<string>('')
+    const [canShare, setCanShare] = useState<boolean>(false);
+    const {id} = useParams<string>();
     const [backgroundColor, setBackgroundColor] = useState<string>('')
     const { pathname } = useLocation();
     const auth = useSelector((state: RootState) => state).auth
@@ -53,7 +55,9 @@ export default function ProcessGameStartPage() {
             getAttributesById(Response.data.authorId).then((Response: XMLHttpRequest["response"]) => {
                 setOwnerName(Response.data.name)
              })
-             infoOff()
+            canShareCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+                setCanShare(Response.data)
+            })
             } else {
                 navigate(-1);  
                 infoOn('You cant edit this card, because it was already played!', 'error')
@@ -114,7 +118,7 @@ export default function ProcessGameStartPage() {
                          Game page
            </Typography>
        </Box>
-       
+       { canShare  ?  
        <Stack direction={{ xs: 'column', lg: 'row' }} sx={{width: '100%', justifyContent: 'space-around', alignItems: {xs: 'center', lg: 'inherit'}}}>
         <Box sx={{ order: {xs: '2', lg: '1'}, width: {sm: '626px', xs: '360px', lg: '375px'}, marginTop: {xs: '16px', lg: '0'}, marginLeft: {xs: '0', lg: '10px'}, marginRight: {xs: '0', lg: '6px'}}} >
            
@@ -219,6 +223,21 @@ export default function ProcessGameStartPage() {
             sx={{order: 3, width: {sm: '0px', xs: '0px', lg: '390px'}}}
             />
         </Stack> 
+        : <Box sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+
+        <Typography 
+                        variant="h5" 
+                        style={{ wordWrap: "break-word"}} 
+                        sx={{display: '-webkit-box', 
+                        overflow: 'hidden', 
+                        WebkitBoxOrient: 'vertical',
+                        color: '#ffffff',
+                        }} 
+                        component="div">
+                            You can't play this card.
+        </Typography > 
+        </Box>
+    }    
         </div>
     )
 }

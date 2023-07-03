@@ -45,6 +45,8 @@ export default function InspectCardPage() {
     const auth = useSelector((state: RootState) => state).auth
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState<boolean>(false);
+    const [canShare, setCanShare] = useState<boolean>(false);
+    const [isOwner, setIsOwner] = useState<boolean>(false);
     const { pathname } = useLocation();
     const dispatch = useDispatch();
     const { infoOn, infoOff } = bindActionCreators(actionCreators, dispatch)
@@ -55,7 +57,6 @@ export default function InspectCardPage() {
 
     useEffect(() =>  {getCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
             if (Response && !Response.data.detail) {
-                console.log(111)
             setPhrases(Response.data.phrases) 
             setTags(Response.data.tags)
             setDescription(Response.data.description)
@@ -70,7 +71,11 @@ export default function InspectCardPage() {
             getAttributesById(Response.data.authorId).then((Response: XMLHttpRequest["response"]) => {
                 setOwnerName(Response.data.name)
              })
-             infoOff()
+            canShareCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+                setCanShare(Response.data)
+            })
+            setIsOwner(isOwned(authorId))
+             
             } else {
                 navigate(-1); 
                 infoOn('You cant edit this card, because it was already played!', 'error')
@@ -162,7 +167,8 @@ export default function InspectCardPage() {
         <Helmet>
             <link rel="canonical" href={frontUrl+pathname} />
             <meta property="og:image" content={`${dbUrl}cards/${id}/image?size=full&withTitle=true`} />
-        </Helmet> 
+        </Helmet>
+        { canShare  ?  
        <Stack direction={{ xs: 'column', lg: 'row' }} sx={{width: '100%', justifyContent: 'space-around', alignItems: {xs: 'center', lg: 'inherit'}}}>
         <Box sx={{ order: {xs: '2', lg: '1'}, width: {sm: '626px', xs: '374px', lg: '375px'}, marginTop: {xs: '16px', lg: '0'}, marginLeft: {xs: '0', lg: '10px'}, marginRight: {xs: '0', lg: '6px'}}} >
            
@@ -247,7 +253,7 @@ export default function InspectCardPage() {
 
                
                 <div >
-                {isOwned(authorId) && canEdit ?
+                {isOwner && canEdit ?
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
@@ -295,7 +301,7 @@ export default function InspectCardPage() {
                                 >
                                     <ShareIcon fontSize="large" style={{ color: "#ffffff"}}></ShareIcon>
                     </Button>
-                    { isOwned(authorId)?
+                    { isOwner?
                     <Button
                                 size="medium"
                                 aria-haspopup="true"
@@ -328,7 +334,21 @@ export default function InspectCardPage() {
         <Box
           sx={{order: 3, width: {sm: '0px', xs: '0px', lg: '390px'}}}
         />
-        </Stack>
+        </Stack> : <Box sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+
+        <Typography 
+                        variant="h5" 
+                        style={{ wordWrap: "break-word"}} 
+                        sx={{display: '-webkit-box', 
+                        overflow: 'hidden', 
+                        WebkitBoxOrient: 'vertical',
+                        color: '#ffffff',
+                        }} 
+                        component="div">
+                            You can't inspect this card.
+        </Typography > 
+        </Box>
+    }    
     </div> 
         
     )

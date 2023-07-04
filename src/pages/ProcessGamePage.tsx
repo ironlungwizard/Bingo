@@ -212,18 +212,18 @@ export default function ProcessGamePage() {
      </Box>
      <Box sx={{order: {xs: '1', lg: '2'}}}>
             <BingoField title={title} 
-                checkedArray={checkedArray}
-                setCheckedArray={setCheckedArray}
-                isAGame={true}
-                setTitle={setTitle} 
-                backgroundColor={backgroundColor} 
-                tilesColor={tilesColor}
-                markColor={markColor} 
-                textColor={textColor} 
-                phrases={phrases}
-                headerEditable={false}
-                playable={true}
-                fontSizes={fontSizes}
+                    checkedArray={checkedArray}
+                    setCheckedArray={setCheckedArray}
+                    isAGame={true}
+                    setTitle={setTitle} 
+                    backgroundColor={backgroundColor} 
+                    tilesColor={tilesColor}
+                    markColor={markColor} 
+                    textColor={textColor} 
+                    phrases={phrases}
+                    headerEditable={false}
+                    playable={isOwned(authorId)}
+                    fontSizes={fontSizes}
                 ></BingoField>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                

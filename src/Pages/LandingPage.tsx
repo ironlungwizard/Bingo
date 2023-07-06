@@ -2,8 +2,8 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import { deleteCardsFetch, getCardsFetch, getTagsFetch } from "../api/game";
-import { createCardFetch } from "../api/game";
+import { deleteCards, getCards, getTags } from "../api/game";
+import { createCard } from "../api/game";
 import { useMemo, useState, useEffect } from "react";
 import {
     Box,
@@ -35,7 +35,7 @@ export default function LandingPage() {
     const { infoOn, infoOff } = bindActionCreators(actionCreators, dispatch);
 
     useEffect(() => {
-        getCardsFetch(20, checkedTags).then(
+        getCards(20, checkedTags).then(
             (Response: XMLHttpRequest["response"]) => {
                 if (Response && !Response.data.detail) {
                     setIds(Response.data);
@@ -45,13 +45,11 @@ export default function LandingPage() {
     }, [checkedTags]);
 
     useEffect(() => {
-        getTagsFetch(checkedTags).then(
-            (Response: XMLHttpRequest["response"]) => {
-                if (Response && !Response.data.detail) {
-                    setTags(Response.data.slice(0, 15));
-                }
+        getTags(checkedTags).then((Response: XMLHttpRequest["response"]) => {
+            if (Response && !Response.data.detail) {
+                setTags(Response.data.slice(0, 15));
             }
-        );
+        });
     }, [checkedTags]);
 
     const handleClickTag = async (tag: string, index: number) => {

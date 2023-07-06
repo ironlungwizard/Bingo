@@ -1,7 +1,7 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { canEditCardFetch, cloneCardFetch, getCardFetch } from "../api/game";
+import { canEditCard, cloneCard, getCard } from "../api/game";
 import BingoField from "../components/BingoField/BingoField";
 import { useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
@@ -10,7 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ShareIcon from "@mui/icons-material/Share";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import isOwned from "../utils/isOwned";
-import { deleteCardsFetch } from "../api/game";
+import { deleteCards } from "../api/game";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../state/reducers";
@@ -20,8 +20,8 @@ import { actionCreators } from "../state";
 import { Box, Stack, Typography } from "@mui/material";
 import Chip from "@mui/material/Chip";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
-import { getAttributesById, signUpGuestFetch } from "../api/auth";
-import { canShareCardFetch } from "../api/game";
+import { getAttributesById, signUpGuest } from "../api/auth";
+import { canShareCard } from "../api/game";
 import { Helmet } from "react-helmet-async";
 import ModalDeleteConfirm from "../ModalDeleteConfirm/ModalDeleteConfirm";
 
@@ -57,7 +57,7 @@ export default function InspectCardPage() {
     const { login } = bindActionCreators(actionCreators, dispatch);
 
     useEffect(() => {
-        getCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+        getCard(id!).then((Response: XMLHttpRequest["response"]) => {
             if (Response && !Response.data.detail) {
                 setPhrases(Response.data.phrases);
                 setTags(Response.data.tags);
@@ -75,7 +75,7 @@ export default function InspectCardPage() {
                         setOwnerName(Response.data.name);
                     }
                 );
-                canShareCardFetch(id!).then(
+                canShareCard(id!).then(
                     (Response: XMLHttpRequest["response"]) => {
                         setCanShare(Response.data);
                     }
@@ -91,7 +91,7 @@ export default function InspectCardPage() {
     }, [id]);
     console.log(isOwned(auth["id"]));
     const handleDeleteCard = async () => {
-        deleteCardsFetch(cardId, auth["id"]).then((Response) => {
+        deleteCards(cardId, auth["id"]).then((Response) => {
             navigate(-1);
             infoOn("Card deleted!", "success");
         });
@@ -110,21 +110,19 @@ export default function InspectCardPage() {
             showSingUp();
         } else {
             var canShare = false;
-            canShareCardFetch(id!).then(
-                (Response: XMLHttpRequest["response"]) => {
-                    canShare = Response.data;
-                    if (canShare) {
-                        navigator.clipboard.writeText(frontUrl + pathname);
-                        infoOn("Link copied!", "success");
-                    }
+            canShareCard(id!).then((Response: XMLHttpRequest["response"]) => {
+                canShare = Response.data;
+                if (canShare) {
+                    navigator.clipboard.writeText(frontUrl + pathname);
+                    infoOn("Link copied!", "success");
                 }
-            );
+            });
         }
     };
 
     const handleCloneCard = async () => {
         if (auth["id"]) {
-            cloneCardFetch(auth["id"], cardId).then(
+            cloneCard(auth["id"], cardId).then(
                 (Response: XMLHttpRequest["response"]) => {
                     navigate("/card/" + Response.data.id);
                     setCardId(Response.data.id);
@@ -133,9 +131,9 @@ export default function InspectCardPage() {
                 }
             );
         } else {
-            signUpGuestFetch().then((Response: XMLHttpRequest["response"]) => {
+            signUpGuest().then((Response: XMLHttpRequest["response"]) => {
                 login(Response.data.id, true, Response.data.name);
-                cloneCardFetch(auth["id"], cardId).then(
+                cloneCard(auth["id"], cardId).then(
                     (Response: XMLHttpRequest["response"]) => {
                         navigate("/card/" + Response.data.id);
                         setCardId(Response.data.id);
@@ -148,7 +146,7 @@ export default function InspectCardPage() {
     };
 
     useEffect(() => {
-        canEditCardFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+        canEditCard(id!).then((Response: XMLHttpRequest["response"]) => {
             setCanEdit(Response.data);
         });
     }, []);

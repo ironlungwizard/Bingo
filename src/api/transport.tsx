@@ -4,14 +4,44 @@ import { store } from "./../state/store";
 
 const baseUrl = process.env.REACT_APP_DB_URL;
 
-export function transportDELETE(path: string) {
+export function requestDelete(path: string) {
+    let response = requestWithRefresh(path, "DELETE");
+    const result = response;
+    return result;
+}
+
+export function requestGet(path: string) {
+    let response = requestWithRefresh(path, "GET");
+    const result = response;
+    return result;
+}
+
+export function requestPut(path: string, body: object) {
+    let response = requestWithRefresh(path, "PUT", body);
+    const result = response;
+    return result;
+}
+
+export function requestPutRefreshFirst(path: string, body: object) {
+    let response = requestWithRefreshFirst(path, "PUT", body);
+    const result = response;
+    return result;
+}
+
+export function requestPost(path: string, body: object) {
+    let response = requestWithRefresh(path, "POST", body);
+    const result = response;
+    return result;
+}
+
+export function requestWithRefresh(path: string, type: string, body?: object) {
     return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
-        xhr.open("DELETE", `${baseUrl}${path}`, true);
+        xhr.open(type, `${baseUrl}${path}`, true);
         xhr.responseType = "json";
         xhr.withCredentials = true;
         xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(JSON.stringify(""));
+        xhr.send(JSON.stringify(body ? body : ""));
         xhr.onload = function () {
             if (this.status == 403) {
                 xhr.open("GET", `${baseUrl}auth/refresh`, true);
@@ -20,11 +50,11 @@ export function transportDELETE(path: string) {
                 xhr.setRequestHeader("Content-Type", "application/json");
                 xhr.send(JSON.stringify(""));
                 xhr.onload = function () {
-                    xhr.open("DELETE", `${baseUrl}${path}`, true);
+                    xhr.open(type, `${baseUrl}${path}`, true);
                     xhr.responseType = "json";
                     xhr.withCredentials = true;
                     xhr.setRequestHeader("Content-Type", "application/json");
-                    xhr.send(JSON.stringify(""));
+                    xhr.send(JSON.stringify(body ? body : ""));
                     xhr.onload = function () {
                         resolve({
                             data: this.response,
@@ -52,103 +82,11 @@ export function transportDELETE(path: string) {
     });
 }
 
-export function transportGET(path: string) {
-    return new Promise(function (resolve, reject) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", `${baseUrl}${path}`, true);
-        xhr.responseType = "json";
-        xhr.withCredentials = true;
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(JSON.stringify(""));
-        xhr.onload = function () {
-            if (this.status == 403) {
-                xhr.open("GET", `${baseUrl}auth/refresh`, true);
-                xhr.responseType = "json";
-                xhr.withCredentials = true;
-                xhr.setRequestHeader("Content-Type", "application/json");
-                xhr.send(JSON.stringify(""));
-                xhr.onload = function () {
-                    xhr.open("GET", `${baseUrl}${path}`, true);
-                    xhr.responseType = "json";
-                    xhr.withCredentials = true;
-                    xhr.setRequestHeader("Content-Type", "application/json");
-                    xhr.send(JSON.stringify(""));
-                    xhr.onload = function () {
-                        resolve({
-                            data: this.response,
-                        });
-                    };
-                };
-            } else {
-                resolve({
-                    data: this.response,
-                });
-            }
-        };
-        xhr.onerror = function () {
-            reject(new Error("Network Error"));
-            store.dispatch(
-                infoOn("Server does not response, please try later.", "error")
-            );
-        };
-        xhr.ontimeout = function () {
-            reject(new Error("Network Timeout"));
-            store.dispatch(
-                infoOn("Server does not response, please try later.", "error")
-            );
-        };
-    });
-}
-
-export function transportPUT(path: string, body: object) {
-    return new Promise(function (resolve, reject) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("PUT", `${baseUrl}${path}`, true);
-        xhr.responseType = "json";
-        xhr.withCredentials = true;
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(JSON.stringify(body));
-        xhr.onload = function () {
-            if (this.status == 403) {
-                xhr.open("GET", `${baseUrl}auth/refresh`, true);
-                xhr.responseType = "json";
-                xhr.withCredentials = true;
-                xhr.setRequestHeader("Content-Type", "application/json");
-                xhr.send(JSON.stringify(""));
-                xhr.onload = function () {
-                    xhr.open("PUT", `${baseUrl}${path}`, true);
-                    xhr.responseType = "json";
-                    xhr.withCredentials = true;
-                    xhr.setRequestHeader("Content-Type", "application/json");
-                    xhr.send(JSON.stringify(body));
-                    xhr.onload = function () {
-                        resolve({
-                            data: this.response,
-                        });
-                    };
-                };
-            } else {
-                resolve({
-                    data: this.response,
-                });
-            }
-        };
-        xhr.onerror = function () {
-            reject(new Error("Network Error"));
-            store.dispatch(
-                infoOn("Server does not response, please try later.", "error")
-            );
-        };
-        xhr.ontimeout = function () {
-            reject(new Error("Network Timeout"));
-            store.dispatch(
-                infoOn("Server does not response, please try later.", "error")
-            );
-        };
-    });
-}
-
-export function transportPUTRefreshFirst(path: string, body: object) {
+export function requestWithRefreshFirst(
+    path: string,
+    type: string,
+    body?: object
+) {
     return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", `${baseUrl}auth/refresh`, true);
@@ -168,11 +106,11 @@ export function transportPUTRefreshFirst(path: string, body: object) {
                     data: this.response,
                 });
             } else {
-                xhr.open("PUT", `${baseUrl}${path}`, true);
+                xhr.open(type, `${baseUrl}${path}`, true);
                 xhr.responseType = "json";
                 xhr.withCredentials = true;
                 xhr.setRequestHeader("Content-Type", "application/json");
-                xhr.send(JSON.stringify(body));
+                xhr.send(JSON.stringify(body ? body : ""));
                 xhr.onload = function () {
                     if (this.status == 403) {
                         xhr.open("GET", `${baseUrl}auth/refresh`, true);
@@ -184,14 +122,14 @@ export function transportPUTRefreshFirst(path: string, body: object) {
                         );
                         xhr.send(JSON.stringify(""));
                         xhr.onload = function () {
-                            xhr.open("PUT", `${baseUrl}${path}`, true);
+                            xhr.open(type, `${baseUrl}${path}`, true);
                             xhr.responseType = "json";
                             xhr.withCredentials = true;
                             xhr.setRequestHeader(
                                 "Content-Type",
                                 "application/json"
                             );
-                            xhr.send(JSON.stringify(body));
+                            xhr.send(JSON.stringify(body ? body : ""));
                             xhr.onload = function () {
                                 resolve({
                                     data: this.response,
@@ -223,54 +161,6 @@ export function transportPUTRefreshFirst(path: string, body: object) {
                     )
                 );
             };
-        };
-    });
-}
-
-export function transportPOST(path: string, body: object) {
-    return new Promise(function (resolve, reject) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", `${baseUrl}${path}`, true);
-        xhr.responseType = "json";
-        xhr.withCredentials = true;
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(JSON.stringify(body));
-        xhr.onload = function () {
-            if (this.status == 403) {
-                xhr.open("GET", `${baseUrl}auth/refresh`, true);
-                xhr.responseType = "json";
-                xhr.withCredentials = true;
-                xhr.setRequestHeader("Content-Type", "application/json");
-                xhr.send(JSON.stringify(""));
-                xhr.onload = function () {
-                    xhr.open("POST", `${baseUrl}${path}`, true);
-                    xhr.responseType = "json";
-                    xhr.withCredentials = true;
-                    xhr.setRequestHeader("Content-Type", "application/json");
-                    xhr.send(JSON.stringify(body));
-                    xhr.onload = function () {
-                        resolve({
-                            data: this.response,
-                        });
-                    };
-                };
-            } else {
-                resolve({
-                    data: this.response,
-                });
-            }
-        };
-        xhr.onerror = function () {
-            reject(new Error("Network Error"));
-            store.dispatch(
-                infoOn("Server does not response, please try later.", "error")
-            );
-        };
-        xhr.ontimeout = function () {
-            reject(new Error("Network Timeout"));
-            store.dispatch(
-                infoOn("Server does not response, please try later.", "error")
-            );
         };
     });
 }

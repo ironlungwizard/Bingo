@@ -1,5 +1,5 @@
 import * as React from "react";
-import { createCardFetch } from "../api/game";
+import { createCard } from "../api/game";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/reducers";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +21,7 @@ export default function CreateCardPage() {
         guestName?: string
     ) => {
         if (guestId && guestName) {
-            createCardFetch(guestId, card, "default").then(
+            createCard(guestId, card, "default").then(
                 (Response: XMLHttpRequest["response"]) => {
                     navigate(`../card/edit/${Response.data.id}`);
                 }
@@ -29,7 +29,7 @@ export default function CreateCardPage() {
             login(guestId, true, guestName);
             infoOn("Card saved!", "success");
         } else {
-            createCardFetch(auth["id"], card, "default").then(
+            createCard(auth["id"], card, "default").then(
                 (Response: XMLHttpRequest["response"]) => {
                     navigate(`../card/edit/${Response.data.id}`);
                 }

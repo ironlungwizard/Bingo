@@ -1,12 +1,7 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import {
-    canShareGameFetch,
-    getCardFetch,
-    getGameFetch,
-    updateGameFetch,
-} from "../api/game";
+import { canShareGame, getCard, getGame, updateGame } from "../api/game";
 import BingoField from "../components/BingoField/BingoField";
 import { useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
@@ -51,16 +46,14 @@ export default function ProcessGamePage() {
     const { showSingUp } = bindActionCreators(actionCreators, dispatch);
 
     useEffect(() => {
-        getGameFetch(id!).then((Response: XMLHttpRequest["response"]) => {
+        getGame(id!).then((Response: XMLHttpRequest["response"]) => {
             setCheckedArray(Response.data.checkedPhrases);
             setAuthorId(Response.data.ownerId);
-            canShareGameFetch(id!).then(
-                (Response: XMLHttpRequest["response"]) => {
-                    setCanShare(Response.data);
-                }
-            );
+            canShareGame(id!).then((Response: XMLHttpRequest["response"]) => {
+                setCanShare(Response.data);
+            });
             if (Response && !Response.data.detail) {
-                getCardFetch(Response.data.cardId).then(
+                getCard(Response.data.cardId).then(
                     (Response: XMLHttpRequest["response"]) => {
                         if (Response && !Response.data.detail) {
                             setPhrases(Response.data.phrases);
@@ -98,7 +91,7 @@ export default function ProcessGamePage() {
     };
 
     const handleSaveGame = async () => {
-        updateGameFetch(id!, auth["id"], checkedArray).then((Response) => {
+        updateGame(id!, auth["id"], checkedArray).then((Response) => {
             navigate((`..` + `/game/` + id!).replace("cards/", ""));
             infoOn("Game saved!", "success");
         });
@@ -108,16 +101,14 @@ export default function ProcessGamePage() {
         if (auth["isGuest"] || !auth["id"]) {
             showSingUp();
         } else {
-            canShareGameFetch(id!).then(
-                (Response: XMLHttpRequest["response"]) => {
-                    var canShare = false;
-                    canShare = Response.data;
-                    if (canShare) {
-                        navigator.clipboard.writeText(frontUrl + pathname);
-                        infoOn("Link copied!", "success");
-                    }
+            canShareGame(id!).then((Response: XMLHttpRequest["response"]) => {
+                var canShare = false;
+                canShare = Response.data;
+                if (canShare) {
+                    navigator.clipboard.writeText(frontUrl + pathname);
+                    infoOn("Link copied!", "success");
                 }
-            );
+            });
         }
     };
 
@@ -125,7 +116,7 @@ export default function ProcessGamePage() {
         if (auth["isGuest"] || !auth["id"]) {
             showSingUp();
         } else {
-            canShareGameFetch(id!).then(
+            canShareGame(id!).then(
                 async (Response: XMLHttpRequest["response"]) => {
                     var canShare = false;
                     canShare = Response.data;

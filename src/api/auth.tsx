@@ -1,28 +1,29 @@
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { actionCreators } from "../state";
 import {
-  transportPOST,
-  transportGET,
-  transportPUT,
-  transportPUTRefreshFirst,
+    requestGet,
+    requestPut,
+    requestDelete,
+    requestPutRefreshFirst,
+    requestPost,
 } from "./transport";
 import { useDispatch } from "react-redux";
 
-export async function logInFetch(email: string, password: string) {
-  const body = {
-    email: email,
-    password: password,
-  };
-  let response = transportPOST("auth/login", body);
-  const result = await response;
-  return result;
+export async function logIn(email: string, password: string) {
+    const body = {
+        email: email,
+        password: password,
+    };
+    let response = requestPost("auth/login", body);
+    const result = await response;
+    return result;
 }
 
-export async function logOutFetch() {
-  const body = {};
-  let response = transportPOST("auth/logout", body);
-  const result = await response;
-  return result;
+export async function logOut() {
+    const body = {};
+    let response = requestPost("auth/logout", body);
+    const result = await response;
+    return result;
 }
 
 // export async function refreshFetch() {
@@ -32,34 +33,30 @@ export async function logOutFetch() {
 // }
 
 export async function getAttributesById(ownerId: string) {
-  let response = transportGET(`auth/attributes/${ownerId}`);
-  const result = await response;
-  return result;
+    let response = requestGet(`auth/attributes/${ownerId}`);
+    const result = await response;
+    return result;
 }
 export async function getAttributes() {
-  let response = transportGET(`auth/attributes`);
-  const result = await response;
-  return result;
+    let response = requestGet(`auth/attributes`);
+    const result = await response;
+    return result;
 }
 
-export async function signUpFetch(
-  name: string,
-  email: string,
-  password: string
-) {
-  const body = {
-    name: name,
-    email: email,
-    password: password,
-  };
-  let response = transportPUT("auth/signup", body);
-  const result = await response;
-  return result;
+export async function signUp(name: string, email: string, password: string) {
+    const body = {
+        name: name,
+        email: email,
+        password: password,
+    };
+    let response = requestPut("auth/signup", body);
+    const result = await response;
+    return result;
 }
 
-export async function signUpGuestFetch() {
-  const body = {};
-  let response = transportPUTRefreshFirst("auth/signup-guest", body);
-  const result = await response;
-  return result;
+export async function signUpGuest() {
+    const body = {};
+    let response = requestPutRefreshFirst("auth/signup-guest", body);
+    const result = await response;
+    return result;
 }

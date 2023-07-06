@@ -21,7 +21,7 @@ import { actionCreators } from "../../state/";
 import { makeStyles } from "@mui/material";
 import { Theme, Link } from "@mui/material";
 import { Login, PersonAddAltRounded } from "@mui/icons-material";
-import { logOutFetch } from "../../api/auth";
+import { logOut } from "../../api/auth";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
@@ -44,7 +44,7 @@ export default function Navbar() {
     );
 
     const handleLogOut = async () => {
-        logOutFetch().then((Response: XMLHttpRequest["response"]) => {
+        logOut().then((Response: XMLHttpRequest["response"]) => {
             logout(Response.data.id, Response.data.isGuest, Response.data.name);
         });
         hide();

@@ -1,12 +1,7 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import {
-    canShareCardFetch,
-    getCardFetch,
-    startGameFetch,
-    updateGameFetch,
-} from "../api/game";
+import { canShareCard, getCard, startGame, updateGame } from "../api/game";
 import BingoField from "../components/BingoField/BingoField";
 import { useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
@@ -18,7 +13,7 @@ import { RootState } from "../state/reducers";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { actionCreators } from "../state";
-import { getAttributesById, signUpGuestFetch } from "../api/auth";
+import { getAttributesById, signUpGuest } from "../api/auth";
 import { Box, Chip, Stack, Typography } from "@mui/material";
 
 export default function ProcessGameStartPage() {
@@ -46,39 +41,41 @@ export default function ProcessGameStartPage() {
     const { login } = bindActionCreators(actionCreators, dispatch);
 
     useEffect(() => {
-        getCardFetch(
-            pathname.replace("/card/", "").replace("/gamestart", "")
-        ).then((Response: XMLHttpRequest["response"]) => {
-            if (Response && !Response.data.detail) {
-                setPhrases(Response.data.phrases);
-                setTags(Response.data.tags);
-                setDescription(Response.data.description);
-                setTitle(Response.data.title);
-                setTilesColor(Response.data.appearance.tilesColor);
-                setTextColor(Response.data.appearance.textColor);
-                setMarkColor(Response.data.appearance.markColor);
-                setBackgroundColor(Response.data.appearance.backgroundColor);
-                setCardId(Response.data.id);
-                setAuthorId(Response.data.authorId);
-                setFontSizes(Response.data.appearance.fontSizes);
-                getAttributesById(Response.data.authorId).then(
-                    (Response: XMLHttpRequest["response"]) => {
-                        setOwnerName(Response.data.name);
-                    }
-                );
-                canShareCardFetch(id!).then(
-                    (Response: XMLHttpRequest["response"]) => {
-                        setCanShare(Response.data);
-                    }
-                );
-            } else {
-                navigate(-1);
-                infoOn(
-                    "You cant edit this card, because it was already played!",
-                    "error"
-                );
+        getCard(pathname.replace("/card/", "").replace("/gamestart", "")).then(
+            (Response: XMLHttpRequest["response"]) => {
+                if (Response && !Response.data.detail) {
+                    setPhrases(Response.data.phrases);
+                    setTags(Response.data.tags);
+                    setDescription(Response.data.description);
+                    setTitle(Response.data.title);
+                    setTilesColor(Response.data.appearance.tilesColor);
+                    setTextColor(Response.data.appearance.textColor);
+                    setMarkColor(Response.data.appearance.markColor);
+                    setBackgroundColor(
+                        Response.data.appearance.backgroundColor
+                    );
+                    setCardId(Response.data.id);
+                    setAuthorId(Response.data.authorId);
+                    setFontSizes(Response.data.appearance.fontSizes);
+                    getAttributesById(Response.data.authorId).then(
+                        (Response: XMLHttpRequest["response"]) => {
+                            setOwnerName(Response.data.name);
+                        }
+                    );
+                    canShareCard(id!).then(
+                        (Response: XMLHttpRequest["response"]) => {
+                            setCanShare(Response.data);
+                        }
+                    );
+                } else {
+                    navigate(-1);
+                    infoOn(
+                        "You cant edit this card, because it was already played!",
+                        "error"
+                    );
+                }
             }
-        });
+        );
     }, []);
 
     const handleBackToCard = async () => {
@@ -88,11 +85,11 @@ export default function ProcessGameStartPage() {
     };
     const handleSaveGame = async () => {
         if (auth["id"]) {
-            startGameFetch(auth["id"], cardId).then(
+            startGame(auth["id"], cardId).then(
                 (Response: XMLHttpRequest["response"]) => {
                     var gameId = Response.data.id;
                     console.log(Response);
-                    updateGameFetch(gameId, auth["id"], checkedArray).then(
+                    updateGame(gameId, auth["id"], checkedArray).then(
                         (Response) => {
                             navigate(
                                 (`..` + `/game/` + gameId).replace("cards/", "")
@@ -103,13 +100,13 @@ export default function ProcessGameStartPage() {
                 }
             );
         } else {
-            signUpGuestFetch().then((Response: XMLHttpRequest["response"]) => {
+            signUpGuest().then((Response: XMLHttpRequest["response"]) => {
                 console.log(Response.data);
                 login(Response.data.id, true, Response.data.name);
-                startGameFetch(Response.data.id, cardId).then(
+                startGame(Response.data.id, cardId).then(
                     (Response: XMLHttpRequest["response"]) => {
                         var gameId = Response.data.id;
-                        updateGameFetch(gameId, auth["id"], checkedArray).then(
+                        updateGame(gameId, auth["id"], checkedArray).then(
                             (Response) => {
                                 navigate(
                                     (`..` + `/game/` + gameId).replace(

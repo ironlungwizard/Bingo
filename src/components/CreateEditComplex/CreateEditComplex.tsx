@@ -12,7 +12,7 @@ import Card from "../../types/CardType";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RootState } from "../../state/reducers";
 import { useDispatch, useSelector } from "react-redux";
-import { signUpGuestFetch } from "../../api/auth";
+import { signUpGuest } from "../../api/auth";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { actionCreators } from "../../state";
 import PreviewIcon from "@mui/icons-material/Preview";
@@ -92,7 +92,7 @@ const CreateEditComplex = ({
             fontSizes: fontSizes,
         };
         if (!auth["id"]) {
-            signUpGuestFetch().then((Response: XMLHttpRequest["response"]) => {
+            signUpGuest().then((Response: XMLHttpRequest["response"]) => {
                 saveEditCard(card, Response.data.id, Response.data.name);
             });
         } else {
@@ -213,27 +213,12 @@ const CreateEditComplex = ({
                         <Box
                             style={{
                                 display: "flex",
-                                justifyContent: "space-between",
+                                justifyContent:
+                                    type == "edit"
+                                        ? "space-between"
+                                        : "flex-end",
                             }}
                         >
-                            <Button
-                                size="medium"
-                                aria-haspopup="true"
-                                aria-label="password requirements"
-                                onClick={handleSaveEditCard}
-                                color="primary"
-                                variant="outlined"
-                                title={"Save card"}
-                                sx={{ marginTop: 1, marginRight: 1 }}
-                            >
-                                <SaveIcon
-                                    fontSize="large"
-                                    style={{
-                                        color: "#ffffff",
-                                        aspectRatio: "1/1",
-                                    }}
-                                ></SaveIcon>
-                            </Button>
                             {type == "edit" ? (
                                 <Button
                                     size="medium"
@@ -247,7 +232,6 @@ const CreateEditComplex = ({
                                         marginTop: 1,
                                         marginRight: 1,
                                         width: 120,
-                                        marginLeft: 3,
                                     }}
                                 >
                                     <PreviewIcon
@@ -258,6 +242,28 @@ const CreateEditComplex = ({
                             ) : (
                                 <></>
                             )}
+                            <Button
+                                size="medium"
+                                aria-haspopup="true"
+                                aria-label="password requirements"
+                                onClick={handleSaveEditCard}
+                                color="primary"
+                                variant="outlined"
+                                title={"Save card"}
+                                sx={{
+                                    marginTop: 1,
+                                    marginLeft: 3,
+                                    right: 0,
+                                }}
+                            >
+                                <SaveIcon
+                                    fontSize="large"
+                                    style={{
+                                        color: "#ffffff",
+                                        aspectRatio: "1/1",
+                                    }}
+                                ></SaveIcon>
+                            </Button>
                         </Box>
                     </Box>
 

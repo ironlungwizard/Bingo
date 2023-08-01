@@ -326,25 +326,7 @@ const CardGamesPlate = ({
                         aria-expanded={expanded}
                         aria-label="show more"
                     >
-                        <Stack>
-                            {expanded ? (
-                                ""
-                            ) : (
-                                <Typography
-                                    sx={{
-                                        wordWrap: "break-word",
-                                        position: "absolute",
-                                        overflow: "hidden",
-                                        left: 19,
-                                        bottom: 23,
-                                    }}
-                                    color="text.secondary"
-                                >
-                                    {gamesList.length}
-                                </Typography>
-                            )}
-                            <ExpandMoreIcon fontSize="large" />
-                        </Stack>
+                        <ExpandMoreIcon fontSize="large" />
                     </ExpandMore>
                 ) : (
                     <></>

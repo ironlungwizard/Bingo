@@ -1,5 +1,4 @@
-import { infoOn, showLogIn } from "../state/action-creators";
-import { ActionType } from "../state/action-types/auth.actionTypes";
+import { infoOn } from "../state/action-creators";
 import { store } from "./../state/store";
 
 const baseUrl = process.env.REACT_APP_DB_URL;
@@ -43,7 +42,7 @@ export function requestWithRefresh(path: string, type: string, body?: object) {
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(JSON.stringify(body ? body : ""));
         xhr.onload = function () {
-            if (this.status == 403) {
+            if (this.status == 403 || this.status == 404) {
                 xhr.open("GET", `${baseUrl}auth/refresh`, true);
                 xhr.responseType = "json";
                 xhr.withCredentials = true;
@@ -101,7 +100,7 @@ export function requestWithRefreshFirst(
             );
         };
         xhr.onload = function () {
-            if (this.status != 403) {
+            if (this.status != 403 && this.status != 404) {
                 resolve({
                     data: this.response,
                 });
@@ -163,50 +162,4 @@ export function requestWithRefreshFirst(
             };
         };
     });
-}
-
-export async function transportPOSTold(path: string, body: object) {
-    let response = await fetch(`${baseUrl}${path}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-        credentials: "include",
-    });
-    const result = await response.json();
-    //console.log('POST', {path})
-    return result;
-}
-
-export async function transportPUTold(path: string, body: object) {
-    let response = await fetch(`${baseUrl}${path}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-        credentials: "include",
-    });
-    const result = await response.json();
-    //console.log('PUT', {path})
-    return result;
-}
-
-export async function transportGETold(path: string) {
-    let response = await fetch(`${baseUrl}${path}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-    });
-    const result = await response.json();
-    //console.log('GET', {path})
-    return result;
-}
-
-export async function transportDELETEold(path: string) {
-    let response = await fetch(`${baseUrl}${path}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-    });
-    const result = await response.json();
-    //console.log('DELETE', {path})
-    return result;
 }

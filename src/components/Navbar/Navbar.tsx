@@ -108,14 +108,21 @@ export default function Navbar() {
                     <div className="rightNavbarBlock">
                         <Stack direction="row">
                             <Typography
-                                title={"Your name"}
+                                title={"Your name is " + auth["name"]}
                                 variant="h6"
                                 sx={{
                                     alignItems: "center",
-                                    justifyContent: "center",
+                                    justifyContent: {
+                                        xs: "left",
+                                        sm: "center",
+                                    },
                                     display: "flex",
                                     fontSize: 16,
-                                    minWidth: "85px",
+                                    maxWidth: {
+                                        xs: "150px",
+                                        sm: "300px",
+                                    },
+                                    overflow: "hidden",
                                     height: 64,
                                     marginRight: 1,
                                 }}
